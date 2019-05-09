@@ -50,7 +50,10 @@ namespace CharacterEditor.Editor
             GUILayout.Space(15);
             GUILayout.BeginHorizontal("box");
             GUILayout.FlexibleSpace();
-            GUILayout.Label(stu.Character.LastName + " " + stu.Character.FirstName, bigLabelStyle);
+
+            var labelText = stu.Character.LastName == "" && stu.Character.FirstName == "" ? "No Name" : "";
+            
+            GUILayout.Label(labelText + stu.Character.LastName + " " + stu.Character.FirstName, bigLabelStyle);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             
@@ -151,9 +154,9 @@ namespace CharacterEditor.Editor
         {
             GUI.backgroundColor = Color.white;
             GUILayout.BeginHorizontal();
-            GUILayout.Label(name);
+            GUILayout.Label(name, GUILayout.Width(80));
 
-            var result = EditorGUILayout.TextField(value, GUILayout.Width(150));
+            var result = EditorGUILayout.TextField(value, GUILayout.Width(200));
             GUILayout.EndHorizontal();
             GUILayout.FlexibleSpace();
             return result;
@@ -163,9 +166,9 @@ namespace CharacterEditor.Editor
         {
             GUI.backgroundColor = Color.white;
             GUILayout.BeginHorizontal();
-            GUILayout.Label(name);
+            GUILayout.Label(name, GUILayout.Width(80));
 
-            var result = EditorGUILayout.TextArea(value, GUILayout.Width(150), GUILayout.Height(60));
+            var result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
             GUILayout.EndHorizontal();
             GUILayout.FlexibleSpace();
             return result;
@@ -200,9 +203,5 @@ namespace CharacterEditor.Editor
                 false, false,
                 texture.GetNativeTexturePtr());
         }
-
-
     }
-    
-    
 }

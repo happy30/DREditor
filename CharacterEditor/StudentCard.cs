@@ -14,7 +14,7 @@ namespace CharacterEditor
         public string Likes;
         public string Dislikes;
         public string Notes;
-        public Color Color;
+        public Color Color = new Color(1,1,1,1);
     }
 }
 
