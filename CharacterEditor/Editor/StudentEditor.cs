@@ -86,7 +86,7 @@ namespace CharacterEditor.Editor
             stu.StudentCard.DateOfBirth = StringField("D.O.B.: ", stu.StudentCard.DateOfBirth);
             stu.StudentCard.Likes = StringField("Likes: ", stu.StudentCard.Likes);
             stu.StudentCard.Dislikes = StringField("Dislikes: ", stu.StudentCard.Dislikes);
-            stu.StudentCard.Notes = StringArea("Notes: ", stu.StudentCard.Notes);
+            stu.StudentCard.Notes = StringArea("Description: ", stu.StudentCard.Notes);
             
             EditorGUILayout.EndVertical();
         }
