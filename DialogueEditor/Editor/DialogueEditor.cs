@@ -38,6 +38,12 @@ public class DialogueEditor : Editor
             }
         }
 
+        if (dia.Speakers.Students == null)
+        {
+            EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
+            return;
+        }
+        
         if (dia.Speakers.Students.Length == 0)
         {
             EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");

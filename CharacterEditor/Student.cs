@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CharacterEditor
 {
     [System.Serializable]
-    [CreateAssetMenu(menuName = "DRSimulator/Student", fileName = "New Student")]
+    [CreateAssetMenu(menuName = "DRSimulator/Character", fileName = "New Character")]
     public class Student : ScriptableObject
     {
         public Character Character;
