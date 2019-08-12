@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using EventObjects;
 using UnityEngine;
 using UnityEditor;
@@ -10,10 +11,9 @@ public class DialogueEditor : Editor
     Dialogue dia;
     int value;
     private bool _directDialogue;
-    
-    
+    private AudioClip _sfx;
+    public Texture2D BaseExpression;
 
-    
 
     public void OnEnable()
     {
@@ -70,7 +70,7 @@ public class DialogueEditor : Editor
 
                 EditorGUILayout.EndHorizontal();
 
-                dia.GetCharacters();
+                //dia.GetCharacters();
                 
                 if (dia.Lines != null)
                 {
@@ -78,34 +78,77 @@ public class DialogueEditor : Editor
                     {
                         EditorGUILayout.BeginHorizontal("Box");
 
-                        EditorGUILayout.BeginVertical(GUILayout.Width(100));
+                        EditorGUILayout.BeginVertical(GUILayout.Width(120));
                         GUI.backgroundColor = dia.Color;
-                        //dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getIntValues(), GUILayout.Width(80));
-                        //dia.Lines[i].Speaker = dia.Speakers.Speakers[dia.Lines[i].SpeakerNumber];
+                        dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
+                        dia.Lines[i].Speaker = dia.Speakers.Students[dia.Lines[i].SpeakerNumber];
 
-                        if (dia.Lines[i].VoiceLine == null)
+
+                        if (dia.Lines[i].SFX != null)
                         {
-                            GUI.backgroundColor = Color.cyan;
+                            for (var j = 0; j < dia.Lines[i].SFX.Count; j++)
+                            {
+                                
+      
+
+                                EditorGUILayout.BeginHorizontal();
+                                EditorGUI.BeginDisabledGroup(dia.Lines[i].SFX[j] == null);
+
+                                if (GUILayout.Button(">", GUILayout.Width(20)))
+                                {
+                                    PublicAudioUtil.PlayClip(dia.Lines[i].SFX[j]);
+                                }
+
+                                EditorGUI.EndDisabledGroup();
+
+                                dia.Lines[i].SFX[j] =
+                                    (AudioClip) EditorGUILayout.ObjectField(dia.Lines[i].SFX[j], typeof(AudioClip), false,
+                                        GUILayout.Width(76));
+
+                             
+                                
+                                if(GUILayout.Button("x", GUILayout.Width(20)))
+                                {
+                                    dia.Lines[i].SFX.Remove(dia.Lines[i].SFX[j]);
+                                }
+                                EditorGUILayout.EndHorizontal();
+                            }
+                            
+                            
                         }
 
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUI.BeginDisabledGroup(dia.Lines[i].VoiceLine == null);
-                        
-                        if(GUILayout.Button(">", GUILayout.Width(20)))
+                        if (GUILayout.Button("Add Sound"))
                         {
-                            PublicAudioUtil.PlayClip(dia.Lines[i].VoiceLine);
+                            dia.Lines[i].SFX.Add(_sfx);
+                        }
+
+                        if (dia.Lines[i].Events != null)
+                        {
+                            for (var j = 0; j < dia.Lines[i].Events.Count; j++)
+                            {
+                                
+               
+                                
+                                EditorGUILayout.BeginHorizontal();
+                                    dia.Lines[i].Events[j] = (SceneEvent)EditorGUILayout.ObjectField(dia.Lines[i].Events[j], typeof(SceneEvent), false,  GUILayout.Width(100));
+                                    
+                               
+                                    if(GUILayout.Button("x", GUILayout.Width(20)))
+                                    {
+                                        dia.Lines[i].Events.Remove(dia.Lines[i].Events[j]);
+                                    }
+                                    EditorGUILayout.EndHorizontal();
+                                
+                            }
                         }
                         
-                        EditorGUI.EndDisabledGroup();
+                        if (GUILayout.Button("Add Event"))
+                        {
+                            
+                            dia.Lines[i].Events.Add(CreateInstance<SceneEvent>());
+                        }
                         
-                        dia.Lines[i].VoiceLine =
-                            (AudioClip) EditorGUILayout.ObjectField(dia.Lines[i].VoiceLine, typeof(AudioClip), false, GUILayout.Width(76));
-
-                        GUI.backgroundColor = dia.Color;
                         
-                        EditorGUILayout.EndHorizontal();
-                        
-                        dia.Lines[i].Event = (SceneEvent)EditorGUILayout.ObjectField(dia.Lines[i].Event, typeof(SceneEvent), false,  GUILayout.Width(100));
                         
                         
                         GUILayout.BeginHorizontal();
@@ -123,8 +166,56 @@ public class DialogueEditor : Editor
                         
                         
                         EditorGUILayout.EndVertical();
+
+
+                        EditorGUILayout.BeginVertical("Box");
+
+
+                        if (dia.Lines[i].Expression != null)
+                        {
+                            GUIStyle expr = new GUIStyle();
+                            if (dia.Lines[i].ExpressionNumber > 0)
+                            {
+                                expr.normal.background = dia.Lines[i].Expression.Sprite
+                                    ? dia.Lines[i].Expression.Sprite
+                                    : BaseExpression;
+                            }
+                            EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100), GUILayout.Height(100));
+                            
+                            
+                            
+                        }
+                        
+                       
+                        
+
+                        var expressionNames = new string[dia.Lines[i].Speaker.Expressions.Count + 1];
+                        expressionNames[0] = "<No change>";
+                        
+                        for (int j = 1; j < dia.Lines[i].Speaker.Expressions.Count + 1; j++)
+                        {
+                            expressionNames[j] = dia.Lines[i].Speaker.Expressions[j-1].Name;
+                        }
+
+                        dia.Lines[i].ExpressionNumber = EditorGUILayout.IntPopup(dia.Lines[i].ExpressionNumber,
+                            expressionNames, dia.getExpressionIntValues(dia.Lines[i].Speaker), GUILayout.Width(100));
+
+
+                        if (dia.Lines[i].ExpressionNumber > 0)
+                        {
+                            dia.Lines[i].Expression = dia.Lines[i].Speaker.Expressions[dia.Lines[i].ExpressionNumber -1];
+                        }
+                        else
+                        {
+                            
+                        }
+                        
+                        
+                        EditorGUILayout.EndVertical();
+                        
+                        
                         GUI.backgroundColor = Color.white;
-                        dia.Lines[i].Text = EditorGUILayout.TextArea(dia.Lines[i].Text, GUILayout.Height(45), GUILayout.Width(Screen.width - 180));
+                        dia.Lines[i].Text = EditorGUILayout.TextArea(dia.Lines[i].Text, GUILayout.Height(125), GUILayout.Width(Screen.width - 310));
                         
                         GUI.backgroundColor = dia.Color;
 
@@ -424,6 +515,7 @@ public class DialogueEditor : Editor
         EditorUtility.SetDirty(dia);
         }
 
+  
         
     }
     

@@ -145,7 +145,7 @@ namespace CharacterEditor.Editor
             var style = new GUIStyle(GUI.skin.label);
             
             style.fixedWidth = 70;
-            var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(70), GUILayout.Height(140));
+            var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
             GUILayout.EndVertical();
             return result;
         }

@@ -7,4 +7,16 @@ using UnityEngine;
 public class CharacterDatabase : ScriptableObject
 {
     public Student[] Students;
+
+
+    public List<string> GetNames()
+    {
+        var names = new List<string>();
+        
+        foreach (var stu in Students)
+        {
+            names.Add(stu.Character.LastName + " " + stu.Character.FirstName);
+        }
+        return names;
+    }
 }

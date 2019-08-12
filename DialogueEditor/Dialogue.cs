@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CharacterEditor;
 using EventObjects;
+using JetBrains.Annotations;
 using UnityEngine;
 
 [System.Serializable]
@@ -17,50 +19,50 @@ public class Dialogue : ScriptableObject
     [HideInInspector]
     public CharacterDatabase Speakers;
     
-    public void GetCharacters()
-    {
-
-        if (!Resources.Load("SpeakerDatabase"))
-        {
-            Debug.LogError("Couldn't find speaker database. Please create a speaker database asset and put it in the Resources folder as SpeakerDatabase.asset");
-        }
-      
-    }
 
     // TO DO
     
-    /*public string[] GetCharacterNames()
+    public string[] GetCharacterNames()
     {
-        GetCharacters();
-
-        return Speakers.Students.;
+        return Speakers.GetNames().ToArray();
     }
 
-    public int[] getIntValues()
+    public int[] getNamesIntValues()
     {
 
-        GetCharacters();
-
-        int[] values = new int[Speakers.Speakers.Length];
+        int[] values = new int[Speakers.GetNames().ToArray().Length];
         for(int i = 0; i < values.Length; i++)
         {
             values[i] = i;
         }
         return values;
     }
-    */
+    
+    public int[] getExpressionIntValues(Student stu)
+    {
+
+        int[] values = new int[stu.Expressions.Count + 1];
+        for(int i = 0; i < values.Length; i++)
+        {
+            values[i] = i;
+        }
+        return values;
+    }
+    
 }
 
 [System.Serializable]
 public class Line
 {
-    public string Speaker;
+    public Student Speaker;
     public int SpeakerNumber;
     public string Text;
-    public AudioClip VoiceLine;
-    public SceneEvent Event;
+    public List<AudioClip> SFX = new List<AudioClip>();
+    public List<SceneEvent> Events = new List<SceneEvent>();
     public float TimeToNextLine;
     public bool AutomaticLine;
+    public Expression Expression;
+    public int ExpressionNumber;
 }
 
 [System.Serializable]
