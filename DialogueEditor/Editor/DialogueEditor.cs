@@ -22,6 +22,42 @@ public class DialogueEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        if (dia.Speakers == null)
+        {
+            if (Resources.Load<CharacterDatabase>("Characters/CharacterDatabase"))
+            {
+                dia.Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
+            }
+            else
+            {
+                GUILayout.BeginVertical();
+                EditorGUILayout.LabelField("CharacterDatabase is not set.");
+                EditorGUILayout.LabelField("Create a CharacterDatabase in Resources/Characters/CharacterDatabase.asset");
+                GUILayout.EndVertical();
+                return;
+            }
+        }
+
+        if (dia.Speakers.Students.Length == 0)
+        {
+            EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
+            return;
+        }
+
+        if (dia.Speakers.Students.Length > 0)
+        {
+            foreach (var stu in dia.Speakers.Students)
+            {
+                if (stu == null)
+                {
+                    EditorGUILayout.LabelField("Nullref in CharacterDatabase. Is an element empty?");
+                    return;
+                }
+            }
+        }
+        
+        
+        
         EditorStyles.textArea.wordWrap = true;
         EditorStyles.textField.wordWrap = true;
         GUI.backgroundColor = dia.Color;
@@ -63,8 +99,6 @@ public class DialogueEditor : Editor
             Debug.Log(fileName);
             Debug.Log(AssetDatabase.GetAssetPath(dia));
         }
-            
-        
                 GUILayout.Space(Screen.width - 370);
                 GUI.backgroundColor = dia.Color;
 
@@ -481,10 +515,33 @@ public class DialogueEditor : Editor
 
                 if(dia.Choices.Count == 0 && !dia.Variable.Enabled && !dia.DirectTo.Enabled)
                 {
-                    if (GUILayout.Button("New Line", GUILayout.Width(100)))
+                    if (dia.Speakers == null)
                     {
-                        dia.Lines.Add(new Line());
+                        if (Resources.Load<CharacterDatabase>("Characters/CharacterDatabase"))
+                        {
+                            dia.Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
+                        }
+                        else
+                        {
+                            GUILayout.BeginVertical();
+                            EditorGUILayout.LabelField("CharacterDatabase is not set.");
+                            EditorGUILayout.LabelField("Create a CharacterDatabase in Resources/Characters/CharacterDatabase.asset");
+                            GUILayout.EndVertical();
+                        }
+                        
+                        
+                        
                     }
+                    else
+                    {
+                        if (GUILayout.Button("New Line", GUILayout.Width(100)))
+                        {
+                            dia.Lines.Add(new Line());
+                        }
+                    }
+                    
+                    
+                    
 
                     if(dia.Lines.Count > 0)
                     {

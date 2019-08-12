@@ -24,7 +24,14 @@ public class Dialogue : ScriptableObject
     
     public string[] GetCharacterNames()
     {
-        return Speakers.GetNames().ToArray();
+        if (Speakers == null)
+        {
+            Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
+            
+        }
+        
+        
+        return Speakers?.GetNames().ToArray();
     }
 
     public int[] getNamesIntValues()

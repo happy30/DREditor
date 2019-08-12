@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CharacterEditor;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "DRSimulator/CharacterDatabase", fileName = "New CharacterDatabase")]
+[CreateAssetMenu(menuName = "DRSimulator/CharacterDatabase", fileName = "CharacterDatabase")]
 public class CharacterDatabase : ScriptableObject
 {
     public Student[] Students;
