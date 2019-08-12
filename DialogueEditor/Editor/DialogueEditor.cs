@@ -170,7 +170,15 @@ public class DialogueEditor : Editor
 
                         EditorGUILayout.BeginVertical("Box");
 
+                        var exprs = dia.Lines[i].Speaker.Expressions.Count;
 
+                        if (exprs < dia.Lines[i].ExpressionNumber)
+                        {
+                            dia.Lines[i].ExpressionNumber = 0;
+                        }
+                        
+                        
+                        
                         if (dia.Lines[i].Expression != null)
                         {
                             GUIStyle expr = new GUIStyle();
