@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(menuName = "DRSimulator/Dialogues/Dialogue", fileName = "New Dialogue")]
+[CreateAssetMenu(menuName = "DRSimulator/Dialogue", fileName = "New Dialogue")]
 public class Dialogue : ScriptableObject
 {
     public string DialogueName = "";
