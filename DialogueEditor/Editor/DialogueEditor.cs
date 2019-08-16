@@ -507,6 +507,32 @@ public class DialogueEditor : Editor
             {
                 dia.DirectTo.NewDialogue = null;
                 dia.DirectTo.Enabled = false;
+                
+            }
+
+            GUILayout.EndVertical();
+        }
+
+        if (dia.SceneTransition.Enabled)
+        {
+            GUILayout.BeginVertical("Box", GUILayout.Width(400));
+            GUILayout.BeginHorizontal();
+            
+            GUILayout.Label("Name of next Scene:", GUILayout.Width(130));
+
+
+
+            dia.SceneTransition.Scene = GUILayout.TextField(dia.SceneTransition.Scene);
+
+
+            
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Remove", GUILayout.Width(80)))
+            {
+                dia.SceneTransition.Scene = string.Empty;
+                dia.SceneTransition.Enabled = false;
+                
             }
 
             GUILayout.EndVertical();
@@ -519,7 +545,7 @@ public class DialogueEditor : Editor
 
                 GUILayout.BeginHorizontal();
 
-                if(dia.Choices.Count == 0 && !dia.Variable.Enabled && !dia.DirectTo.Enabled)
+                if(dia.Choices.Count == 0 && !dia.Variable.Enabled && !dia.DirectTo.Enabled && !dia.SceneTransition.Enabled)
                 {
                     if (dia.Speakers == null)
                     {
@@ -570,9 +596,14 @@ public class DialogueEditor : Editor
                         {
                             dia.DirectTo.Enabled = true;
                         }
+                        
+                        if(GUILayout.Button("Enter Scene", GUILayout.Width(100)))
+                        {
+                            dia.SceneTransition.Enabled = true;
+                        }
 
                     }
-                    
+
                     
                 }
 

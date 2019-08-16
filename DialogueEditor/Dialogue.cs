@@ -15,6 +15,7 @@ public class Dialogue : ScriptableObject
     public Color Color = Color.white;
     public Variable Variable = new Variable();
     public DirectTo DirectTo;
+    public SceneTransition SceneTransition = new SceneTransition();
 
     [HideInInspector]
     public CharacterDatabase Speakers;
@@ -97,4 +98,12 @@ public class DirectTo
     public bool Enabled;
     public Dialogue NewDialogue;
     public int NewDialogueIndex;
+}
+
+[System.Serializable]
+public class SceneTransition
+{
+    public bool Enabled;
+    public string Scene;
+    //transition
 }
