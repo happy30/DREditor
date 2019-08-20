@@ -1,8 +1,12 @@
 {
-    "name": "drsim.eventobjects",
-    "references": [],
+    "name": "drsim.eventobjects.editor",
+    "references": [
+        "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
+    ],
     "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
