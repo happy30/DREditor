@@ -1,0 +1,15 @@
+{
+    "name": "dreditor.trialeditor",
+    "references": [
+        "GUID:f0c6bb287a75e6c4eab2e93da7c65148"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

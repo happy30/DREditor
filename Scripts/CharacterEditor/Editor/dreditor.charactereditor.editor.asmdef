@@ -1,0 +1,17 @@
+{
+    "name": "dreditor.charactereditor.editor",
+    "references": [
+        "GUID:59ea85d383066e54d9af5fa32490510c"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
