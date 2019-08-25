@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using CharacterEditor;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "DRSimulator/CharacterDatabase", fileName = "CharacterDatabase")]
+[CreateAssetMenu(menuName = "DREditor/Characters/Character Database", fileName = "CharacterDatabase")]
 public class CharacterDatabase : ScriptableObject
 {
-    public Student[] Students;
+    public Character[] Characters;
 
 
     public List<string> GetNames()
     {
         var names = new List<string>();
         
-        foreach (var stu in Students)
+        foreach (var cha in Characters)
         {
-            names.Add(stu.Character.LastName + " " + stu.Character.FirstName);
+            names.Add(cha.LastName + " " + cha.FirstName);
         }
         return names;
     }

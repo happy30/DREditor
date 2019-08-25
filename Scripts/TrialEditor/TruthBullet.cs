@@ -5,11 +5,11 @@ using UnityEngine;
 namespace TrialEditor
 {
     [System.Serializable]
-    [CreateAssetMenu(menuName = "DRSimulator/Truth Bullet", fileName = "New Truth Bullet")]
+    [CreateAssetMenu(menuName = "DREditor/Trials/Truth Bullet", fileName = "New Truth Bullet")]
     public class TruthBullet : ScriptableObject
     {
-        public Sprite picture;
-        public string title;
-        public string description;
+        public Sprite Picture;
+        public string Title;
+        public string Description;
     }
 }

@@ -11,7 +11,7 @@ public class DialogueEditor : Editor
     Dialogue dia;
     int value;
     private bool _directDialogue;
-    private AudioClip _sfx;
+    private AudioClip _sfx = null;
     public Texture2D BaseExpression;
 
 
@@ -38,21 +38,21 @@ public class DialogueEditor : Editor
             }
         }
 
-        if (dia.Speakers.Students == null)
+        if (dia.Speakers.Characters == null)
         {
             EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
             return;
         }
         
-        if (dia.Speakers.Students.Length == 0)
+        if (dia.Speakers.Characters.Length == 0)
         {
             EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
             return;
         }
 
-        if (dia.Speakers.Students.Length > 0)
+        if (dia.Speakers.Characters.Length > 0)
         {
-            foreach (var stu in dia.Speakers.Students)
+            foreach (var stu in dia.Speakers.Characters)
             {
                 if (stu == null)
                 {
@@ -121,7 +121,7 @@ public class DialogueEditor : Editor
                         EditorGUILayout.BeginVertical(GUILayout.Width(120));
                         GUI.backgroundColor = dia.Color;
                         dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
-                        dia.Lines[i].Speaker = dia.Speakers.Students[dia.Lines[i].SpeakerNumber];
+                        dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
 
 
                         if (dia.Lines[i].SFX != null)

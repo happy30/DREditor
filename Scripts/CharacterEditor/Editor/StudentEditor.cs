@@ -98,15 +98,15 @@ namespace CharacterEditor.Editor
 
             
             
-            for (var i = 0; i < stu.Expressions.Count; i++)
+            for (var i = 0; i < stu.Character.Expressions.Count; i++)
             {
-                var expr = stu.Expressions[i];
+                var expr = stu.Character.Expressions[i];
                 GUILayout.BeginVertical("Box", GUILayout.Width(140));
                 GUILayout.BeginHorizontal();
                 expr.Sprite = TextureField(expr.Sprite);
                 if(GUILayout.Button("X",GUILayout.Width(18)))
                 {
-                    stu.Expressions.Remove(expr);
+                    stu.Character.Expressions.Remove(expr);
                 }
 
                 GUILayout.EndHorizontal();
@@ -127,7 +127,7 @@ namespace CharacterEditor.Editor
 
             if (GUILayout.Button("Add \n Sprite", GUILayout.Width(100), GUILayout.Height(40)))
             {
-                stu.Expressions.Add(new Expression());
+                stu.Character.Expressions.Add(new Expression());
                 
             }
             

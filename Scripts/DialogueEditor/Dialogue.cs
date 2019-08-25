@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(menuName = "DRSimulator/Dialogue", fileName = "New Dialogue")]
+[CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
 public class Dialogue : ScriptableObject
 {
     public string DialogueName = "";
@@ -46,10 +46,10 @@ public class Dialogue : ScriptableObject
         return values;
     }
     
-    public int[] getExpressionIntValues(Student stu)
+    public int[] getExpressionIntValues(Character cha)
     {
 
-        int[] values = new int[stu.Expressions.Count + 1];
+        int[] values = new int[cha.Expressions.Count + 1];
         for(int i = 0; i < values.Length; i++)
         {
             values[i] = i;
@@ -62,7 +62,7 @@ public class Dialogue : ScriptableObject
 [System.Serializable]
 public class Line
 {
-    public Student Speaker;
+    public Character Speaker;
     public int SpeakerNumber;
     public string Text;
     public List<AudioClip> SFX = new List<AudioClip>();
