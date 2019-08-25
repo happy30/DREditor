@@ -1,8 +1,8 @@
-﻿//Camera Script for 3DVNMaker by SeleniumSoul
+﻿//Camera Script for DREditor by SeleniumSoul
 using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("3DVNMaker/Handlers/VN3DCamera")]
+[AddComponentMenu("DREditor/Handlers/VN3DCamera")]
 
 public class VN3DCamera : MonoBehaviour {
 
@@ -32,7 +32,7 @@ public class VN3DCamera : MonoBehaviour {
             camAngle = Mathf.Clamp(camAngle, -maxAngle, maxAngle);
             camVAngle = Mathf.Clamp(camVAngle, -maxVAngle, maxVAngle);
 
-            Debug.Log("3DVNCamera: Currently Controllable!");
+            //Debug.Log("3DVNCamera: Currently Controllable!");
             finalAimRotation = Quaternion.Euler(camVAngle, -camAngle, 0);
 
             if (targetChar != null)
@@ -45,10 +45,9 @@ public class VN3DCamera : MonoBehaviour {
         {
             if (targetChar != null)
             {
-                Debug.Log("3DVNCamera: Currently Focusing!");
+                //Debug.Log("3DVNCamera: Currently Focusing!");
                 targetFocus = targetChar.transform.position;
                 finalAimRotation = Quaternion.Lerp(transform.rotation, targetChar.transform.rotation, Time.deltaTime * 10f);
-                //finalAimRotation = Quaternion.Euler(Vector3.zero);
                 finalCamPosition = Vector3.Lerp(transform.position, targetFocus, Time.deltaTime * 10f);
             }
         }
@@ -75,47 +74,4 @@ public class VN3DCamera : MonoBehaviour {
         transform.rotation = finalAimRotation;
         transform.position = finalCamPosition;
     }
-
-    #region ==Currently Unused==
-
-    public struct ChiakiPos
-    {
-    }
-
-    IEnumerator SmoothPosition(GameObject target)
-    {
-        float speed = 2f;
-        Vector3 from = transform.position;
-        Vector3 to = target.transform.position;
-
-        float elapsed = 0.0f;
-        while (elapsed < 1f)
-        {
-            finalCamPosition = Vector3.Lerp(from, to, elapsed);
-            elapsed += speed * Time.deltaTime;
-            yield return null;
-        }
-        finalCamPosition = to;
-        
-        //turncam = true;
-    }
-
-    IEnumerator SmoothRotation(Vector3 axis, float angle, float speed)
-    {
-        Quaternion from = transform.rotation;
-        Quaternion to = transform.rotation;
-        to *= Quaternion.Euler(axis * angle);
-   
-        float elapsed = 0.0f;
-        while (elapsed < 1f)
-        {
-            transform.rotation = Quaternion.Slerp(from, to, elapsed);
-            elapsed += speed * Time.deltaTime;
-            yield return null;
-        }
-        transform.rotation = to;
-        //turncam = true;
-    }
-
-    #endregion
 }
