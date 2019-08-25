@@ -6,7 +6,7 @@ namespace EventObjects
 {
 
     [Serializable]
-    [CreateAssetMenu(menuName = "EventObjects/GameObject", fileName = "New GameObject")]
+    [CreateAssetMenu(menuName = "DREditor/EventObjects/GameObject", fileName = "New GameObject")]
     public class GameObjectWithEvent : ValueWithEvent<GameObject, GameObjectEvent>
     {
         public bool Resolve()

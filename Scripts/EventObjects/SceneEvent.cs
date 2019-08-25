@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Scene Event", fileName = "New Scene Event")]
+[CreateAssetMenu(menuName = "DREditor/Events/Scene Event", fileName = "New Scene Event")]
 public class SceneEvent : ScriptableObject
 {
     private List<SceneEventListener> _listeners = new List<SceneEventListener>();

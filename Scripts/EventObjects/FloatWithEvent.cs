@@ -30,7 +30,7 @@ namespace EventObjects
 {
 
     [Serializable]
-    [CreateAssetMenu(menuName = "EventObjects/Float", fileName = "New Float")]
+    [CreateAssetMenu(menuName = "DREditor/EventObjects/Float", fileName = "New Float")]
     public class FloatWithEvent : ValueWithEvent<float, FloatEvent>
     {
         public bool Resolve()

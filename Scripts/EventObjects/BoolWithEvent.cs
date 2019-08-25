@@ -27,7 +27,7 @@ using UnityEngine;
 
 namespace EventObjects
 {
-    [CreateAssetMenu(menuName = "EventObjects/Bool", fileName = "New BoolWithEvent")]
+    [CreateAssetMenu(menuName = "DREditor/EventObjects/Bool", fileName = "New BoolWithEvent")]
     public class BoolWithEvent : ValueWithEvent<bool, BoolEvent>
     {
         public bool Resolve()
