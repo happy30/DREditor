@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Klak.Math;
+
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -42,6 +42,8 @@ public class Crouch : MonoBehaviour
         }
 
 
-        _characterController.height = ETween.Step(_characterController.height, targetHeight, CrouchOmega);
+        _characterController.height = Mathf.Lerp(_characterController.height, targetHeight, CrouchOmega * Time.deltaTime);
+            
+            //ETween.Step(_characterController.height, targetHeight, CrouchOmega);
     }
 }

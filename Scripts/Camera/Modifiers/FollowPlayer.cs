@@ -1,5 +1,4 @@
 ﻿
-using Klak.Math;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
@@ -10,7 +9,9 @@ public class FollowPlayer : MonoBehaviour
     
     public Vector3 GetPlayerPosition()
     {
-        return ETween.Step(transform.position, Player.position + Vector3.up * YOffset, FollowSpeedOmega);
+        return Vector3.Lerp(transform.position, Player.position + Vector3.up * YOffset, FollowSpeedOmega * Time.deltaTime);
+            
+            //ETween.Step(transform.position, Player.position + Vector3.up * YOffset, FollowSpeedOmega);
     }
 
     public Quaternion GetPlayerRotation()
