@@ -44,13 +44,13 @@ public class DialogueEditor : Editor
             return;
         }
         
-        if (dia.Speakers.Characters.Length == 0)
+        if (dia.Speakers.Characters.Count == 0)
         {
             EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
             return;
         }
 
-        if (dia.Speakers.Characters.Length > 0)
+        if (dia.Speakers.Characters.Count > 0)
         {
             foreach (var stu in dia.Speakers.Characters)
             {

@@ -34,8 +34,8 @@ namespace CharacterEditor.Editor
         private void NameForm()
         {
             EditorGUILayout.BeginVertical("Box");
-            stu.Character.LastName = StringField("Last Name: ", stu.Character.LastName);
-            stu.Character.FirstName = StringField("First Name: ", stu.Character.FirstName);
+            stu.LastName = StringField("Last Name: ", stu.LastName);
+            stu.FirstName = StringField("First Name: ", stu.FirstName);
             stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
             EditorGUILayout.EndVertical();
             
@@ -51,9 +51,9 @@ namespace CharacterEditor.Editor
             GUILayout.BeginHorizontal("box");
             GUILayout.FlexibleSpace();
 
-            var labelText = stu.Character.LastName == "" && stu.Character.FirstName == "" ? "No Name" : "";
+            var labelText = stu.LastName == "" && stu.FirstName == "" ? "No Name" : "";
             
-            GUILayout.Label(labelText + stu.Character.LastName + " " + stu.Character.FirstName, bigLabelStyle);
+            GUILayout.Label(labelText + stu.LastName + " " + stu.FirstName, bigLabelStyle);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             
@@ -98,15 +98,15 @@ namespace CharacterEditor.Editor
 
             
             
-            for (var i = 0; i < stu.Character.Expressions.Count; i++)
+            for (var i = 0; i < stu.Expressions.Count; i++)
             {
-                var expr = stu.Character.Expressions[i];
+                var expr = stu.Expressions[i];
                 GUILayout.BeginVertical("Box", GUILayout.Width(140));
                 GUILayout.BeginHorizontal();
                 expr.Sprite = TextureField(expr.Sprite);
                 if(GUILayout.Button("X",GUILayout.Width(18)))
                 {
-                    stu.Character.Expressions.Remove(expr);
+                    stu.Expressions.Remove(expr);
                 }
 
                 GUILayout.EndHorizontal();
@@ -127,7 +127,7 @@ namespace CharacterEditor.Editor
 
             if (GUILayout.Button("Add \n Sprite", GUILayout.Width(100), GUILayout.Height(40)))
             {
-                stu.Character.Expressions.Add(new Expression());
+                stu.Expressions.Add(new Expression());
                 
             }
             

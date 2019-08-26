@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "DREditor/Characters/Character Database", fileName = "CharacterDatabase")]
 public class CharacterDatabase : ScriptableObject
 {
-    public Character[] Characters;
+    public List<Character> Characters = new List<Character>();
 
 
     public List<string> GetNames()

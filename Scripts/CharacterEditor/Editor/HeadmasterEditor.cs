@@ -31,8 +31,8 @@ namespace CharacterEditor.Editor
         private void NameForm()
         {
             EditorGUILayout.BeginVertical("Box");
-            hms.Character.LastName = StringField("Last Name: ", hms.Character.LastName);
-            hms.Character.FirstName = StringField("First Name: ", hms.Character.FirstName);
+            hms.LastName = StringField("Last Name: ", hms.LastName);
+            hms.FirstName = StringField("First Name: ", hms.FirstName);
             
             EditorGUILayout.EndVertical();
             
@@ -45,15 +45,15 @@ namespace CharacterEditor.Editor
 
             
             
-            for (var i = 0; i < hms.Character.Expressions.Count; i++)
+            for (var i = 0; i < hms.Expressions.Count; i++)
             {
-                var expr = hms.Character.Expressions[i];
+                var expr = hms.Expressions[i];
                 GUILayout.BeginVertical("Box", GUILayout.Width(140));
                 GUILayout.BeginHorizontal();
                 expr.Sprite = TextureField(expr.Sprite);
                 if(GUILayout.Button("X",GUILayout.Width(18)))
                 {
-                    hms.Character.Expressions.Remove(expr);
+                    hms.Expressions.Remove(expr);
                 }
 
                 GUILayout.EndHorizontal();
@@ -74,7 +74,7 @@ namespace CharacterEditor.Editor
 
             if (GUILayout.Button("Add \n Sprite", GUILayout.Width(100), GUILayout.Height(40)))
             {
-                hms.Character.Expressions.Add(new Expression());
+                hms.Expressions.Add(new Expression());
                 
             }
             
