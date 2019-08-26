@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 2e9172c755115334284867b4847d6a29
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ShakeOmega: {fileID: 11400000, guid: 3a8f6033ae1d20f4da84ad77ca67b831, type: 2}
+  - CameraShakeMode: {fileID: 11400000, guid: 6ff2e26671b4a5647835a591f656eaca, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
