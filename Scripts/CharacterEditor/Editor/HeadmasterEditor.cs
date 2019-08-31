@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace CharacterEditor.Editor
+namespace DREditor.CharacterEditor.Editor
 {
     [CustomEditor(typeof(Headmaster))]
     public class HeadmasterEditor : UnityEditor.Editor

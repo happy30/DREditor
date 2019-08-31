@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CharacterEditor
+namespace DREditor.CharacterEditor
 {
     [System.Serializable]
     public class Expression

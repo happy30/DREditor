@@ -3,47 +3,51 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class Crouch : MonoBehaviour
+namespace DREditor.Camera
 {
-    private CharacterController _characterController;
-
-    private float targetHeight;
-
-    public float CrouchHeight;
-    float NormalHeight;
-    public float CrouchOmega;
-
-    public bool ToggleToCrouch;
-
-    void Awake()
+    
+    [RequireComponent(typeof(CharacterController))]
+    public class Crouch : MonoBehaviour
     {
-        _characterController = GetComponent<CharacterController>();
-        NormalHeight = _characterController.height;
-    }
+        private CharacterController _characterController;
 
+        private float targetHeight;
 
-    void Update()
-    {
-        if (!ToggleToCrouch)
+        public float CrouchHeight;
+        float NormalHeight;
+        public float CrouchOmega;
+
+        public bool ToggleToCrouch;
+
+        void Awake()
         {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                targetHeight = CrouchHeight;
-            }
-            else
-            {
-                if (!Physics.Raycast(transform.position, Vector3.up, 2f))
-                {
-                    targetHeight = NormalHeight;
-                }
-                
-            }
+            _characterController = GetComponent<CharacterController>();
+            NormalHeight = _characterController.height;
         }
 
 
-        _characterController.height = Mathf.Lerp(_characterController.height, targetHeight, CrouchOmega * Time.deltaTime);
-            
+        void Update()
+        {
+            if (!ToggleToCrouch)
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    targetHeight = CrouchHeight;
+                }
+                else
+                {
+                    if (!Physics.Raycast(transform.position, Vector3.up, 2f))
+                    {
+                        targetHeight = NormalHeight;
+                    }
+
+                }
+            }
+
+
+            _characterController.height = Mathf.Lerp(_characterController.height, targetHeight, CrouchOmega * Time.deltaTime);
+
             //ETween.Step(_characterController.height, targetHeight, CrouchOmega);
+        }
     }
 }

@@ -1,109 +1,114 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using CharacterEditor;
-using EventObjects;
-using JetBrains.Annotations;
 using UnityEngine;
 
-[System.Serializable]
-[CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
-public class Dialogue : ScriptableObject
+using JetBrains.Annotations;
+using DREditor.CharacterEditor;
+using EventObjects;
+
+namespace DREditor.DialogueEditor
 {
-    public string DialogueName = "";
-    public List<Line> Lines = new List<Line>();
-    public List<Choice> Choices = new List<Choice>();
-    public Color Color = Color.white;
-    public Variable Variable = new Variable();
-    public DirectTo DirectTo;
-    public SceneTransition SceneTransition = new SceneTransition();
 
-    [HideInInspector]
-    public CharacterDatabase Speakers;
-    
-
-    // TO DO
-    
-    public string[] GetCharacterNames()
+    [System.Serializable]
+    [CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
+    public class Dialogue : ScriptableObject
     {
-        if (Speakers == null)
+        public string DialogueName = "";
+        public List<Line> Lines = new List<Line>();
+        public List<Choice> Choices = new List<Choice>();
+        public Color Color = Color.white;
+        public Variable Variable = new Variable();
+        public DirectTo DirectTo;
+        public SceneTransition SceneTransition = new SceneTransition();
+
+        [HideInInspector]
+        public CharacterDatabase Speakers;
+
+
+        // TO DO
+
+        public string[] GetCharacterNames()
         {
-            Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
-            
+            if (Speakers == null)
+            {
+                Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
+
+            }
+
+
+            return Speakers?.GetNames().ToArray();
         }
-        
-        
-        return Speakers?.GetNames().ToArray();
+
+        public int[] getNamesIntValues()
+        {
+
+            int[] values = new int[Speakers.GetNames().ToArray().Length];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = i;
+            }
+            return values;
+        }
+
+        public int[] getExpressionIntValues(Character cha)
+        {
+
+            int[] values = new int[cha.Expressions.Count + 1];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = i;
+            }
+            return values;
+        }
+
     }
 
-    public int[] getNamesIntValues()
+    [System.Serializable]
+    public class Line
     {
-
-        int[] values = new int[Speakers.GetNames().ToArray().Length];
-        for(int i = 0; i < values.Length; i++)
-        {
-            values[i] = i;
-        }
-        return values;
+        public Character Speaker;
+        public int SpeakerNumber;
+        public string Text;
+        public List<AudioClip> SFX = new List<AudioClip>();
+        public List<SceneEvent> Events = new List<SceneEvent>();
+        public float TimeToNextLine;
+        public bool AutomaticLine;
+        public Expression Expression;
+        public int ExpressionNumber;
     }
-    
-    public int[] getExpressionIntValues(Character cha)
+
+    [System.Serializable]
+    public class Choice
     {
-
-        int[] values = new int[cha.Expressions.Count + 1];
-        for(int i = 0; i < values.Length; i++)
-        {
-            values[i] = i;
-        }
-        return values;
+        public string ChoiceText;
+        public Dialogue NextDialogue;
+        public int NextIndexInDialogue;
     }
-    
-}
 
-[System.Serializable]
-public class Line
-{
-    public Character Speaker;
-    public int SpeakerNumber;
-    public string Text;
-    public List<AudioClip> SFX = new List<AudioClip>();
-    public List<SceneEvent> Events = new List<SceneEvent>();
-    public float TimeToNextLine;
-    public bool AutomaticLine;
-    public Expression Expression;
-    public int ExpressionNumber;
-}
+    [System.Serializable]
+    public class Variable
+    {
+        public bool Enabled;
+        public BoolWithEvent BoolVariable;
+        public Dialogue NextDialogueTrue;
+        public int NextIndexInDialogueTrue;
+        public Dialogue NextDialogueFalse;
+        public int NextIndexInDialogueFalse;
+    }
 
-[System.Serializable]
-public class Choice
-{
-    public string ChoiceText;
-    public Dialogue NextDialogue;
-    public int NextIndexInDialogue;
-}
+    [System.Serializable]
+    public class DirectTo
+    {
+        public bool Enabled;
+        public Dialogue NewDialogue;
+        public int NewDialogueIndex;
+    }
 
-[System.Serializable]
-public class Variable
-{
-    public bool Enabled;
-    public BoolWithEvent BoolVariable;
-    public Dialogue NextDialogueTrue;
-    public int NextIndexInDialogueTrue;
-    public Dialogue NextDialogueFalse;
-    public int NextIndexInDialogueFalse;
-}
-
-[System.Serializable]
-public class DirectTo
-{
-    public bool Enabled;
-    public Dialogue NewDialogue;
-    public int NewDialogueIndex;
-}
-
-[System.Serializable]
-public class SceneTransition
-{
-    public bool Enabled;
-    public string Scene;
-    //transition
+    [System.Serializable]
+    public class SceneTransition
+    {
+        public bool Enabled;
+        public string Scene;
+        //transition
+    }
 }

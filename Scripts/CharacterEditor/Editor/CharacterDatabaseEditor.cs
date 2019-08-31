@@ -4,7 +4,7 @@ using UnityEditor.UI;
 using UnityEngine;
 
 
-namespace CharacterEditor.Editor
+namespace DREditor.CharacterEditor.Editor
 {
     [CustomEditor(typeof(CharacterDatabase))]
     public class CharacterDatabaseEditor : UnityEditor.Editor

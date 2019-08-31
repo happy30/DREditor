@@ -3,44 +3,47 @@ using System.Collections.Generic;
 using EventObjects;
 using UnityEngine;
 
-public class ControlMonobehaviours : MonoBehaviour
+namespace DREditor
 {
-    public BoolWithEvent InMenu;
-    public BoolWithEvent InDialogue;
-    
-    private bool setting;
 
-    private bool disable;
-
-
-    private bool valueChanged;
-
-    public List<MonoBehaviour> MonoBehaviours = new List<MonoBehaviour>();
-
-    private void Awake()
+    public class ControlMonobehaviours : MonoBehaviour
     {
-        InMenu.Value = false;
-        InDialogue.Value = false;
-    }
+        public BoolWithEvent InMenu;
+        public BoolWithEvent InDialogue;
 
-    void Update()
-    {
-        disable = InMenu.Value || InDialogue.Value;
-        
-        
-        
-        if (disable != setting)
+        private bool setting;
+
+        private bool disable;
+
+
+        private bool valueChanged;
+
+        public List<MonoBehaviour> MonoBehaviours = new List<MonoBehaviour>();
+
+        private void Awake()
         {
-            foreach (var beh in MonoBehaviours)
-            {
-                beh.enabled = !disable;
-                setting = disable;
-            }
+            InMenu.Value = false;
+            InDialogue.Value = false;
         }
 
+        void Update()
+        {
+            disable = InMenu.Value || InDialogue.Value;
+
+
+
+            if (disable != setting)
+            {
+                foreach (var beh in MonoBehaviours)
+                {
+                    beh.enabled = !disable;
+                    setting = disable;
+                }
+            }
+
+        }
     }
 }
-    
     
     
 

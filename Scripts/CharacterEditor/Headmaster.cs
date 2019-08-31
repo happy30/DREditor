@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterEditor
+namespace DREditor.CharacterEditor
 {
     [System.Serializable]
     [CreateAssetMenu(menuName = "DREditor/Characters/Headmaster", fileName = "New Headmaster")]

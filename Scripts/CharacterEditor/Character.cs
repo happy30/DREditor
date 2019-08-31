@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace CharacterEditor
+namespace DREditor.CharacterEditor
 {
     [System.Serializable]
     public class Character : ScriptableObject

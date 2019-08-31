@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TrialEditor
+namespace DREditor.TrialEditor
 {
     [System.Serializable]
     [CreateAssetMenu(menuName = "DREditor/Trials/Truth Bullet", fileName = "New Truth Bullet")]

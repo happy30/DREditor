@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Utility.Editor
+namespace DREditor.Utility.Editor
 {
     /// <summary>
     /// Class with shorthand methods for Editor GUI layout.

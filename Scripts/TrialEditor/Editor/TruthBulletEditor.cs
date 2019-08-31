@@ -1,8 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Utility.Editor;
+using DREditor.Utility.Editor;
 
-namespace TrialEditor.Editor
+namespace DREditor.TrialEditor.Editor
 {
     [CustomEditor(typeof(TruthBullet))]
     public class TruthBulletEditor : UnityEditor.Editor

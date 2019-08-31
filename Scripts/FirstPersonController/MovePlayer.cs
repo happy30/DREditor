@@ -2,7 +2,7 @@
 using EventObjects;
 using UnityEngine;
 
-namespace Player
+namespace DREditor
 {
     [RequireComponent(typeof(CharacterController))]
     public class MovePlayer : MonoBehaviour

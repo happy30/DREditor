@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace CharacterEditor.Editor
+namespace DREditor.CharacterEditor.Editor
 {
     [CustomEditor(typeof(Student))]
     public class StudentEditor : UnityEditor.Editor
