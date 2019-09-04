@@ -17,7 +17,18 @@ namespace DREditor.CharacterEditor
 
             foreach (var cha in Characters)
             {
-                names.Add(cha.LastName + " " + cha.FirstName);
+                switch (cha)
+                {
+                    case Protagonist _:
+                        names.Add(cha.LastName + " " + cha.FirstName + " (Protagonist)");
+                        break;
+                    case Headmaster _:
+                        names.Add(cha.LastName + " " + cha.FirstName + " (Headmaster)");
+                        break;
+                    case Student _:
+                        names.Add(cha.LastName + " " + cha.FirstName);
+                        break;
+                }
             }
             return names;
         }

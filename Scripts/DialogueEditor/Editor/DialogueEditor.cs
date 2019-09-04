@@ -128,6 +128,10 @@ namespace DREditor.DialogueEditor.Editor
                     dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
                     dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
 
+                    
+                    
+                        
+
 
                     if (dia.Lines[i].SFX != null)
                     {
@@ -212,59 +216,67 @@ namespace DREditor.DialogueEditor.Editor
 
                     EditorGUILayout.EndVertical();
 
-
-                    EditorGUILayout.BeginVertical("Box");
-
-                    var exprs = dia.Lines[i].Speaker.Expressions.Count;
-
-                    if (exprs < dia.Lines[i].ExpressionNumber)
+                    if (!IsProtagonist(dia.Lines[i].Speaker))
                     {
-                        dia.Lines[i].ExpressionNumber = 0;
-                    }
+
+
+                        EditorGUILayout.BeginVertical("Box");
+
+                        var exprs = dia.Lines[i].Speaker.Expressions.Count;
+
+                        if (exprs < dia.Lines[i].ExpressionNumber)
+                        {
+                            dia.Lines[i].ExpressionNumber = 0;
+                        }
 
 
 
-                    if (dia.Lines[i].Expression != null)
-                    {
-                        GUIStyle expr = new GUIStyle();
+                        if (dia.Lines[i].Expression != null)
+                        {
+                            GUIStyle expr = new GUIStyle();
+                            if (dia.Lines[i].ExpressionNumber > 0)
+                            {
+                                expr.normal.background = dia.Lines[i].Expression.Sprite
+                                    ? dia.Lines[i].Expression.Sprite
+                                    : BaseExpression;
+                            }
+
+                            EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100),
+                                GUILayout.Height(100));
+
+                        }
+
+
+
+                        var expressionNames = new string[dia.Lines[i].Speaker.Expressions.Count + 1];
+                        expressionNames[0] = "<No change>";
+
+                        for (int j = 1; j < dia.Lines[i].Speaker.Expressions.Count + 1; j++)
+                        {
+                            expressionNames[j] = dia.Lines[i].Speaker.Expressions[j - 1].Name;
+                        }
+
+                        dia.Lines[i].ExpressionNumber = EditorGUILayout.IntPopup(dia.Lines[i].ExpressionNumber,
+                            expressionNames, dia.getExpressionIntValues(dia.Lines[i].Speaker), GUILayout.Width(100));
+
+
                         if (dia.Lines[i].ExpressionNumber > 0)
                         {
-                            expr.normal.background = dia.Lines[i].Expression.Sprite
-                                ? dia.Lines[i].Expression.Sprite
-                                : BaseExpression;
+                            dia.Lines[i].Expression =
+                                dia.Lines[i].Speaker.Expressions[dia.Lines[i].ExpressionNumber - 1];
                         }
-                        EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100), GUILayout.Height(100));
 
 
-
-                    }
-
-
-
-
-                    var expressionNames = new string[dia.Lines[i].Speaker.Expressions.Count + 1];
-                    expressionNames[0] = "<No change>";
-
-                    for (int j = 1; j < dia.Lines[i].Speaker.Expressions.Count + 1; j++)
-                    {
-                        expressionNames[j] = dia.Lines[i].Speaker.Expressions[j - 1].Name;
-                    }
-
-                    dia.Lines[i].ExpressionNumber = EditorGUILayout.IntPopup(dia.Lines[i].ExpressionNumber,
-                        expressionNames, dia.getExpressionIntValues(dia.Lines[i].Speaker), GUILayout.Width(100));
-
-
-                    if (dia.Lines[i].ExpressionNumber > 0)
-                    {
-                        dia.Lines[i].Expression = dia.Lines[i].Speaker.Expressions[dia.Lines[i].ExpressionNumber - 1];
+                        EditorGUILayout.EndVertical();
                     }
                     else
                     {
+                        
 
+                        EditorGUILayout.LabelField(GUIContent.none, GUILayout.Width(108),
+                            GUILayout.Height(100));
                     }
 
-
-                    EditorGUILayout.EndVertical();
 
 
                     GUI.backgroundColor = Color.white;
@@ -622,7 +634,10 @@ namespace DREditor.DialogueEditor.Editor
             EditorUtility.SetDirty(dia);
         }
 
-
+        public bool IsProtagonist(Character character)
+        {
+            return character is Protagonist;
+        }
 
     }
 }
