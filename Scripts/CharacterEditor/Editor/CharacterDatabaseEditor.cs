@@ -58,11 +58,11 @@ namespace DREditor.CharacterEditor.Editor
                     var bigLabelStyle = new GUIStyle();
                     bigLabelStyle.fontSize = 25;
                     bigLabelStyle.fontStyle = FontStyle.Bold;
-                    GUILayout.Label(cdb.Characters[i].LastName + " "+ cdb.Characters[i].FirstName, bigLabelStyle);
+                    if (cdb.Characters[i] != null) GUILayout.Label(cdb.Characters[i].LastName + " "+ cdb.Characters[i].FirstName, bigLabelStyle);
                     
                     GUILayout.FlexibleSpace();
                     
-                    cdb.Characters[i] = (Character)EditorGUILayout.ObjectField(cdb.Characters[i], typeof(Character), false, GUILayout.Width(100));
+                    if (cdb.Characters[i] != null) cdb.Characters[i] = (Character)EditorGUILayout.ObjectField(cdb.Characters[i], typeof(Character), false, GUILayout.Width(100));
 
                     if (GUILayout.Button("Remove", GUILayout.Width(100)))
                     {
