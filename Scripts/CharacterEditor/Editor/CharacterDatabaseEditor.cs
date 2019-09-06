@@ -74,6 +74,8 @@ namespace DREditor.CharacterEditor.Editor
                     GUILayout.EndHorizontal();
                 }
             }
+            
+            EditorUtility.SetDirty(cdb);
         }
         
         
