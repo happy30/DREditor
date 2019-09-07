@@ -4,8 +4,8 @@ using System.Collections;
 
 namespace DREditor.Handlers
 {
-    [AddComponentMenu("DREditor/Handlers/VN3DCamera")]
-    public class VN3DCamera : MonoBehaviour
+    [AddComponentMenu("DREditor/Handlers/DRPnCCamera")]
+    public class DRPnCCamera : MonoBehaviour
     {
 
         public bool controlEnabled;
