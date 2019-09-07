@@ -121,13 +121,39 @@ namespace DREditor.DialogueEditor.Editor
             {
                 for (int i = 0; i < dia.Lines.Count; i++)
                 {
-                    EditorGUILayout.BeginHorizontal("Box");
+                    var color = Color.white;
+                    
+                    if (dia.Lines[i].Speaker is Student)
+                    {
+                        var stu = dia.Lines[i].Speaker as Student;
 
+                        float H, S, V;
+                        
+                        
+                        color = stu.StudentCard.Color;
+                        Color.RGBToHSV(color, out H, out S, out V);
+                        S = 0.3f;
+                        V = 0.95f;
+
+                        color = Color.HSVToRGB(H, S, V);
+    
+                    }
+                    else
+                    {
+                        GUI.backgroundColor = Color.white;
+                    }
+                    
+                    GUI.backgroundColor = color;
+                    EditorGUILayout.BeginHorizontal("Box");
                     EditorGUILayout.BeginVertical(GUILayout.Width(120));
                     GUI.backgroundColor = dia.Color;
                     dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
                     dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
 
+                    
+                    
+
+                    
                     
                     
                         
