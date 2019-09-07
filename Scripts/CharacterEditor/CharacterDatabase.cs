@@ -5,9 +5,11 @@ using UnityEngine;
 namespace DREditor.CharacterEditor
 {
     
+    [System.Serializable]
     [CreateAssetMenu(menuName = "DREditor/Characters/Character Database", fileName = "CharacterDatabase")]
     public class CharacterDatabase : ScriptableObject
     {
+        [SerializeField]
         public List<Character> Characters = new List<Character>();
 
 
