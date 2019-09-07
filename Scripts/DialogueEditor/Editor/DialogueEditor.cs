@@ -284,21 +284,57 @@ namespace DREditor.DialogueEditor.Editor
 
                     GUI.backgroundColor = dia.Color;
 
-                    if (i > 0)
+                    EditorGUILayout.BeginVertical();
+                    if (dia.Lines.Count > 1)
                     {
-                        if (GUILayout.Button("-", GUILayout.Width(20)) && i > 0)
+                        if (GUILayout.Button("-", GUILayout.Width(20)) && dia.Lines.Count > 1)
                         {
+                            GUI.FocusControl(null);
                             dia.Lines.Remove(dia.Lines[i]);
+
                         }
                     }
-                    else
+
+                    if (i > 0)
                     {
-                        GUILayout.Space(24);
+                        if (GUILayout.Button("ʌ", GUILayout.Width(20)) && i > 0)
+                        {
+                            {
+                                GUI.FocusControl(null);
+                                var line = dia.Lines[i - 1];
+
+                                dia.Lines[i - 1] = dia.Lines[i];
+                                dia.Lines[i] = line;
+                            }
+                        }
                     }
+                    
+
+                    if (i < dia.Lines.Count - 1)
+                    {
+                        if (GUILayout.Button("v", GUILayout.Width(20)))
+                        {
+                            GUI.FocusControl(null);
+                            var line = dia.Lines[i + 1];
+
+                            dia.Lines[i + 1] = dia.Lines[i];
+                            dia.Lines[i] = line;
+                        }
+                    }
+                    
+                    GUILayout.FlexibleSpace();
+                    
+                    
+                    if (GUILayout.Button("+", GUILayout.Width(20)))
+                    {
+                        dia.Lines.Insert(i+1, new Line());
+                    }
+                    
+                    
 
 
 
-
+                    EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
 
 
