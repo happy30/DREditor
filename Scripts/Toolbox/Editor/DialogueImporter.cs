@@ -17,6 +17,8 @@ namespace DREditor.Toolbox
         public CharacterDatabase database;
         [Tooltip("The output directory for imported dialogues. Relative to Assets/")]
         public string targetDirectory = "Dialogues";
+        [Tooltip("Prefix used for the generated Dialogue assets.")]
+        public string dialoguePrefix = "Dialogues";
         [Tooltip("The first number used when generating the imported dialogues file names. This allows to load the dialogues in chunks.")]
         public int startingNumber = 1;
         [Tooltip("The maximimum amount of lines, in terms of the dialogue objects")]
@@ -105,6 +107,7 @@ namespace DREditor.Toolbox
                                     currentDialogue.Speakers = database;
                                     currentDialogue.Lines = new List<Line>();
                                     dialoguesToSave.Add(currentDialogue);
+                                    lastLine = null;
                                 }
 
                                 if (regex.IsMatch(line))
@@ -184,7 +187,7 @@ namespace DREditor.Toolbox
                 {
                     Dialogue dia = dialoguesToSave[i];
                     dia.DialogueName = dialogueNumber+""; // dev note: I use this trick a lot when coding Java, happy to see it works with C# too.
-                    string diaPath = folder + "/Dialogues_" + dialogueNumber + "_.asset";
+                    string diaPath = folder + "/"+dialoguePrefix+"_" + dialogueNumber + "_.asset";
                     AssetDatabase.CreateAsset(dia, diaPath);
                     dialogueNumber++;
                     if (progressBarShown)
