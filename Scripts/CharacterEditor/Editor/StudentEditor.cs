@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,6 +38,10 @@ namespace DREditor.CharacterEditor.Editor
             stu.LastName = StringField("Last Name: ", stu.LastName);
             stu.FirstName = StringField("First Name: ", stu.FirstName);
             stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical("Box");
+            StringList(stu.Aliases);
             EditorGUILayout.EndVertical();
             
         }
@@ -202,6 +207,29 @@ namespace DREditor.CharacterEditor.Editor
                 TextureFormat.RGB24,
                 false, false,
                 texture.GetNativeTexturePtr());
+        }
+
+        private static void StringList(List<string> stringList)
+        {
+            if (GUILayout.Button("Add Alias", GUILayout.Width(120)))
+            {
+                stringList.Add("");
+            }
+            if (stringList != null)
+            {
+                for (int i = 0; i < stringList.Count; i++)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    stringList[i] = StringField("Alias " + i + ": ",stringList[i]);
+                    if (GUILayout.Button("x", GUILayout.Width(20)))
+                    {
+                        stringList.RemoveAt(i);
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+
+            
         }
     }
 }

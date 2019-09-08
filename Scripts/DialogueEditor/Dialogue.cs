@@ -38,6 +38,11 @@ namespace DREditor.DialogueEditor
 
             return Speakers?.GetNames().ToArray();
         }
+        
+        public string[] GetCharacterAliases(Character cha)
+        {
+            return cha.Aliases.ToArray();
+        }
 
         public int[] getNamesIntValues()
         {
@@ -60,6 +65,17 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
+        
+        public int[] getAliasesIntValues(Character cha)
+        {
+
+            int[] values = new int[cha.Aliases.Count + 1];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = i;
+            }
+            return values;
+        }
 
     }
 
@@ -75,6 +91,7 @@ namespace DREditor.DialogueEditor
         public bool AutomaticLine;
         public Expression Expression;
         public int ExpressionNumber;
+        public int AliasNumber;
     }
 
     [System.Serializable]

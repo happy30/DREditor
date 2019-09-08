@@ -9,5 +9,6 @@ namespace DREditor.CharacterEditor
         public string LastName = "";
         public string FirstName = "";
         public List<Expression> Expressions = new List<Expression>();
+        public List<string> Aliases = new List<string>();
     }
 }

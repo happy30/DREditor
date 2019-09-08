@@ -34,5 +34,6 @@ namespace DREditor.CharacterEditor
             }
             return names;
         }
+        
     }
 }

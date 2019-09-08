@@ -151,6 +151,20 @@ namespace DREditor.DialogueEditor.Editor
                     dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
 
                     
+                    var aliasNames = new string[dia.Lines[i].Speaker.Aliases.Count + 1];
+                    aliasNames[0] = "(No Alias)";
+
+                    for (int j = 1; j < dia.Lines[i].Speaker.Aliases.Count + 1; j++)
+                    {
+                        aliasNames[j] = dia.Lines[i].Speaker.Aliases[j - 1];
+                    }
+   
+                    dia.Lines[i].AliasNumber = EditorGUILayout.IntPopup(dia.Lines[i].AliasNumber,
+                        aliasNames, dia.getAliasesIntValues(dia.Lines[i].Speaker),
+                            GUILayout.Width(130));
+                    
+                    
+                    
                     
 
                     
