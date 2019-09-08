@@ -13,8 +13,16 @@ namespace DREditor.Toolbox
 
     public class DialogueImporter : ScriptableWizard
     {
+
+        public enum NameMatchOption
+        {
+            FullName, FirstNameOnly, LastNameOnly
+        }
+
         [Tooltip("The character database to use for searching the characters")]
         public CharacterDatabase database;
+        [Tooltip("Indicates the criteria to match a character name")]
+        public NameMatchOption nameMatch;
         [Tooltip("The output directory for imported dialogues. Relative to Assets/")]
         public string targetDirectory = "Dialogues";
         [Tooltip("Prefix used for the generated Dialogue assets.")]
@@ -326,12 +334,35 @@ namespace DREditor.Toolbox
                 Character stu = database.Characters[i];
                 string lastFirst = stu.LastName + " " + stu.FirstName;
                 string firstLast = stu.FirstName + " " + stu.LastName;
-                if (lastFirst.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant())
-                    || firstLast.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant()))
+                switch(nameMatch)
                 {
-                    // We got a match for full name, unless there is the same character with the name reversed we can safely assign it to the line.
-                    found = database.Characters[i];
-                    index = i;
+                    case NameMatchOption.FirstNameOnly:
+                        if(stu.FirstName.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant()))
+                        {
+                            found = database.Characters[i];
+                            index = i;
+                        }
+                        break;
+                    case NameMatchOption.LastNameOnly:
+                        if (stu.LastName.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant()))
+                        {
+                            found = database.Characters[i];
+                            index = i;
+                        }
+                        break;
+                    case NameMatchOption.FullName:
+                        if (lastFirst.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant())
+                            || firstLast.Trim().ToLowerInvariant().Equals(name.Trim().ToLowerInvariant()))
+                        {
+                            // We got a match for full name, unless there is the same character with the name reversed we can safely assign it to the line.
+                            found = database.Characters[i];
+                            index = i;
+                        }
+                        break;
+                }
+                if(index != -1)
+                {
+                    // Once we found a match, don't continue searching
                     break;
                 }
             }
