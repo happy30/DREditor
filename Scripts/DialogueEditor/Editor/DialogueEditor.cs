@@ -169,8 +169,6 @@ namespace DREditor.DialogueEditor.Editor
                     EditorGUILayout.BeginHorizontal("Box");
                     EditorGUILayout.BeginVertical(GUILayout.Width(120));
                     GUI.backgroundColor = dia.Color;
-                    dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
-                    dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
                     var prependedArray = prependedList(dia.GetCharacterNames(), "<No Character>");
                     currLine.SpeakerNumber = EditorGUILayout.IntPopup(currLine.SpeakerNumber, prependedArray, iota(prependedArray.Length), GUILayout.Width(130));
                     currLine.Speaker = currLine.SpeakerNumber == 0 ? null : dia.Speakers.Characters[currLine.SpeakerNumber - 1];
