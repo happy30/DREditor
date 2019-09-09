@@ -19,6 +19,27 @@ namespace DREditor.DialogueEditor.Editor
         private AudioClip _sfx = null;
         public Texture2D BaseExpression;
 
+        public static int[] iota(int size)
+        {
+            int[] values = new int[size];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = i;
+            }
+            return values;
+        }
+
+        public static T[] prependedList<T>(T[] list, T firstElement)
+        {
+            T[] newList = new T[list.Length + 1];
+            newList[0] = firstElement;
+            for (int i = 0; i < list.Length; i++)
+            {
+                newList[i + 1] = list[i];
+            }
+            return newList;
+        }
+
 
         public void OnEnable()
         {
@@ -121,6 +142,7 @@ namespace DREditor.DialogueEditor.Editor
             {
                 for (int i = 0; i < dia.Lines.Count; i++)
                 {
+                    var currLine = dia.Lines[i];
                     var color = Color.white;
                     
                     if (dia.Lines[i].Speaker is Student)
@@ -149,20 +171,22 @@ namespace DREditor.DialogueEditor.Editor
                     GUI.backgroundColor = dia.Color;
                     dia.Lines[i].SpeakerNumber = EditorGUILayout.IntPopup(dia.Lines[i].SpeakerNumber, dia.GetCharacterNames(), dia.getNamesIntValues(), GUILayout.Width(130));
                     dia.Lines[i].Speaker = dia.Speakers.Characters[dia.Lines[i].SpeakerNumber];
+                    var prependedArray = prependedList(dia.GetCharacterNames(), "<No Character>");
+                    currLine.SpeakerNumber = EditorGUILayout.IntPopup(currLine.SpeakerNumber, prependedArray, iota(prependedArray.Length), GUILayout.Width(130));
+                    currLine.Speaker = currLine.SpeakerNumber == 0 ? null : dia.Speakers.Characters[currLine.SpeakerNumber - 1];
 
-                    
-                    var aliasNames = new string[dia.Lines[i].Speaker.Aliases.Count + 1];
-                    aliasNames[0] = "(No Alias)";
+                    if (dia.Lines[i].Speaker) {
+                        var aliasNames = new string[dia.Lines[i].Speaker.Aliases.Count + 1];
+                        aliasNames[0] = "(No Alias)";
 
-                    for (int j = 1; j < dia.Lines[i].Speaker.Aliases.Count + 1; j++)
-                    {
-                        aliasNames[j] = dia.Lines[i].Speaker.Aliases[j - 1];
+                        for (int j = 1; j < dia.Lines[i].Speaker.Aliases.Count + 1; j++)
+                        {
+                            aliasNames[j] = dia.Lines[i].Speaker.Aliases[j - 1];
+                        }
+                        dia.Lines[i].AliasNumber = EditorGUILayout.IntPopup(dia.Lines[i].AliasNumber,
+                            aliasNames, dia.getAliasesIntValues(dia.Lines[i].Speaker),
+                                GUILayout.Width(130));
                     }
-   
-                    dia.Lines[i].AliasNumber = EditorGUILayout.IntPopup(dia.Lines[i].AliasNumber,
-                        aliasNames, dia.getAliasesIntValues(dia.Lines[i].Speaker),
-                            GUILayout.Width(130));
-                    
                     
                     
                     
