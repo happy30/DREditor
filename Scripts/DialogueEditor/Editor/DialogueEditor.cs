@@ -278,7 +278,7 @@ namespace DREditor.DialogueEditor.Editor
 
                     EditorGUILayout.EndVertical();
 
-                    if (!IsProtagonist(dia.Lines[i].Speaker))
+                    if (dia.Lines[i].Speaker != null && !IsProtagonist(dia.Lines[i].Speaker))
                     {
 
 
