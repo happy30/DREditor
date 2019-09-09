@@ -125,14 +125,16 @@ namespace DREditor.Toolbox
                                     string lineContent = m.Groups[2].Value;
                                     int speakerIndex;
                                     Character speaker = FindCharacterInDB(characterName, out speakerIndex);
+                                    string prependSpeaker = null;
                                     if(speakerIndex == -1)
                                     {
-                                        // We couldn't find a matching character, let's use the whole line for the content
-                                        lineContent = line;
+                                        // We couldn't find a matching character, the breakline method will preprend the character name
+                                        // lineContent = line;
                                         speakerIndex = 0;
+                                        prependSpeaker = characterName;
                                         showWarnCharactersNotFound = true;
                                     }
-                                    List<Line> normalizedLines = BreakLine(speaker, speakerIndex, lineContent);
+                                    List<Line> normalizedLines = BreakLine(speaker, speakerIndex, prependSpeaker, lineContent);
                                     if(normalizedLines.Count > 0)
                                     {
                                         lastLine = normalizedLines[normalizedLines.Count - 1];
@@ -148,15 +150,9 @@ namespace DREditor.Toolbox
 
                                     // Trim whitespaces to ensure that there are none before or after the line break character
                                     string textContent = lastLine.Text.Trim(); 
-                                    /*
-                                    if(textContent[textContent.Length -1] != ' ')
-                                    {
-                                        textContent += ' ';
-                                    }
-                                    */
                                     textContent += "\n";
                                     textContent += line.Trim();
-                                    List<Line> normalizedLines = BreakLine(lastLine.Speaker, lastLine.SpeakerNumber, textContent);
+                                    List<Line> normalizedLines = BreakLine(lastLine.Speaker, lastLine.SpeakerNumber, null, textContent);
                                     lastLine.Text = normalizedLines[0].Text;
                                     normalizedLines.RemoveAt(0);
                                     currentDialogue.Lines.AddRange(normalizedLines);
@@ -244,45 +240,59 @@ namespace DREditor.Toolbox
             return tempPath;
         }
 
-        private List<Line> BreakLine(Character speaker, int speakerNumber, string textContent)
+        private List<Line> BreakLine(Character speaker, int speakerNumber, string speakerName, string lineContent)
         {
             List<Line> result = new List<Line>();
-            if(textContent.Length <= maxCharactersPerLine)
+            int lineLenghtOffset = 0;
+            if(speakerName != null)
+            {
+                lineLenghtOffset = -1 * (speakerName + ": ").Length;
+            }
+            if(lineContent.Length + lineLenghtOffset <= maxCharactersPerLine)
             {
                 Line line = new Line();
                 line.Speaker = speaker;
                 line.SpeakerNumber = speakerNumber;
-                line.Text = textContent;
+                line.Text = "";
+                if(speakerName != null)
+                {
+                    line.Text += speakerName + ": ";
+                }
+                line.Text += lineContent;
                 result.Add(line);
             } else
             {
                 // Break the line by words
-                string[] words = textContent.Split(' ');
+                string[] words = lineContent.Split(' ');
                 Line currentLine = new Line();
                 currentLine.Speaker = speaker;
                 currentLine.SpeakerNumber = speakerNumber;
                 currentLine.Text = "";
+                if(speakerName != null)
+                {
+                    currentLine.Text += speakerName + ": ";
+                }
                 result.Add(currentLine);
                 foreach(string word in words)
                 {
-                    if(currentLine.Text.Length == 0)
+                    if(currentLine.Text.Length + lineLenghtOffset == 0)
                     {
                         currentLine.Text += word;
                         continue;
                     }
                     if(word.Contains("\n"))
                     {
-                        if(currentLine.Text.Length + word.Length + 1 <= maxCharactersPerLine)
+                        if(currentLine.Text.Length + lineLenghtOffset + word.Length + 1 <= maxCharactersPerLine)
                         {
                             currentLine.Text += " " + word;
                         } else
                         {
                             string[] parts = word.Split('\n');
                             // Try to fit both words keeping the line break character
-                            if (currentLine.Text.Length + parts[0].Length + 1 <= maxCharactersPerLine)
+                            if (currentLine.Text.Length + lineLenghtOffset + parts[0].Length + 1 <= maxCharactersPerLine)
                             {
                                 currentLine.Text += " " + parts[0];
-                                if (currentLine.Text.Length + parts[1].Length + 1 <= maxCharactersPerLine)
+                                if (currentLine.Text.Length + lineLenghtOffset + parts[1].Length + 1 <= maxCharactersPerLine)
                                 {
                                     // Best case scenario. Both words fit properly.
                                     currentLine.Text += "\n" + parts[1];
@@ -308,7 +318,7 @@ namespace DREditor.Toolbox
                         }
                         continue;
                     }
-                    if (currentLine.Text.Length + word.Length + 1 > maxCharactersPerLine)
+                    if (currentLine.Text.Length + lineLenghtOffset + word.Length + 1 > maxCharactersPerLine)
                     {
                         currentLine = new Line();
                         currentLine.Speaker = speaker;
