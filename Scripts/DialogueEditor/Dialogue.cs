@@ -39,7 +39,7 @@ namespace DREditor.DialogueEditor
             return Speakers?.GetNames().ToArray();
         }
         
-        public string[] GetCharacterAliases(Character cha)
+        public Alias[] GetCharacterAliases(Character cha)
         {
             return cha.Aliases.ToArray();
         }

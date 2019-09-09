@@ -179,7 +179,7 @@ namespace DREditor.DialogueEditor.Editor
 
                         for (int j = 1; j < dia.Lines[i].Speaker.Aliases.Count + 1; j++)
                         {
-                            aliasNames[j] = dia.Lines[i].Speaker.Aliases[j - 1];
+                            aliasNames[j] = dia.Lines[i].Speaker.Aliases[j - 1].Name;
                         }
                         dia.Lines[i].AliasNumber = EditorGUILayout.IntPopup(dia.Lines[i].AliasNumber,
                             aliasNames, dia.getAliasesIntValues(dia.Lines[i].Speaker),

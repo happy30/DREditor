@@ -38,10 +38,11 @@ namespace DREditor.CharacterEditor.Editor
             stu.LastName = StringField("Last Name: ", stu.LastName);
             stu.FirstName = StringField("First Name: ", stu.FirstName);
             stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
+            stu.Nameplate = TextureFieldLabeledHorizontal("Default Nameplate: ", stu.Nameplate);
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical("Box");
-            StringList(stu.Aliases);
+            AliasList(stu.Aliases);
             EditorGUILayout.EndVertical();
             
         }
@@ -155,6 +156,18 @@ namespace DREditor.CharacterEditor.Editor
             return result;
         }
 
+        private static Texture2D TextureFieldLabeledHorizontal(string label, Texture2D texture)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(label);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            var result =
+                (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(70), GUILayout.Height(70));
+            EditorGUILayout.EndHorizontal();
+            return result;
+        }
+
         private static string StringField(string name, string value)
         {
             GUI.backgroundColor = Color.white;
@@ -209,23 +222,25 @@ namespace DREditor.CharacterEditor.Editor
                 texture.GetNativeTexturePtr());
         }
 
-        private static void StringList(List<string> stringList)
+        private static void AliasList(List<Alias> aliasList)
         {
             if (GUILayout.Button("Add Alias", GUILayout.Width(120)))
             {
-                stringList.Add("");
+                aliasList.Add(new Alias());
             }
-            if (stringList != null)
+            if (aliasList != null)
             {
-                for (int i = 0; i < stringList.Count; i++)
+                for (int i = 0; i < aliasList.Count; i++)
                 {
                     EditorGUILayout.BeginHorizontal();
-                    stringList[i] = StringField("Alias " + i + ": ",stringList[i]);
-                    if (GUILayout.Button("x", GUILayout.Width(20)))
-                    {
-                        stringList.RemoveAt(i);
-                    }
+                    aliasList[i].Name = StringField("Alias " + i + ": ",aliasList[i].Name);
+                    var removed = GUILayout.Button("x", GUILayout.Width(20));
                     EditorGUILayout.EndHorizontal();
+                    aliasList[i].Nameplate = TextureFieldLabeledHorizontal("Nameplate:", aliasList[i].Nameplate);
+                    if (removed)
+                    {
+                        aliasList.RemoveAt(i);
+                    }
                 }
             }
 
