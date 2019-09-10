@@ -326,6 +326,8 @@ namespace DREditor.DialogueEditor.Editor
                         {
                             dia.Lines[i].Expression =
                                 dia.Lines[i].Speaker.Expressions[dia.Lines[i].ExpressionNumber - 1];
+                        } else {
+                            dia.Lines[i].Expression = new Expression();
                         }
 
 
