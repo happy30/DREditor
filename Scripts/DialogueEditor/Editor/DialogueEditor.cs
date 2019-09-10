@@ -19,12 +19,12 @@ namespace DREditor.DialogueEditor.Editor
         private AudioClip _sfx = null;
         public Texture2D BaseExpression;
 
-        public static int[] iota(int size)
+        public static int[] iota(int size, int value = 0)
         {
             int[] values = new int[size];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = i;
+                values[i] = value++;
             }
             return values;
         }
@@ -170,8 +170,8 @@ namespace DREditor.DialogueEditor.Editor
                     EditorGUILayout.BeginVertical(GUILayout.Width(120));
                     GUI.backgroundColor = dia.Color;
                     var prependedArray = prependedList(dia.GetCharacterNames(), "<No Character>");
-                    currLine.SpeakerNumber = EditorGUILayout.IntPopup(currLine.SpeakerNumber, prependedArray, iota(prependedArray.Length), GUILayout.Width(130));
-                    currLine.Speaker = currLine.SpeakerNumber == 0 ? null : dia.Speakers.Characters[currLine.SpeakerNumber - 1];
+                    currLine.SpeakerNumber = EditorGUILayout.IntPopup(currLine.SpeakerNumber, prependedArray, iota(prependedArray.Length, -1), GUILayout.Width(130));
+                    currLine.Speaker = currLine.SpeakerNumber == -1 ? null : dia.Speakers.Characters[currLine.SpeakerNumber];
 
                     if (dia.Lines[i].Speaker) {
                         var aliasNames = new string[dia.Lines[i].Speaker.Aliases.Count + 1];
