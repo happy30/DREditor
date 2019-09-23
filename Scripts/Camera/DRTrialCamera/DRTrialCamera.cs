@@ -36,12 +36,12 @@ namespace DREditor.Camera
             RadiusLock = CameraPivot.GetComponent<RadiusLock>().Locked;
             if (SmoothFocus)
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(0, CharHeightOffset[(int)SeatFocus] + 0.55f, 0), Time.deltaTime * 10f);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(0, CharHeightOffset[(int)SeatFocus], 0), Time.deltaTime * 10f);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(SeatFocus * AnchorAngle, Vector3.up), Time.deltaTime * 10f);
             }
             else
             {
-                transform.position = new Vector3(0, CharHeightOffset[(int)SeatFocus] + 0.55f, 0);
+                transform.position = new Vector3(0, CharHeightOffset[(int)SeatFocus], 0);
                 transform.rotation = Quaternion.AngleAxis(SeatFocus * AnchorAngle, Vector3.up);
             }
         }
