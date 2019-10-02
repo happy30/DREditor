@@ -1,0 +1,16 @@
+{
+    "name": "dreditor.ui",
+    "references": [
+        "Unity.TextMeshPro",
+        "dreditor.localization"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

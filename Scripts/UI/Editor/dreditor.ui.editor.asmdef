@@ -1,10 +1,9 @@
 {
-    "name": "dreditor.toolbox",
+    "name": "dreditor.ui.editor",
     "references": [
-        "GUID:f80c78fdc64b54d4189b327539375e5e",
-        "GUID:59ea85d383066e54d9af5fa32490510c",
-        "GUID:c41cc29cfeef76640ba80da0aa02a3f6",
-        "GUID:6494ce58e6a980a46ad8c75cbecd5ee1"
+        "dreditor.ui",
+        "dreditor.localization",
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

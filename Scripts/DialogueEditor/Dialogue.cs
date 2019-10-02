@@ -13,6 +13,7 @@ namespace DREditor.DialogueEditor
     [CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
     public class Dialogue : ScriptableObject
     {
+        public string translationKey;
         public string DialogueName = "";
         public List<Line> Lines = new List<Line>();
         public List<Choice> Choices = new List<Choice>();
@@ -82,6 +83,7 @@ namespace DREditor.DialogueEditor
     [System.Serializable]
     public class Line
     {
+        public string translationKey;
         public Character Speaker;
         public int SpeakerNumber;
         public string Text;
