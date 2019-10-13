@@ -10,13 +10,11 @@ using DREditor.Utility;
 
 namespace DREditor.DialogueEditor.Editor
 {
-    [CustomEditor(typeof(Dialogue))]
-    public class DialogueEditor : UnityEditor.Editor
+    public class DialogueEditorBase : UnityEditor.Editor
     {
-        Dialogue dia;
-        int value;
-        private bool _directDialogue;
-        private AudioClip _sfx = null;
+        protected int value;
+        protected bool _directDialogue;
+        protected AudioClip _sfx = null;
         public Texture2D BaseExpression;
 
         public static int[] iota(int size, int value = 0)
@@ -40,6 +38,16 @@ namespace DREditor.DialogueEditor.Editor
             return newList;
         }
 
+        public bool IsProtagonist(Character character)
+        {
+            return character is Protagonist;
+        }
+    }
+
+    [CustomEditor(typeof(Dialogue))]
+    public class DialogueEditor : DialogueEditorBase
+    {
+        Dialogue dia;
 
         public void OnEnable()
         {
@@ -734,10 +742,6 @@ namespace DREditor.DialogueEditor.Editor
             EditorUtility.SetDirty(dia);
         }
 
-        public bool IsProtagonist(Character character)
-        {
-            return character is Protagonist;
-        }
 
     }
 }

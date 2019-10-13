@@ -8,15 +8,10 @@ using EventObjects;
 
 namespace DREditor.DialogueEditor
 {
-
-    [System.Serializable]
-    [CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
-    public class Dialogue : ScriptableObject
+    public abstract class DialogueBase : ScriptableObject
     {
         public string translationKey;
         public string DialogueName = "";
-        public List<Line> Lines = new List<Line>();
-        public List<Choice> Choices = new List<Choice>();
         public Color Color = Color.white;
         public Variable Variable = new Variable();
         public DirectTo DirectTo;
@@ -25,9 +20,6 @@ namespace DREditor.DialogueEditor
         [HideInInspector]
         public CharacterDatabase Speakers;
 
-
-        // TO DO
-
         public string[] GetCharacterNames()
         {
             if (Speakers == null)
@@ -35,11 +27,9 @@ namespace DREditor.DialogueEditor
                 Speakers = Resources.Load<CharacterDatabase>("Characters/CharacterDatabase");
 
             }
-
-
             return Speakers?.GetNames().ToArray();
         }
-        
+
         public Alias[] GetCharacterAliases(Character cha)
         {
             return cha.Aliases.ToArray();
@@ -47,7 +37,6 @@ namespace DREditor.DialogueEditor
 
         public int[] getNamesIntValues()
         {
-
             int[] values = new int[Speakers.GetNames().ToArray().Length];
             for (int i = 0; i < values.Length; i++)
             {
@@ -66,10 +55,9 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
-        
+
         public int[] getAliasesIntValues(Character cha)
         {
-
             int[] values = new int[cha.Aliases.Count + 1];
             for (int i = 0; i < values.Length; i++)
             {
@@ -77,7 +65,14 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
+    }
 
+    [System.Serializable]
+    [CreateAssetMenu(menuName = "DREditor/Dialogues/Dialogue", fileName = "New Dialogue")]
+    public class Dialogue : DialogueBase
+    {
+        public List<Line> Lines = new List<Line>();
+        public List<Choice> Choices = new List<Choice>();
     }
 
     [System.Serializable]
