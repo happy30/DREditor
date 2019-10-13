@@ -27,7 +27,7 @@ namespace DREditor.Camera
         private float speed;
         private float amount;
 
-        void Update()
+        void FixedUpdate()
         {
 
             speed = Running.Value ? BobSpeed * 2 : BobSpeed;
