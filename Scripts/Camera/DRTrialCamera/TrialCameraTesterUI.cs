@@ -61,6 +61,11 @@ namespace DREditor.Debug
             CameraAnchor.GetComponent<DRTrialCamera>().SmoothFocus = boolval;
         }
 
+        public void SetHeadmasterFocus()
+        {
+            CameraAnchor.GetComponent<DRTrialCamera>().SetHeadmasterFocus(!CameraAnchor.GetComponent<DRTrialCamera>().IsFocusedOnHeadmaster());
+        }
+
         public void TriggerAnim()
         {
             CameraAnchor.GetComponent<DRTrialCamera>().TriggerAnim(SeatNum, AnimName);
