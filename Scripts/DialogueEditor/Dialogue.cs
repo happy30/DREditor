@@ -17,6 +17,7 @@ namespace DREditor.DialogueEditor
         public DirectTo DirectTo;
         public SceneTransition SceneTransition = new SceneTransition();
 
+#if UNITY_EDITOR
         [HideInInspector]
         public CharacterDatabase Speakers;
 
@@ -44,7 +45,7 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
-
+#endif
         public int[] getExpressionIntValues(Character cha)
         {
 
