@@ -21,6 +21,9 @@ namespace DREditor.CharacterEditor.Editor
             Label("Headmaster Editor");
             
             NameForm();
+
+            DefaultSprite();
+
             Label("Sprites");
 
             Sprites();
@@ -36,6 +39,25 @@ namespace DREditor.CharacterEditor.Editor
             
             EditorGUILayout.EndVertical();
             
+        }
+
+        private void DefaultSprite()
+        {
+            Label("Default Sprite");
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical("Box", GUILayout.Width(140));
+            GUILayout.BeginHorizontal();
+            hms.DefaultSprite = TextureField(hms.DefaultSprite);
+            if (GUILayout.Button("X", GUILayout.Width(18)))
+            {
+                hms.DefaultSprite = null;
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
         }
 
         private void Sprites()

@@ -25,6 +25,8 @@ namespace DREditor.CharacterEditor.Editor
             StudentLabel();
             StudentCard();
 
+            DefaultSprite();
+
             Label("Sprites");
 
             Sprites();
@@ -97,12 +99,29 @@ namespace DREditor.CharacterEditor.Editor
             EditorGUILayout.EndVertical();
         }
 
+        private void DefaultSprite()
+        {
+            Label("Default Sprite");
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical("Box", GUILayout.Width(140));
+            GUILayout.BeginHorizontal();
+            stu.DefaultSprite = TextureField(stu.DefaultSprite);
+            if(GUILayout.Button("X", GUILayout.Width(18)))
+            {
+                stu.DefaultSprite = null;
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+        }
+
         private void Sprites()
         {
             var count = 0;
             GUILayout.BeginHorizontal();
-
-            
             
             for (var i = 0; i < stu.Expressions.Count; i++)
             {

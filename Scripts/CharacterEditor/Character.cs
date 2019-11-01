@@ -16,7 +16,10 @@ namespace DREditor.CharacterEditor
         public string translationKey;
         public string LastName = "";
         public string FirstName = "";
+        public Texture2D DefaultSprite;
+#if UNITY_EDITOR
         public List<Expression> Expressions = new List<Expression>();
+#endif
         public List<Alias> Aliases = new List<Alias>();
         public Texture2D Nameplate;
     }
