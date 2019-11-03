@@ -45,7 +45,7 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
-#endif
+
         public int[] getExpressionIntValues(Character cha)
         {
 
@@ -66,6 +66,7 @@ namespace DREditor.DialogueEditor
             }
             return values;
         }
+#endif
     }
 
     [System.Serializable]
