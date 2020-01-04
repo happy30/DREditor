@@ -144,6 +144,11 @@ namespace DREditor.DialogueEditor.Editor
 
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.BeginHorizontal("Box");
+            EditorGUILayout.LabelField("PostProcess: ", GUILayout.Width(100));
+            dia.PostProcessStyle = (ePostProcessStyle)EditorGUILayout.EnumPopup(dia.PostProcessStyle);
+            EditorGUILayout.EndHorizontal();
+
             //dia.GetCharacters();
 
             if (dia.Lines != null)

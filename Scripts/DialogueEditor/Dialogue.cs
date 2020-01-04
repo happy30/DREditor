@@ -8,6 +8,13 @@ using EventObjects;
 
 namespace DREditor.DialogueEditor
 {
+    public enum ePostProcessStyle
+    {
+        None,
+        DoF,
+        BlueDoF
+    }
+
     public abstract class DialogueBase : ScriptableObject
     {
         public string translationKey;
@@ -75,6 +82,7 @@ namespace DREditor.DialogueEditor
     {
         public List<Line> Lines = new List<Line>();
         public List<Choice> Choices = new List<Choice>();
+        public ePostProcessStyle PostProcessStyle = ePostProcessStyle.None;
     }
 
     [System.Serializable]
