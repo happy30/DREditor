@@ -146,7 +146,7 @@ namespace DREditor.DialogueEditor.Editor
 
             EditorGUILayout.BeginHorizontal("Box");
             EditorGUILayout.LabelField("PostProcess: ", GUILayout.Width(100));
-            dia.PostProcessStyle = (ePostProcessStyle)EditorGUILayout.EnumPopup(dia.PostProcessStyle);
+            dia.PostProcessStyle = GUILayout.TextField(dia.PostProcessStyle, GUILayout.Width(100));
             EditorGUILayout.EndHorizontal();
 
             //dia.GetCharacters();
