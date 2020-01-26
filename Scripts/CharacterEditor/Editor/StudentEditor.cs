@@ -26,6 +26,7 @@ namespace DREditor.CharacterEditor.Editor
             StudentCard();
 
             DefaultSprite();
+            CharacterPortrait();
 
             Label("Sprites");
 
@@ -41,6 +42,7 @@ namespace DREditor.CharacterEditor.Editor
             stu.FirstName = StringField("First Name: ", stu.FirstName);
             stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
             stu.Nameplate = TextureFieldLabeledHorizontal("Default Nameplate: ", stu.Nameplate);
+            stu.TrialNameplate = TextureFieldLabeledHorizontal("Trial Nameplate: ", stu.TrialNameplate);
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical("Box");
@@ -111,6 +113,25 @@ namespace DREditor.CharacterEditor.Editor
             if(GUILayout.Button("X", GUILayout.Width(18)))
             {
                 stu.DefaultSprite = null;
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+        }
+
+        private void CharacterPortrait()
+        {
+            Label("Character Portrait");
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical("Box", GUILayout.Width(140));
+            GUILayout.BeginHorizontal();
+            stu.TrialPortrait = TextureField(stu.TrialPortrait);
+            if(GUILayout.Button("X", GUILayout.Width(18)))
+            {
+                stu.TrialPortrait = null;
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
