@@ -7,7 +7,6 @@ using UnityEditor;
 
 using DREditor.DialogueEditor;
 using DREditor.CharacterEditor;
-//using DREditor.Dialogue;
 
 namespace DREditor.Toolbox
 {
@@ -37,8 +36,6 @@ namespace DREditor.Toolbox
 
         // Time to wait before showing the progress
         private double waitForProgress = 0.5;
-        private char[] _delimiters = { ':', '/' };
-        private string[] _parameters;
 
         [MenuItem("Tools/DREditor/Import Dialogues")]
         public static void CreateWizard()
@@ -87,7 +84,7 @@ namespace DREditor.Toolbox
                     long bytesRead = 0;
                     using (StreamReader reader = new StreamReader(path, System.Text.Encoding.UTF8))
                     {
-
+                        
                         Dialogue currentDialogue = CreateInstance<Dialogue>();
                         currentDialogue.Speakers = database;
                         currentDialogue.Lines = new List<Line>();
@@ -97,7 +94,7 @@ namespace DREditor.Toolbox
                         int emptyLineCounter = 0;
                         while (!reader.EndOfStream)
                         {
-
+                            
                             string line = reader.ReadLine();
                             bytesRead += Encoding.UTF8.GetByteCount(line);
                             if (line.StartsWith("//"))
@@ -123,18 +120,13 @@ namespace DREditor.Toolbox
 
                                 if (regex.IsMatch(line))
                                 {
-                                    _parameters = line.Split(_delimiters);
-                                    string spriteName = _parameters[0];
-                                    string sfxName = _parameters[1];
-                                    string characterName = _parameters[2];
-                                    string lineContent = _parameters[3];
-                                    AudioClip _sfxClip = (AudioClip)Resources.Load("SoundEffects/" + sfxName, typeof(AudioClip));
-                                    Dictionary<string, int> _dict = new Dictionary<string, int>();
-
+                                    Match m = regex.Match(line);
+                                    string characterName = m.Groups[1].Value;
+                                    string lineContent = m.Groups[2].Value;
                                     int speakerIndex;
                                     Character speaker = FindCharacterInDB(characterName, out speakerIndex);
                                     string prependSpeaker = null;
-                                    if (speakerIndex == -1)
+                                    if(speakerIndex == -1)
                                     {
                                         // We couldn't find a matching character, the breakline method will preprend the character name
                                         // lineContent = line;
@@ -143,34 +135,21 @@ namespace DREditor.Toolbox
                                         showWarnCharactersNotFound = true;
                                     }
                                     List<Line> normalizedLines = BreakLine(speaker, speakerIndex, prependSpeaker, lineContent);
-                                    if (normalizedLines.Count > 0)
+                                    if(normalizedLines.Count > 0)
                                     {
                                         lastLine = normalizedLines[normalizedLines.Count - 1];
                                     }
                                     currentDialogue.Lines.AddRange(normalizedLines);
-                                    if (!(sfxName == "0"))
-                                    {
-                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].SFX.Add(_sfxClip);
-                                    }
-
-                                    if (!(spriteName == "0"))
-                                    {
-                                        _dict = buildExprDictionary(currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker);
-                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].Expression = currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker.Expressions[_dict[spriteName]];
-                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].ExpressionNumber = _dict[spriteName] + 1;
-                                    }
-
-
-                                } else
+                                } else 
                                 {
-                                    if (lastLine == null)
+                                    if(lastLine == null)
                                     {
                                         EditorUtility.DisplayDialog("Format incorrect", "The file didn't comply with the format", "OK");
                                         return;
                                     }
 
                                     // Trim whitespaces to ensure that there are none before or after the line break character
-                                    string textContent = lastLine.Text.Trim();
+                                    string textContent = lastLine.Text.Trim(); 
                                     textContent += "\n";
                                     textContent += line.Trim();
                                     List<Line> normalizedLines = BreakLine(lastLine.Speaker, lastLine.SpeakerNumber, null, textContent);
@@ -187,7 +166,7 @@ namespace DREditor.Toolbox
                                 progressBarShown = true;
                             }
 
-                            if (progressBarShown)
+                            if(progressBarShown)
                             {
                                 progress = (bytesRead / totalBytes) * 0.9f; // I estimate the text processing id the 90% of the total work load
                                 EditorUtility.DisplayProgressBar("Processing...", "Procesing text file.", progress);
@@ -208,11 +187,11 @@ namespace DREditor.Toolbox
                 string folder = CreateIntermediateFolders(targetDirectory);
                 int dialogueNumber = startingNumber;
                 AssetDatabase.StartAssetEditing();
-                for (int i = 0; i < dialoguesToSave.Count; i++)
+                for(int i=0; i<dialoguesToSave.Count;i++)
                 {
                     Dialogue dia = dialoguesToSave[i];
-                    dia.DialogueName = dialogueNumber + ""; // dev note: I use this trick a lot when coding Java, happy to see it works with C# too.
-                    string diaPath = folder + "/" + dialoguePrefix + "_" + dialogueNumber + "_.asset";
+                    dia.DialogueName = dialogueNumber+""; // dev note: I use this trick a lot when coding Java, happy to see it works with C# too.
+                    string diaPath = folder + "/"+dialoguePrefix+"_" + dialogueNumber + "_.asset";
                     AssetDatabase.CreateAsset(dia, diaPath);
                     dialogueNumber++;
                     if (progressBarShown)
@@ -224,11 +203,11 @@ namespace DREditor.Toolbox
                 }
                 AssetDatabase.StopAssetEditing();
                 AssetDatabase.SaveAssets();
-                if (progressBarShown)
+                if(progressBarShown)
                 {
                     EditorUtility.ClearProgressBar();
                 }
-                if (showWarnCharactersNotFound)
+                if(showWarnCharactersNotFound)
                 {
                     EditorUtility.DisplayDialog("Some character were not found", "Some characters couldn't be found on the database.", "OK");
                 }
@@ -238,21 +217,6 @@ namespace DREditor.Toolbox
                 EditorUtility.DisplayDialog("CharacterDatabase was not specifid.", "Please create and assign a CharacterDatabase and try again", "OK");
             }
         }
-
-        private Dictionary<string, int> buildExprDictionary(Character stu) {
-
-            Dictionary<string, int> _dict = new Dictionary<string, int>();
-            int i = 0;
-
-            foreach (Expression expr in stu.Expressions) {
-                _dict.Add(expr.Name, i);
-                i++;
-            }
-            return _dict;
-        }
-
-        
-        
 
         private string CreateIntermediateFolders(string folder)
         {
