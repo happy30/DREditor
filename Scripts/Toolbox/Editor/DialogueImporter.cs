@@ -34,20 +34,11 @@ namespace DREditor.Toolbox
         public int maxLinesPerDialogue = 25;
         [Tooltip("The maximimum amount of text characters allowed in a line")]
         public int maxCharactersPerLine = 100;
-        [Tooltip("Tick the box if you want the formatting feature. Untick if if you do not want it.")]
-        public bool formatting = false;
 
         // Time to wait before showing the progress
         private double waitForProgress = 0.5;
         private char[] _delimiters = { ':', '/' };
         private string[] _parameters;
-
-        // Various formatting parameters
-        private string[] _parameters;
-        private string spriteName;
-        private string sfxName;
-        private Dictionary<string, int> _dict;
-        private AudioClip _sfxClip;
 
         [MenuItem("Tools/DREditor/Import Dialogues")]
         public static void CreateWizard()
@@ -132,19 +123,13 @@ namespace DREditor.Toolbox
 
                                 if (regex.IsMatch(line))
                                 {
-                                    Match m = regex.Match(line);
-                                    string characterName = m.Groups[1].Value;
-                                    string lineContent = m.Groups[2].Value;
-                                    if (formatting)
-                                    {
-                                        _parameters = lineContent.Split('/');
-                                        spriteName = _parameters[0];
-                                        sfxName = _parameters[1];
-                                        _dict = new Dictionary<string, int>();
-                                        _sfxClip = (AudioClip)Resources.Load("SoundEffects/" + sfxName, typeof(AudioClip));
-                                        
-                                    }
-
+                                    _parameters = line.Split(_delimiters);
+                                    string spriteName = _parameters[0];
+                                    string sfxName = _parameters[1];
+                                    string characterName = _parameters[2];
+                                    string lineContent = _parameters[3];
+                                    AudioClip _sfxClip = (AudioClip)Resources.Load("SoundEffects/" + sfxName, typeof(AudioClip));
+                                    Dictionary<string, int> _dict = new Dictionary<string, int>();
 
                                     int speakerIndex;
                                     Character speaker = FindCharacterInDB(characterName, out speakerIndex);
@@ -163,20 +148,18 @@ namespace DREditor.Toolbox
                                         lastLine = normalizedLines[normalizedLines.Count - 1];
                                     }
                                     currentDialogue.Lines.AddRange(normalizedLines);
-
-                                    if (formatting)
+                                    if (!(sfxName == "0"))
                                     {
-                                        if (!(sfxName == "0"))
-                                        {
-                                            currentDialogue.Lines[currentDialogue.Lines.Count - 1].SFX.Add(_sfxClip);
-                                        }
+                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].SFX.Add(_sfxClip);
+                                    }
 
-                                        if (!(spriteName == "0"))
-                                        {
-                                            _dict = buildExprDictionary(currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker);
-                                            currentDialogue.Lines[currentDialogue.Lines.Count - 1].Expression = currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker.Expressions[_dict[spriteName]];
-                                            currentDialogue.Lines[currentDialogue.Lines.Count - 1].ExpressionNumber = _dict[spriteName] + 1;
-                                        }
+                                    if (!(spriteName == "0"))
+                                    {
+                                        _dict = buildExprDictionary(currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker);
+                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].Expression = currentDialogue.Lines[currentDialogue.Lines.Count - 1].Speaker.Expressions[_dict[spriteName]];
+                                        currentDialogue.Lines[currentDialogue.Lines.Count - 1].ExpressionNumber = _dict[spriteName] + 1;
+                                    }
+
 
                                 } else
                                 {
