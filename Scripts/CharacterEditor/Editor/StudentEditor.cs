@@ -149,7 +149,7 @@ namespace DREditor.CharacterEditor.Editor
                 var expr = stu.Expressions[i];
                 GUILayout.BeginVertical("Box", GUILayout.Width(140));
                 GUILayout.BeginHorizontal();
-                expr.Sprite = TextureField(expr.Sprite);
+                expr.Sprite = MaterialField(expr.Sprite);
                 if(GUILayout.Button("X",GUILayout.Width(18)))
                 {
                     stu.Expressions.Remove(expr);
@@ -193,6 +193,23 @@ namespace DREditor.CharacterEditor.Editor
             style.fixedWidth = 70;
             var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
             GUILayout.EndVertical();
+            return result;
+        }
+
+
+        private static Material MaterialField(Material mat)
+        {
+            GUILayout.BeginHorizontal();
+            var result = EditorGUILayout.ObjectField(mat, typeof(Material), false, GUILayout.Width(120), GUILayout.Height(140)) as Material;
+            GUILayout.EndHorizontal();
+            if (mat != null)
+            {
+                var myTexture = AssetPreview.GetAssetPreview(mat.GetTexture("_BaseMap"));
+                if(myTexture)
+                {
+                    GUILayout.Label(myTexture);
+                }
+            }
             return result;
         }
 

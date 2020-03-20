@@ -10,7 +10,7 @@ namespace DREditor.CharacterEditor.Editor
     public class CharacterDatabaseEditor : UnityEditor.Editor
     {
         private CharacterDatabase cdb;
-        public Texture2D BaseExpression;
+        public Material BaseExpression;
 
         private void OnEnable()
         {
@@ -42,11 +42,13 @@ namespace DREditor.CharacterEditor.Editor
                         GUIStyle expr = new GUIStyle();
 
 
-                        if (cdb.Characters[i].Expressions.Count > 0)
+                        if (cdb.Characters[i].Expressions.Count > 0 && cdb.Characters[i].Expressions[0].Sprite && cdb.Characters[i].Expressions.Count > 0)
                         {
-                            expr.normal.background = cdb.Characters[i].Expressions.Count > 0
-                                ? cdb.Characters[i].Expressions[0].Sprite
-                                : BaseExpression;
+                            var tex = cdb.Characters[i].Expressions[0].Sprite.GetTexture("_BaseMap") as Texture2D;
+                            if(tex)
+                            {
+                                expr.normal.background = tex;
+                            }
                         }
 
                         EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100), GUILayout.Height(100));

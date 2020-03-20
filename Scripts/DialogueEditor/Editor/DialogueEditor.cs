@@ -15,7 +15,6 @@ namespace DREditor.DialogueEditor.Editor
         protected int value;
         protected bool _directDialogue;
         protected AudioClip _sfx = null;
-        public Texture2D BaseExpression;
 
         public static int[] iota(int size, int value = 0)
         {
@@ -304,16 +303,24 @@ namespace DREditor.DialogueEditor.Editor
                             dia.Lines[i].ExpressionNumber = 0;
                         }
 
+                        var expressionNames = new string[dia.Lines[i].Speaker.Expressions.Count + 1];
+                        expressionNames[0] = "<No change>";
 
+                        for (int j = 1; j < dia.Lines[i].Speaker.Expressions.Count + 1; j++)
+                        {
+                            expressionNames[j] = dia.Lines[i].Speaker.Expressions[j - 1].Name;
+                        }
 
                         if (dia.Lines[i].Expression != null)
                         {
                             GUIStyle expr = new GUIStyle();
-                            if (dia.Lines[i].ExpressionNumber > 0)
+                            if (dia.Lines[i].Expression.Sprite != null && dia.Lines[i].ExpressionNumber > 0)
                             {
-                                expr.normal.background = dia.Lines[i].Expression.Sprite
-                                    ? dia.Lines[i].Expression.Sprite
-                                    : BaseExpression;
+                                var tex = dia.Lines[i].Expression.Sprite.GetTexture("_BaseMap") as Texture2D;
+                                if (tex)
+                                {
+                                    expr.normal.background = tex;
+                                }
                             }
 
                             EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100),
@@ -323,13 +330,9 @@ namespace DREditor.DialogueEditor.Editor
 
 
 
-                        var expressionNames = new string[dia.Lines[i].Speaker.Expressions.Count + 1];
-                        expressionNames[0] = "<No change>";
 
-                        for (int j = 1; j < dia.Lines[i].Speaker.Expressions.Count + 1; j++)
-                        {
-                            expressionNames[j] = dia.Lines[i].Speaker.Expressions[j - 1].Name;
-                        }
+
+
 
                         dia.Lines[i].ExpressionNumber = EditorGUILayout.IntPopup(dia.Lines[i].ExpressionNumber,
                             expressionNames, dia.getExpressionIntValues(dia.Lines[i].Speaker), GUILayout.Width(100));
