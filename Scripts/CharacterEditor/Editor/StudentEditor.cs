@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,6 +41,7 @@ namespace DREditor.CharacterEditor.Editor
             stu.FirstName = StringField("First Name: ", stu.FirstName);
             stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
             stu.Nameplate = TextureFieldLabeledHorizontal("Default Nameplate: ", stu.Nameplate);
+            stu.Headshot = TextureFieldLabeledHorizontal("Default Headshot: ", stu.Headshot);
             stu.TrialNameplate = TextureFieldLabeledHorizontal("Trial Nameplate: ", stu.TrialNameplate);
             EditorGUILayout.EndVertical();
 

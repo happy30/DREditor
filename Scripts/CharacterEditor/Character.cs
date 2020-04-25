@@ -23,6 +23,7 @@ namespace DREditor.CharacterEditor
 #endif
         public List<Alias> Aliases = new List<Alias>();
         public Texture2D Nameplate;
+        public Texture2D Headshot;
         public Texture2D TrialNameplate;
     }
 }
