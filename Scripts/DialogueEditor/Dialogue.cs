@@ -85,6 +85,7 @@ namespace DREditor.DialogueEditor
         public Character Speaker;
         public int SpeakerNumber;
         public string Text;
+        public AudioClip VoiceSFX;
         public List<AudioClip> SFX = new List<AudioClip>();
         public List<SceneEvent> Events = new List<SceneEvent>();
         public float TimeToNextLine;

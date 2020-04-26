@@ -197,15 +197,13 @@ namespace DREditor.DialogueEditor.Editor
                             aliasNames, dia.getAliasesIntValues(dia.Lines[i].Speaker),
                                 GUILayout.Width(130));
                     }
-                    
-                    
-                    
 
-                    
-                    
-                    
-                        
-
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.Label("Voice", GUILayout.Width(35));
+                    dia.Lines[i].VoiceSFX =
+                        EditorGUILayout.ObjectField(dia.Lines[i].VoiceSFX, typeof(AudioClip), false,
+                        GUILayout.Width(90)) as AudioClip;
+                    EditorGUILayout.EndHorizontal();
 
                     if (dia.Lines[i].SFX != null)
                     {
