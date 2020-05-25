@@ -44,13 +44,9 @@ namespace DREditor.Utility.Editor
             return result;
         }
 
-        public static T UnityField<T>(string name, T data, int width = 120, int height = 120) where T : Object
+        public static T UnityField<T>(T data, int width = 120, int height = 120) where T : Object
         {
             GUILayout.BeginVertical();
-            var style = new GUIStyle(GUI.skin.label);
-            //GUILayout.Label(name, GUILayout.Width(80));
-
-            //style.fixedWidth = 70;
             var result = (T)EditorGUILayout.ObjectField(data, typeof(T), false, GUILayout.Width(width), GUILayout.Height(height));
             GUILayout.EndVertical();
             return result;
@@ -67,6 +63,25 @@ namespace DREditor.Utility.Editor
             GUILayout.FlexibleSpace();
             return result;
         }
+        public static void LabeledPropertyField(string label, SerializedProperty prop)
+        {
+            GUI.backgroundColor = Color.white;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUIUtility.labelWidth = 80;
+                EditorGUILayout.PropertyField(prop, new GUIContent(label), GUILayout.Width(200));
+                EditorGUIUtility.labelWidth = 0;
+            }
+            GUILayout.FlexibleSpace();
+        }
+        public static void LabeledPropertyFieldGenericBG<T>(string name, SerializedProperty data, int width = 120, int height = 120) where T : Object
+        {
+            GUILayout.Label(name, GUILayout.Width(80));
+            using (new EditorGUILayout.VerticalScope())
+            {
+                var result = (T)EditorGUILayout.ObjectField(data.objectReferenceValue as T, typeof(T), false, GUILayout.Width(width), GUILayout.Height(height));
+            }
+        }
 
         public static string StringArea(string name, string value)
         {
@@ -79,14 +94,13 @@ namespace DREditor.Utility.Editor
             GUILayout.FlexibleSpace();
             return result;
         }
-
         public static void Label(string label)
         {
             GUI.backgroundColor = Color.white;
-            var labelStyle = new GUIStyle();
-            labelStyle.fontSize = 10;
-
-
+            var labelStyle = new GUIStyle
+            {
+                fontSize = 10
+            };
             GUILayout.Label(label, labelStyle);
         }
     }

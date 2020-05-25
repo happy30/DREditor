@@ -9,61 +9,65 @@ namespace DREditor.PresentEditor
     public class PresentEditor : Editor
     {
         private Present pres;
+
+        SerializedProperty propName;
+        SerializedProperty propDescription;
+        SerializedProperty propIndex;
+        SerializedProperty propImage;
         private void OnEnable()
         {
             pres = (Present)target;
+            propName = serializedObject.FindProperty("Name");
+            propDescription = serializedObject.FindProperty("Description");
+            propIndex = serializedObject.FindProperty("index");
+            propImage = serializedObject.FindProperty("image");
         }
         public override void OnInspectorGUI()
         {
-            Label("Present");
-
+            serializedObject.Update();
+            DRUtility.Label("Present");
             CreateForm();
-            EditorUtility.SetDirty(pres);
+            serializedObject.ApplyModifiedProperties();
         }
-        private void Label(string label)
-        {
-            GUI.backgroundColor = Color.white;
-            var labelStyle = new GUIStyle();
-            labelStyle.fontSize = 10;
-            GUILayout.Label(label, labelStyle);
-        }
+
         private void CreateForm()
         {
-            EditorGUILayout.BeginVertical("Box");
-            pres.Name = DRUtility.StringField("Name: ", pres.Name);
-            pres.index = DRUtility.IntField("No. ", pres.index);
-            GUILayout.Label("Description:");
-            pres.Description = EditorGUILayout.TextArea(pres.Description, GUILayout.Height(75), GUILayout.Width(Screen.width - 310));
-            pres.image = DRUtility.UnityField("Image: ", pres.image);
-
-            for (int i = 0; i < pres.CharacterReactions.Count; i++)
+            using (new EditorGUILayout.VerticalScope("Box"))
             {
-                var reaction = pres.CharacterReactions[i];
+                DRUtility.LabeledPropertyField("Name: ", propName);
+                DRUtility.LabeledPropertyField("No. ", propIndex);
+                GUILayout.Label("Description:");
+                propDescription.stringValue = EditorGUILayout.TextArea(propDescription.stringValue, GUILayout.Height(75), GUILayout.Width(Screen.width - 310));
+                DRUtility.LabeledPropertyFieldGenericBG<Sprite>("Image: ", propImage);
 
-                EditorGUILayout.BeginHorizontal("Box");
+                for (int i = 0; i < pres.CharacterReactions.Count; i++)
+                {
+                    var reaction = pres.CharacterReactions[i];
 
-                EditorGUILayout.BeginVertical();
-                GUIStyle expr = new GUIStyle();
-                expr.normal.background = reaction.character.DefaultSprite;
-                EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100), GUILayout.Height(100));
-                reaction.character = DRUtility.UnityField("Reaction: ", reaction.character, 120, 20);
-                EditorGUILayout.EndVertical();
+                    using (new EditorGUILayout.HorizontalScope("Box"))
+                    {
+                        using (new EditorGUILayout.VerticalScope())
+                        {
+                            GUIStyle expr = new GUIStyle();
+                            expr.normal.background = reaction.character.DefaultSprite;
+                            EditorGUILayout.LabelField(GUIContent.none, expr, GUILayout.Width(100), GUILayout.Height(100));
+                            reaction.character = DRUtility.UnityField(reaction.character, 120, 20);
+                        }
 
-                // Select Reaction
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
-                reaction.reactionLevel = (PresentReactionLevel)EditorGUILayout.EnumPopup(reaction.reactionLevel);
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
-
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-                EditorGUILayout.EndHorizontal();
+                        // Select Reaction
+                        using (new EditorGUILayout.VerticalScope())
+                        {
+                            GUILayout.FlexibleSpace();
+                            reaction.reactionLevel = (PresentReactionLevel)EditorGUILayout.EnumPopup(reaction.reactionLevel);
+                            GUILayout.FlexibleSpace();
+                        }
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                    }
+                }
             }
-
-            EditorGUILayout.EndVertical();
             if (GUILayout.Button("Add New Character Reaction", GUILayout.Width(200)))
             {
                 pres.CharacterReactions.Add(new StudentReactions());
