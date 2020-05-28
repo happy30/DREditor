@@ -75,7 +75,6 @@ namespace DREditor.DialogueEditor
     {
         public List<Line> Lines = new List<Line>();
         public List<Choice> Choices = new List<Choice>();
-        public string PostProcessStyle;
     }
 
     [System.Serializable]

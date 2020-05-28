@@ -120,12 +120,6 @@ namespace DREditor.DialogueEditor.Editor
 
             }
 
-            using (new EditorGUILayout.HorizontalScope("Box"))
-            {
-                EditorGUILayout.LabelField("PostProcess: ", GUILayout.Width(100));
-                dia.PostProcessStyle = GUILayout.TextField(dia.PostProcessStyle, GUILayout.Width(100));
-            }
-
             if (dia.Lines != null)
             {
                 for (int i = 0; i < dia.Lines.Count; i++)
