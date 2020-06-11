@@ -37,8 +37,6 @@ namespace DREditor.Utility.Editor
         {
             GUILayout.Label("Picture: ", GUILayout.Width(80));
             GUILayout.BeginVertical();
-            var style = new GUIStyle(GUI.skin.label);
-            style.fixedWidth = 70;
             var result = (Sprite)EditorGUILayout.ObjectField(sprite, typeof(Sprite), false, GUILayout.Width(120), GUILayout.Height(120));
             GUILayout.EndVertical();
             return result;
@@ -102,6 +100,13 @@ namespace DREditor.Utility.Editor
                 fontSize = 10
             };
             GUILayout.Label(label, labelStyle);
+        }
+        public static Texture2D GetMaterialTexture(Material material)
+        {
+            var tex = material.GetTexture("_BaseMap") as Texture2D;
+            if (tex != null) return tex;
+            tex = material.GetTexture("_MainTex") as Texture2D;
+            return tex;
         }
     }
 }

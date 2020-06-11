@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace DREditor.Utility
 {
     /// <summary>
@@ -26,5 +27,13 @@ namespace DREditor.Utility
             }
             return newList;
         }
+
+        public static void Swap<T>(this IList<T> list, int indexA, int indexB)
+        {
+            T tmp = list[indexA];
+            list[indexA] = list[indexB];
+            list[indexB] = tmp;
+        }
+        public static bool Empty<T>(this IList<T> list) => list.Count == 0;
     }
 }

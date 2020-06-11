@@ -2,7 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 
-
 namespace DREditor.CharacterEditor.Editor
 {
     [CustomEditor(typeof(Student))]
@@ -10,11 +9,7 @@ namespace DREditor.CharacterEditor.Editor
     {
         private Student stu;
 
-        private void OnEnable()
-        {
-            stu = (Student) target;
-        }
-
+        private void OnEnable() => stu = target as Student;
 
         public override void OnInspectorGUI()
         {
@@ -43,12 +38,13 @@ namespace DREditor.CharacterEditor.Editor
             stu.Nameplate = TextureFieldLabeledHorizontal("Default Nameplate: ", stu.Nameplate);
             stu.Headshot = TextureFieldLabeledHorizontal("Default Headshot: ", stu.Headshot);
             stu.TrialNameplate = TextureFieldLabeledHorizontal("Trial Nameplate: ", stu.TrialNameplate);
+            stu.TrialHeight = FloatField("Trial Height: ", stu.TrialHeight);
             EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginVertical("Box");
-            AliasList(stu.Aliases);
-            EditorGUILayout.EndVertical();
-            
+            using (new EditorGUILayout.VerticalScope("Box"))
+            {
+                AliasList(stu.Aliases);
+            }
         }
         
         private void StudentLabel()
@@ -58,150 +54,137 @@ namespace DREditor.CharacterEditor.Editor
             bigLabelStyle.fontStyle = FontStyle.Bold;
             GUI.backgroundColor = stu.StudentCard.Color;
             GUILayout.Space(15);
-            GUILayout.BeginHorizontal("box");
-            GUILayout.FlexibleSpace();
+            using (new EditorGUILayout.HorizontalScope("box"))
+            {
+                GUILayout.FlexibleSpace();
 
-            var labelText = stu.LastName == "" && stu.FirstName == "" ? "No Name" : "";
-            
-            GUILayout.Label(labelText + stu.LastName + " " + stu.FirstName, bigLabelStyle);
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            
+                var labelText = stu.LastName == "" && stu.FirstName == "" ? "No Name" : "";
+
+                GUILayout.Label(labelText + stu.LastName + " " + stu.FirstName, bigLabelStyle);
+                GUILayout.FlexibleSpace();
+            }
             bigLabelStyle.fontSize = 15;
-            
-            GUILayout.BeginHorizontal("box");
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("Ultimate " + stu.StudentCard.Talent, bigLabelStyle);
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            
-            
+
+            using (new EditorGUILayout.HorizontalScope("box"))
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("Ultimate " + stu.StudentCard.Talent, bigLabelStyle);
+                GUILayout.FlexibleSpace();
+            }
             GUILayout.Space(15);
         }
 
         private void StudentCard()
         {
-            var cardStyle = new GUIStyle();
-            
-            
-            EditorGUILayout.BeginVertical("Box");
-            
-            
-            
-            stu.StudentCard.Talent = StringField("Talent: ", stu.StudentCard.Talent);
-            stu.StudentCard.Height = StringField("Height: ", stu.StudentCard.Height);
-            stu.StudentCard.Weight = StringField("Weight: ", stu.StudentCard.Weight);
-            stu.StudentCard.Chest = StringField("Chest: ", stu.StudentCard.Chest);
-            stu.StudentCard.BloodType = StringField("Blood Type: ", stu.StudentCard.BloodType);
-            stu.StudentCard.DateOfBirth = StringField("D.O.B.: ", stu.StudentCard.DateOfBirth);
-            stu.StudentCard.Likes = StringField("Likes: ", stu.StudentCard.Likes);
-            stu.StudentCard.Dislikes = StringField("Dislikes: ", stu.StudentCard.Dislikes);
-            stu.StudentCard.Notes = StringArea("Description: ", stu.StudentCard.Notes);
-            
-            EditorGUILayout.EndVertical();
+            using (new EditorGUILayout.VerticalScope("Box"))
+            {
+                stu.StudentCard.Talent = StringField("Talent: ", stu.StudentCard.Talent);
+                stu.StudentCard.Height = StringField("Height: ", stu.StudentCard.Height);
+                stu.StudentCard.Weight = StringField("Weight: ", stu.StudentCard.Weight);
+                stu.StudentCard.Chest = StringField("Chest: ", stu.StudentCard.Chest);
+                stu.StudentCard.BloodType = StringField("Blood Type: ", stu.StudentCard.BloodType);
+                stu.StudentCard.DateOfBirth = StringField("D.O.B.: ", stu.StudentCard.DateOfBirth);
+                stu.StudentCard.Likes = StringField("Likes: ", stu.StudentCard.Likes);
+                stu.StudentCard.Dislikes = StringField("Dislikes: ", stu.StudentCard.Dislikes);
+                stu.StudentCard.Notes = StringArea("Description: ", stu.StudentCard.Notes);
+            }
         }
 
         private void DefaultSprite()
         {
             Label("Default Sprite");
 
-            GUILayout.BeginHorizontal();
-
-            GUILayout.BeginVertical("Box", GUILayout.Width(140));
-            GUILayout.BeginHorizontal();
-            stu.DefaultSprite = TextureField(stu.DefaultSprite);
-            if(GUILayout.Button("X", GUILayout.Width(18)))
+            using (new EditorGUILayout.HorizontalScope())
             {
-                stu.DefaultSprite = null;
+                using (new EditorGUILayout.VerticalScope("Box", GUILayout.Width(140)))
+                {
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        stu.DefaultSprite = TextureField(stu.DefaultSprite);
+                        if (GUILayout.Button("X", GUILayout.Width(18)))
+                        {
+                            stu.DefaultSprite = null;
+                        }
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-
-            GUILayout.EndHorizontal();
         }
 
         private void CharacterPortrait()
         {
             Label("Character Portrait");
 
-            GUILayout.BeginHorizontal();
-
-            GUILayout.BeginVertical("Box", GUILayout.Width(140));
-            GUILayout.BeginHorizontal();
-            stu.TrialPortrait = TextureField(stu.TrialPortrait);
-            if(GUILayout.Button("X", GUILayout.Width(18)))
+            using (new EditorGUILayout.HorizontalScope())
             {
-                stu.TrialPortrait = null;
+                using (new EditorGUILayout.VerticalScope("Box", GUILayout.Width(140)))
+                {
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        stu.TrialPortrait = TextureField(stu.TrialPortrait);
+                        if (GUILayout.Button("X", GUILayout.Width(18)))
+                        {
+                            stu.TrialPortrait = null;
+                        }
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-
-            GUILayout.EndHorizontal();
         }
 
         private void Sprites()
         {
             var count = 0;
-            GUILayout.BeginHorizontal();
-            
-            for (var i = 0; i < stu.Expressions.Count; i++)
+            using (new EditorGUILayout.HorizontalScope())
             {
-                var expr = stu.Expressions[i];
-                GUILayout.BeginVertical("Box", GUILayout.Width(140));
-                GUILayout.BeginHorizontal();
-                expr.Sprite = MaterialField(expr.Sprite);
-                if(GUILayout.Button("X",GUILayout.Width(18)))
+                for (var i = 0; i < stu.Expressions.Count; i++)
                 {
-                    stu.Expressions.Remove(expr);
+                    var expr = stu.Expressions[i];
+                    using (new EditorGUILayout.VerticalScope("Box", GUILayout.Width(140)))
+                    {
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            expr.Sprite = MaterialField(expr.Sprite);
+                            if (GUILayout.Button("X", GUILayout.Width(18)))
+                            {
+                                stu.Expressions.Remove(expr);
+                            }
+                        }
+                        expr.Name = EditorGUILayout.TextField(expr.Name, GUILayout.Width(120));
+                    }
+
+                    count++;
+                    if (count > 1)
+                    {
+                        GUILayout.EndHorizontal();
+                        GUILayout.BeginHorizontal();
+                        count = 0;
+                    }
                 }
 
-                GUILayout.EndHorizontal();
-                expr.Name = EditorGUILayout.TextField(expr.Name, GUILayout.Width(120));
-                GUILayout.EndVertical();
-
-
-                count++;
-                if (count > 1)
+                if (GUILayout.Button("Add \n Sprite", GUILayout.Width(100), GUILayout.Height(40)))
                 {
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
-                    count = 0;
+                    stu.Expressions.Add(new Expression());
                 }
-
-                
             }
-
-            if (GUILayout.Button("Add \n Sprite", GUILayout.Width(100), GUILayout.Height(40)))
-            {
-                stu.Expressions.Add(new Expression());
-                
-            }
-            
-            
-            
-            GUILayout.EndHorizontal();
         }
-        
-        
-        
         
         private static Texture2D TextureField(Texture2D texture)
         {
-            GUILayout.BeginVertical();
-            var style = new GUIStyle(GUI.skin.label);
-            
-            style.fixedWidth = 70;
-            var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
-            GUILayout.EndVertical();
-            return result;
+            using (new EditorGUILayout.VerticalScope())
+            {
+                var style = new GUIStyle(GUI.skin.label);
+                style.fixedWidth = 70;
+                return (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
+            }
         }
-
 
         private static Material MaterialField(Material mat)
         {
-            GUILayout.BeginHorizontal();
-            var result = EditorGUILayout.ObjectField(mat, typeof(Material), false, GUILayout.Width(120), GUILayout.Height(140)) as Material;
-            GUILayout.EndHorizontal();
+            Material result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                result = EditorGUILayout.ObjectField(mat, typeof(Material), false, GUILayout.Width(120), GUILayout.Height(140)) as Material;
+            }
+
             if (mat != null)
             {
                 var myTexture = AssetPreview.GetAssetPreview(mat.GetTexture("_BaseMap"));
@@ -215,36 +198,53 @@ namespace DREditor.CharacterEditor.Editor
 
         private static Texture2D TextureFieldLabeledHorizontal(string label, Texture2D texture)
         {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(label);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            var result =
-                (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(70), GUILayout.Height(70));
-            EditorGUILayout.EndHorizontal();
+            Texture2D result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(label);
+            }
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(70), GUILayout.Height(70));
+            }
             return result;
         }
 
         private static string StringField(string name, string value)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(name, GUILayout.Width(80));
-
-            var result = EditorGUILayout.TextField(value, GUILayout.Width(200));
-            GUILayout.EndHorizontal();
+            string result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(name, GUILayout.Width(80));
+                result = EditorGUILayout.TextField(value, GUILayout.Width(200));
+            }
             GUILayout.FlexibleSpace();
             return result;
         }
-        
+
+        private static float FloatField(string label, float value)
+        {
+            GUI.backgroundColor = Color.white;
+            float result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(label, GUILayout.Width(80));
+                result = EditorGUILayout.FloatField(value, GUILayout.Width(200));
+            }
+            GUILayout.FlexibleSpace();
+            return result;
+        }
+
         private static string StringArea(string name, string value)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(name, GUILayout.Width(80));
-
-            var result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
-            GUILayout.EndHorizontal();
+            string result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(name, GUILayout.Width(80));
+                result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
+            }
             GUILayout.FlexibleSpace();
             return result;
         }
@@ -254,18 +254,18 @@ namespace DREditor.CharacterEditor.Editor
             GUI.backgroundColor = Color.white;
             var labelStyle = new GUIStyle();
             labelStyle.fontSize = 10;
-            
-            
             GUILayout.Label(label, labelStyle);
         }
 
         private static Color ColorField(Color color)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Color: ");
-            var result = EditorGUILayout.ColorField(color, GUILayout.Width(40));
-            GUILayout.EndHorizontal();
+            Color result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label("Color: ");
+                result = EditorGUILayout.ColorField(color, GUILayout.Width(40));
+            }
             return result;
         }
         
@@ -300,8 +300,6 @@ namespace DREditor.CharacterEditor.Editor
                     }
                 }
             }
-
-            
         }
     }
 }

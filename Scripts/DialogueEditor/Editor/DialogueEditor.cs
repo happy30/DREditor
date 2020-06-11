@@ -270,7 +270,7 @@ namespace DREditor.DialogueEditor.Editor
                                     GUIStyle expr = new GUIStyle();
                                     if (dia.Lines[i].Expression.Sprite != null && dia.Lines[i].ExpressionNumber > 0)
                                     {
-                                        var tex = dia.Lines[i].Expression.Sprite.GetTexture("_BaseMap") as Texture2D;
+                                        var tex = Utility.Editor.HandyFields.GetMaterialTexture(dia.Lines[i].Expression.Sprite);
                                         if (tex)
                                         {
                                             expr.normal.background = tex;

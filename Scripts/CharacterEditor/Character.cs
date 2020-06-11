@@ -25,5 +25,6 @@ namespace DREditor.CharacterEditor
         public Texture2D Nameplate;
         public Texture2D Headshot;
         public Texture2D TrialNameplate;
+        public float TrialHeight = 7.88f;
     }
 }
