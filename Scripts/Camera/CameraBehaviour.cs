@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using EventObjects;
 using UnityEngine;
+using DREditor;
 
 namespace DREditor.Camera
 {
     public class CameraBehaviour : MonoBehaviour
     {
+        public bool DR_Style;
         public Crouch CrouchModifier;
         public Headbobbing HeadbobbingModifier;
         public FollowPlayer FollowPlayerModifier;
@@ -15,6 +17,7 @@ namespace DREditor.Camera
         public Transform Player;
         public BoolWithEvent InCameraShakeMode;
 
+        public bool IsMoving;
         private float _timer;
         private float TimeForNewShake;
 
@@ -36,6 +39,16 @@ namespace DREditor.Camera
         // Update is called once per frame
         void Update()
         {
+
+            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            {
+                IsMoving = true;
+            }
+            else
+            {
+                IsMoving = false;
+            }
+
             if (FollowPlayerModifier)
             {
                 transform.position = FollowPlayerModifier.GetPlayerPosition();
@@ -43,7 +56,16 @@ namespace DREditor.Camera
 
             if (MouseLookModifier)
             {
-                transform.localRotation = MouseLookModifier.GetRotation();
+                if (DR_Style)
+                {
+                    if (!IsMoving) transform.localRotation = MouseLookModifier.GetRotation();
+                    else transform.localRotation = MouseLookModifier.DRGetRotation();
+                }
+                else
+                {
+                    transform.localRotation = MouseLookModifier.GetRotation();
+                }
+
                 transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Player.localEulerAngles.y, transform.localEulerAngles.z);
             }
 
