@@ -2,6 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 
+using DREditor.Utility.Editor;
+
 namespace DREditor.CharacterEditor.Editor
 {
     [CustomEditor(typeof(Student))]
@@ -13,7 +15,7 @@ namespace DREditor.CharacterEditor.Editor
 
         public override void OnInspectorGUI()
         {
-            Label("Character Editor");
+            HandyFields.Label("Character Editor");
             
             NameForm();
             StudentLabel();
@@ -22,7 +24,7 @@ namespace DREditor.CharacterEditor.Editor
             DefaultSprite();
             CharacterPortrait();
 
-            Label("Sprites");
+            HandyFields.Label("Sprites");
 
             Sprites();
             
@@ -32,13 +34,13 @@ namespace DREditor.CharacterEditor.Editor
         private void NameForm()
         {
             EditorGUILayout.BeginVertical("Box");
-            stu.LastName = StringField("Last Name: ", stu.LastName);
-            stu.FirstName = StringField("First Name: ", stu.FirstName);
-            stu.StudentCard.Color = ColorField(stu.StudentCard.Color);
+            stu.LastName = HandyFields.StringField("Last Name: ", stu.LastName);
+            stu.FirstName = HandyFields.StringField("First Name: ", stu.FirstName);
+            stu.StudentCard.Color = HandyFields.ColorField(stu.StudentCard.Color);
             stu.Nameplate = TextureFieldLabeledHorizontal("Default Nameplate: ", stu.Nameplate);
             stu.Headshot = TextureFieldLabeledHorizontal("Default Headshot: ", stu.Headshot);
             stu.TrialNameplate = TextureFieldLabeledHorizontal("Trial Nameplate: ", stu.TrialNameplate);
-            stu.TrialHeight = FloatField("Trial Height: ", stu.TrialHeight);
+            stu.TrialHeight = HandyFields.FloatField("Trial Height: ", stu.TrialHeight);
             EditorGUILayout.EndVertical();
 
             using (new EditorGUILayout.VerticalScope("Box"))
@@ -49,9 +51,11 @@ namespace DREditor.CharacterEditor.Editor
         
         private void StudentLabel()
         {
-            var bigLabelStyle = new GUIStyle();
-            bigLabelStyle.fontSize = 25;
-            bigLabelStyle.fontStyle = FontStyle.Bold;
+            var bigLabelStyle = new GUIStyle
+            {
+                fontSize = 25,
+                fontStyle = FontStyle.Bold
+            };
             GUI.backgroundColor = stu.StudentCard.Color;
             GUILayout.Space(15);
             using (new EditorGUILayout.HorizontalScope("box"))
@@ -78,21 +82,21 @@ namespace DREditor.CharacterEditor.Editor
         {
             using (new EditorGUILayout.VerticalScope("Box"))
             {
-                stu.StudentCard.Talent = StringField("Talent: ", stu.StudentCard.Talent);
-                stu.StudentCard.Height = StringField("Height: ", stu.StudentCard.Height);
-                stu.StudentCard.Weight = StringField("Weight: ", stu.StudentCard.Weight);
-                stu.StudentCard.Chest = StringField("Chest: ", stu.StudentCard.Chest);
-                stu.StudentCard.BloodType = StringField("Blood Type: ", stu.StudentCard.BloodType);
-                stu.StudentCard.DateOfBirth = StringField("D.O.B.: ", stu.StudentCard.DateOfBirth);
-                stu.StudentCard.Likes = StringField("Likes: ", stu.StudentCard.Likes);
-                stu.StudentCard.Dislikes = StringField("Dislikes: ", stu.StudentCard.Dislikes);
-                stu.StudentCard.Notes = StringArea("Description: ", stu.StudentCard.Notes);
+                stu.StudentCard.Talent = HandyFields.StringField("Talent: ", stu.StudentCard.Talent);
+                stu.StudentCard.Height = HandyFields.StringField("Height: ", stu.StudentCard.Height);
+                stu.StudentCard.Weight = HandyFields.StringField("Weight: ", stu.StudentCard.Weight);
+                stu.StudentCard.Chest = HandyFields.StringField("Chest: ", stu.StudentCard.Chest);
+                stu.StudentCard.BloodType = HandyFields.StringField("Blood Type: ", stu.StudentCard.BloodType);
+                stu.StudentCard.DateOfBirth = HandyFields.StringField("D.O.B.: ", stu.StudentCard.DateOfBirth);
+                stu.StudentCard.Likes = HandyFields.StringField("Likes: ", stu.StudentCard.Likes);
+                stu.StudentCard.Dislikes = HandyFields.StringField("Dislikes: ", stu.StudentCard.Dislikes);
+                stu.StudentCard.Notes = HandyFields.StringArea("Description: ", stu.StudentCard.Notes);
             }
         }
 
         private void DefaultSprite()
         {
-            Label("Default Sprite");
+            HandyFields.Label("Default Sprite");
 
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -112,7 +116,7 @@ namespace DREditor.CharacterEditor.Editor
 
         private void CharacterPortrait()
         {
-            Label("Character Portrait");
+            HandyFields.Label("Character Portrait");
 
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -171,9 +175,11 @@ namespace DREditor.CharacterEditor.Editor
         {
             using (new EditorGUILayout.VerticalScope())
             {
-                var style = new GUIStyle(GUI.skin.label);
-                style.fixedWidth = 70;
-                return (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    fixedWidth = 70
+                };
+                return HandyFields.UnityField(texture);
             }
         }
 
@@ -182,12 +188,12 @@ namespace DREditor.CharacterEditor.Editor
             Material result;
             using (new EditorGUILayout.HorizontalScope())
             {
-                result = EditorGUILayout.ObjectField(mat, typeof(Material), false, GUILayout.Width(120), GUILayout.Height(140)) as Material;
+                result = HandyFields.UnityField(mat, height:140);
             }
 
             if (mat != null)
             {
-                var myTexture = AssetPreview.GetAssetPreview(mat.GetTexture("_BaseMap"));
+                var myTexture = AssetPreview.GetAssetPreview(HandyFields.GetMaterialTexture(mat));
                 if(myTexture)
                 {
                     GUILayout.Label(myTexture);
@@ -205,78 +211,9 @@ namespace DREditor.CharacterEditor.Editor
             }
             using (new EditorGUILayout.HorizontalScope())
             {
-                result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(70), GUILayout.Height(70));
+                result = HandyFields.UnityField(texture, 70, 70);
             }
             return result;
-        }
-
-        private static string StringField(string name, string value)
-        {
-            GUI.backgroundColor = Color.white;
-            string result;
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Label(name, GUILayout.Width(80));
-                result = EditorGUILayout.TextField(value, GUILayout.Width(200));
-            }
-            GUILayout.FlexibleSpace();
-            return result;
-        }
-
-        private static float FloatField(string label, float value)
-        {
-            GUI.backgroundColor = Color.white;
-            float result;
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Label(label, GUILayout.Width(80));
-                result = EditorGUILayout.FloatField(value, GUILayout.Width(200));
-            }
-            GUILayout.FlexibleSpace();
-            return result;
-        }
-
-        private static string StringArea(string name, string value)
-        {
-            GUI.backgroundColor = Color.white;
-            string result;
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Label(name, GUILayout.Width(80));
-                result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
-            }
-            GUILayout.FlexibleSpace();
-            return result;
-        }
-
-        private static void Label(string label)
-        {
-            GUI.backgroundColor = Color.white;
-            var labelStyle = new GUIStyle();
-            labelStyle.fontSize = 10;
-            GUILayout.Label(label, labelStyle);
-        }
-
-        private static Color ColorField(Color color)
-        {
-            GUI.backgroundColor = Color.white;
-            Color result;
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Label("Color: ");
-                result = EditorGUILayout.ColorField(color, GUILayout.Width(40));
-            }
-            return result;
-        }
-        
-        public static Texture2D ToTexture2D(Texture texture)
-        {
-            return Texture2D.CreateExternalTexture(
-                texture.width,
-                texture.height,
-                TextureFormat.RGB24,
-                false, false,
-                texture.GetNativeTexturePtr());
         }
 
         private static void AliasList(List<Alias> aliasList)
@@ -290,7 +227,7 @@ namespace DREditor.CharacterEditor.Editor
                 for (int i = 0; i < aliasList.Count; i++)
                 {
                     EditorGUILayout.BeginHorizontal();
-                    aliasList[i].Name = StringField("Alias " + i + ": ",aliasList[i].Name);
+                    aliasList[i].Name = HandyFields.StringField("Alias " + i + ": ",aliasList[i].Name);
                     var removed = GUILayout.Button("x", GUILayout.Width(20));
                     EditorGUILayout.EndHorizontal();
                     aliasList[i].Nameplate = TextureFieldLabeledHorizontal("Nameplate:", aliasList[i].Nameplate);

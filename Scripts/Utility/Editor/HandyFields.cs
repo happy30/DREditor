@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 namespace DREditor.Utility.Editor
@@ -12,23 +10,40 @@ namespace DREditor.Utility.Editor
     {
         public static Texture2D TextureField(Texture2D texture, int width = 120, int height = 120)
         {
-            GUILayout.BeginVertical();
-            var style = new GUIStyle(GUI.skin.label);
-
-            style.fixedWidth = 70;
-            var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(width), GUILayout.Height(height));
-            GUILayout.EndVertical();
+            Texture2D result;
+            using (new EditorGUILayout.VerticalScope())
+            {
+                var style = new GUIStyle(GUI.skin.label)
+                {
+                    fixedWidth = 70
+                };
+                result = UnityField(texture, width, height);
+            }
             return result;
         }
 
         public static int IntField(string name, int value, int textBoxWidth = 200)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(name, GUILayout.Width(80));
+            int result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(name, GUILayout.Width(80));
+                result = EditorGUILayout.IntField(value, GUILayout.Width(textBoxWidth));
+            }
+            GUILayout.FlexibleSpace();
+            return result;
+        }
 
-            var result = EditorGUILayout.IntField(value, GUILayout.Width(textBoxWidth));
-            GUILayout.EndHorizontal();
+        public static float FloatField(string label, float value)
+        {
+            GUI.backgroundColor = Color.white;
+            float result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(label, GUILayout.Width(80));
+                result = EditorGUILayout.FloatField(value, GUILayout.Width(200));
+            }
             GUILayout.FlexibleSpace();
             return result;
         }
@@ -36,28 +51,33 @@ namespace DREditor.Utility.Editor
         public static Sprite SpriteField(string name, Sprite sprite)
         {
             GUILayout.Label("Picture: ", GUILayout.Width(80));
-            GUILayout.BeginVertical();
-            var result = (Sprite)EditorGUILayout.ObjectField(sprite, typeof(Sprite), false, GUILayout.Width(120), GUILayout.Height(120));
-            GUILayout.EndVertical();
+            Sprite result;
+            using (new EditorGUILayout.VerticalScope())
+            {
+                result = UnityField(sprite);
+            }
             return result;
         }
 
         public static T UnityField<T>(T data, int width = 120, int height = 120) where T : Object
         {
-            GUILayout.BeginVertical();
-            var result = (T)EditorGUILayout.ObjectField(data, typeof(T), false, GUILayout.Width(width), GUILayout.Height(height));
-            GUILayout.EndVertical();
+            T result;
+            using (new EditorGUILayout.VerticalScope())
+            {
+                result = (T)EditorGUILayout.ObjectField(data, typeof(T), false, GUILayout.Width(width), GUILayout.Height(height));
+            }
             return result;
         }
 
         public static string StringField(string name, string value)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(name, GUILayout.Width(80));
-
-            var result = EditorGUILayout.TextField(value, GUILayout.Width(200));
-            GUILayout.EndHorizontal();
+            string result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(name, GUILayout.Width(80));
+                result = EditorGUILayout.TextField(value, GUILayout.Width(200));
+            }
             GUILayout.FlexibleSpace();
             return result;
         }
@@ -81,14 +101,27 @@ namespace DREditor.Utility.Editor
             }
         }
 
+        public static Color ColorField(Color color)
+        {
+            GUI.backgroundColor = Color.white;
+            Color result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label("Color: ");
+                result = EditorGUILayout.ColorField(color, GUILayout.Width(40));
+            }
+            return result;
+        }
+
         public static string StringArea(string name, string value)
         {
             GUI.backgroundColor = Color.white;
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(name, GUILayout.Width(80));
-
-            var result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
-            GUILayout.EndHorizontal();
+            string result;
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label(name, GUILayout.Width(80));
+                result = EditorGUILayout.TextArea(value, GUILayout.Width(200), GUILayout.Height(60));
+            }
             GUILayout.FlexibleSpace();
             return result;
         }
@@ -105,8 +138,7 @@ namespace DREditor.Utility.Editor
         {
             var tex = material.GetTexture("_BaseMap") as Texture2D;
             if (tex != null) return tex;
-            tex = material.GetTexture("_MainTex") as Texture2D;
-            return tex;
+            return material.GetTexture("_MainTex") as Texture2D;
         }
     }
 }
