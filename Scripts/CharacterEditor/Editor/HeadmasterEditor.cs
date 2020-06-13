@@ -21,6 +21,9 @@ namespace DREditor.CharacterEditor.Editor
             Label("Headmaster Editor");
             
             NameForm();
+
+            DefaultSprite();
+
             Label("Sprites");
 
             Sprites();
@@ -38,6 +41,25 @@ namespace DREditor.CharacterEditor.Editor
             
         }
 
+        private void DefaultSprite()
+        {
+            Label("Default Sprite");
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.BeginVertical("Box", GUILayout.Width(140));
+            GUILayout.BeginHorizontal();
+            hms.DefaultSprite = TextureField(hms.DefaultSprite);
+            if (GUILayout.Button("X", GUILayout.Width(18)))
+            {
+                hms.DefaultSprite = null;
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
+        }
+
         private void Sprites()
         {
             var count = 0;
@@ -50,7 +72,7 @@ namespace DREditor.CharacterEditor.Editor
                 var expr = hms.Expressions[i];
                 GUILayout.BeginVertical("Box", GUILayout.Width(140));
                 GUILayout.BeginHorizontal();
-                expr.Sprite = TextureField(expr.Sprite);
+                expr.Sprite = MaterialField(expr.Sprite);
                 if(GUILayout.Button("X",GUILayout.Width(18)))
                 {
                     hms.Expressions.Remove(expr);
@@ -82,17 +104,27 @@ namespace DREditor.CharacterEditor.Editor
             
             GUILayout.EndHorizontal();
         }
-        
-        
-        
-        
+
+
+
+
         private static Texture2D TextureField(Texture2D texture)
         {
             GUILayout.BeginVertical();
             var style = new GUIStyle(GUI.skin.label);
-            
+
             style.fixedWidth = 70;
             var result = (Texture2D)EditorGUILayout.ObjectField(texture, typeof(Texture2D), false, GUILayout.Width(120), GUILayout.Height(120));
+            GUILayout.EndVertical();
+            return result;
+        }
+
+        private static Material MaterialField(Material mat)
+        {
+            GUILayout.BeginVertical();
+            var style = new GUIStyle(GUI.skin.label);
+            style.fixedWidth = 70;
+            var result = EditorGUILayout.ObjectField(mat, typeof(Material), false, GUILayout.Width(120), GUILayout.Height(120)) as Material;
             GUILayout.EndVertical();
             return result;
         }

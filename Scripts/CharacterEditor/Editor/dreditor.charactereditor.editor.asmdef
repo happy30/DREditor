@@ -1,9 +1,9 @@
 {
     "name": "dreditor.charactereditor.editor",
     "references": [
-        "GUID:59ea85d383066e54d9af5fa32490510c"
+        "GUID:59ea85d383066e54d9af5fa32490510c",
+        "GUID:f0c6bb287a75e6c4eab2e93da7c65148"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -13,5 +13,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

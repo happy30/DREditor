@@ -14,8 +14,13 @@ namespace DREditor.Camera
 
         public bool RadiusLock = true;
         public bool SmoothFocus = true;
+        public float SmoothTransitionTime = 10f;
+        public int HeadmasterPosition = 0;
+        public float HeamasterSeatHeightOffset = 12f;
+        public float HeadmasterSeatDistance = 12f;
         public float[] CharHeightOffset = new float[16];
         private float AnchorAngle;
+        private bool FocusOnHeadmaster = false;
 
         void Start()
         {
@@ -34,20 +39,49 @@ namespace DREditor.Camera
         void Update()
         {
             RadiusLock = CameraPivot.GetComponent<RadiusLock>().Locked;
-            if (SmoothFocus)
+            if(FocusOnHeadmaster)
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(0, CharHeightOffset[(int)SeatFocus], 0), Time.deltaTime * 10f);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(SeatFocus * AnchorAngle, Vector3.up), Time.deltaTime * 10f);
-            }
-            else
+                UpdatePositionAndRotation(new Vector3(0, HeamasterSeatHeightOffset, 0), Quaternion.AngleAxis(HeadmasterPosition * AnchorAngle, Vector3.up));
+            } else
             {
-                transform.position = new Vector3(0, CharHeightOffset[(int)SeatFocus], 0);
-                transform.rotation = Quaternion.AngleAxis(SeatFocus * AnchorAngle, Vector3.up);
+                UpdatePositionAndRotation(new Vector3(0, CharHeightOffset[(int)SeatFocus], 0), Quaternion.AngleAxis(SeatFocus * AnchorAngle, Vector3.up));
             }
         }
         void LateUpdate()
         {
-            if (RadiusLock) CameraPivot.transform.localPosition = new Vector3(0, 0, SeatRadius);
+            if (RadiusLock)
+            {
+                if(FocusOnHeadmaster)
+                {
+                    CameraPivot.transform.localPosition = new Vector3(0, 0, HeadmasterSeatDistance);
+                } else
+                {
+                    CameraPivot.transform.localPosition = new Vector3(0, 0, SeatRadius);
+                }
+            } 
+        }
+
+        void UpdatePositionAndRotation(Vector3 targetPosition, Quaternion targetRotation)
+        {
+            if(SmoothFocus)
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPosition, SmoothTransitionTime * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, SmoothTransitionTime * Time.deltaTime);
+            } else
+            {
+                transform.position = targetPosition;
+                transform.rotation = targetRotation;
+            }
+        }
+
+        public void SetHeadmasterFocus(bool value)
+        {
+            FocusOnHeadmaster = value;
+        }
+
+        public bool IsFocusedOnHeadmaster()
+        {
+            return FocusOnHeadmaster;
         }
 
         public void ChangeFocus(float charnum)
