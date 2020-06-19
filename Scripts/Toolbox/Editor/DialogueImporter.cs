@@ -4,10 +4,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
-using System.Linq;
 using DREditor.DialogueEditor;
 using DREditor.CharacterEditor;
-using NUnit.Framework.Internal;
+using DREditor.Utility.Editor;
 
 
 namespace DREditor.Toolbox
@@ -293,10 +292,7 @@ namespace DREditor.Toolbox
             }
             else
             {
-                
-                    EditorUtility.DisplayDialog("CharacterDatabase was not specifid.", "Please create and assign a CharacterDatabase and try again", "OK");
-                
-                
+                EditorUtility.DisplayDialog("CharacterDatabase was not specifid.", "Please create and assign a CharacterDatabase and try again", "OK");
             }
             
         }
@@ -480,47 +476,21 @@ namespace DREditor.Toolbox
                         if (exName == database.Characters[i].Expressions[en].Name)
                         {
                             exNum = en+1;
-                            Debug.Log(en);
-                            Debug.Log("POGGERS " + database.Characters[i].Expressions[en].Name);
                             return database.Characters[i].Expressions[en];
                         }
                     }
                 }
             }
-            /* go into the characterdatabase.character and find that characters list of expressions
-               via a foreach loop and if it equals one of the expressions then return that expression */
             exNum = 0;
             return null;
         }
         private AudioClip FindVoice(string voiceName)
         {
-            //Look through the resource folder to find the voice file and return it
-            
             return ResourcesExtension.Load<AudioClip>(voiceName);
-
         }
         private AudioClip FindSoundFX(string soundFXName)
         {
-            //Look through the resource folder to find the soundfx file and return it
-            
             return ResourcesExtension.Load<AudioClip>(soundFXName);
-        }
-        // We should prob make this accesable separately at a later date but it's fine here for now
-        public class ResourcesExtension
-        {
-            public static string ResourcesPath = Application.dataPath + "/Resources";
-
-            public static T Load<T>(string resourceName) where T : UnityEngine.Object
-            {
-                string[] directories = Directory.GetDirectories(ResourcesPath, "*", SearchOption.AllDirectories);
-                foreach (var item in directories)
-                {
-                    string itemPath = item.Substring(ResourcesPath.Length + 1);
-                    var result = Resources.Load<T>(itemPath + "\\" + resourceName);
-                    if (result != null) return result;
-                }
-                return null;
-            }
         }
     }
 }
