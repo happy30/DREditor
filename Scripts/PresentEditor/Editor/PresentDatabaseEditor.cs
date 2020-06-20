@@ -1,24 +1,49 @@
-﻿using System.Collections;
+﻿/**
+ * Present Database Editor for DREditor
+ * Original Author: KHeartz
+ */
+
 using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEditor;
+using DRUtility = DREditor.Utility.Editor.HandyFields;
 
-namespace DREditor.PresentEditor
+namespace DREditor.PresentEditor.Editor
 {
     [CustomEditor(typeof(PresentDatabase))]
-    public class PresentDatabaseEditor : Editor
+    public class PresentDatabaseEditor : UnityEditor.Editor
     {
         private PresentDatabase pdb;
-        private void OnEnable()
-        {
-            pdb = target as PresentDatabase;
-        }
+        private void OnEnable() => pdb = target as PresentDatabase;
         public override void OnInspectorGUI()
         {
-            Label("Present Database");
+            DRUtility.Label("Present Database");
             GUILayout.Label("Present Count: " + pdb.presents.Count);
+            CreateForm();
+            EditorUtility.SetDirty(pdb);
+        }
 
+        private void CreateForm()
+        {
+            if (!AddNewPresent())
+            {
+                return;
+            }
+
+            for (int i = 0; i < pdb.presents.Count; i++)
+            {
+                var present = pdb.presents[i];
+                using (new EditorGUILayout.HorizontalScope("Box"))
+                {
+                    ShowPresentImage(present);
+                    SelectPresent(present, i);
+                }
+            }
+        }
+
+        private bool AddNewPresent()
+        {
             if (GUILayout.Button("Add New Present"))
             {
                 if (pdb.presents == null)
@@ -27,42 +52,25 @@ namespace DREditor.PresentEditor
                 }
                 pdb.presents.Add(CreateInstance<Present>());
             }
-
-            if (pdb.presents == null)
-            {
-                return;
-            }
-
-            //foreach (var present in pdb.presents)
-            for (int i = 0; i < pdb.presents.Count; i++)
-            {
-                var present = pdb.presents[i];
-                GUILayout.BeginHorizontal("Box");
-
-                //Show Present Image
-                GUILayout.BeginVertical();
-                GUILayout.Label(AssetPreview.GetAssetPreview(present.image));
-                GUILayout.EndVertical();
-
-
-                // Select Present asset
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
-                pdb.presents[i] = (Present)EditorGUILayout.ObjectField(present, typeof(Present), false, GUILayout.Width(400));
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
-
-
-                GUILayout.EndHorizontal();
-            }
-            EditorUtility.SetDirty(pdb);
+            return pdb.presents == null;
         }
-        private void Label(string label)
+
+        private void ShowPresentImage(Present present)
         {
-            GUI.backgroundColor = Color.white;
-            var labelStyle = new GUIStyle();
-            labelStyle.fontSize = 10;
-            GUILayout.Label(label, labelStyle);
+            using (new EditorGUILayout.VerticalScope())
+            {
+                GUILayout.Label(AssetPreview.GetAssetPreview(present.image));
+            }
+        }
+
+        private void SelectPresent(Present present, int idx)
+        {
+            using (new EditorGUILayout.VerticalScope())
+            {
+                GUILayout.FlexibleSpace();
+                pdb.presents[idx] = DRUtility.UnityField(present, 400);
+                GUILayout.FlexibleSpace();
+            }
         }
     }
 }

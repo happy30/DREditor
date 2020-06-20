@@ -1,4 +1,9 @@
-﻿using UnityEditor;
+﻿/**
+ * Trial Camera Animation Database Editor for DREditor
+ * Original Author: KHeartz
+ */
+
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -32,10 +37,10 @@ namespace DREditor.DialogueEditor.Editor
             Utility.Editor.HandyFields.Label("Trial Camera Animation Database");
             EditorGUILayout.Space(30);
             Utility.Editor.HandyFields.Label("Trial Camera Animator Controller");
-            cdb.controller = Utility.Editor.HandyFields.UnityField(cdb.controller, 200, 20);
+            //cdb.controller = Utility.Editor.HandyFields.UnityField(cdb.controller, 200, 20);
             if (GUILayout.Button("Refresh Animator Controller"))
             {
-                RefreshAnimatorController();
+                RecreateAnimatorController();
             }
             EditorGUILayout.Space(30);
         }
@@ -86,43 +91,57 @@ namespace DREditor.DialogueEditor.Editor
                 }
             }
         }
-        private void RefreshAnimatorController()
+        private AnimatorController GetAnimatorController()
         {
-            ClearAllStatesAndParameters();
-            var rootStateMachine = cdb.controller.layers[0].stateMachine;
+            var dir = System.IO.Path.GetDirectoryName(AssetDatabase.GetAssetPath(cdb));
+            var controllerPath = System.IO.Path.Combine(dir, "animDatabaseController.controller");
+            var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath);
+            if (controller != null)
+            {
+                ClearAllStatesAndParameters(controller);
+                return controller;
+            }
+            return AnimatorController.CreateAnimatorControllerAtPath(controllerPath);
+        }
+        private void RecreateAnimatorController()
+        {
+            var controller = GetAnimatorController();
+            var rootStateMachine = controller.layers[0].stateMachine;
+            rootStateMachine.AddEntryTransition(rootStateMachine.AddState("New State"));
             foreach (var anim in cdb.anims)
             {
                 if (anim == null)
                 {
                     continue;
                 }
-                var animState = cdb.controller.AddMotion(anim);
-                cdb.controller.AddParameter(anim.name, AnimatorControllerParameterType.Trigger);
+                var animState = controller.AddMotion(anim);
+                controller.AddParameter(anim.name, AnimatorControllerParameterType.Trigger);
                 var transition = rootStateMachine.AddAnyStateTransition(animState);
                 transition.AddCondition(AnimatorConditionMode.If, 0, anim.name);
                 transition.duration = 0;
             }
-            RefreshAnimationWindow();
+            RefreshAnimationWindow(controller);
         }
-        private void ClearAllStatesAndParameters()
+        private void ClearAllStatesAndParameters(AnimatorController controller)
         {
-            for (int i = cdb.controller.parameters.Length - 1; i >= 0; i--)
+            for (int i = controller.parameters.Length - 1; i >= 0; i--)
             {
-                cdb.controller.RemoveParameter(i);
+                controller.RemoveParameter(i);
             }
-            var rootStateMachine = cdb.controller.layers[0].stateMachine;
+            var rootStateMachine = controller.layers[0].stateMachine;
+            for (int i = rootStateMachine.entryTransitions.Length - 1; i >= 0; i--)
+            {
+                rootStateMachine.RemoveState(rootStateMachine.entryTransitions[i].destinationState);
+            }
             for (int i = rootStateMachine.anyStateTransitions.Length - 1; i >= 0; i--)
             {
                 rootStateMachine.RemoveState(rootStateMachine.anyStateTransitions[i].destinationState);
             }
         }
-        private void CopyDREditorDefaultAnimations()
-        {
 
-        }
-        private void RefreshAnimationWindow()
+        private void RefreshAnimationWindow(AnimatorController controller)
         {
-            Selection.activeObject = cdb.controller;
+            Selection.activeObject = controller;
             EditorWindow.GetWindow<EditorWindow>("Animator").Close();
             EditorApplication.ExecuteMenuItem("Window/Animation/Animator");
             Selection.activeObject = cdb;
