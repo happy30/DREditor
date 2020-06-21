@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/**
+ * Utility Functions for DREditor Editors
+ * Original Author: Jordi
+ * Contributing Author: KHeartz
+ */
+
+using UnityEngine;
 using UnityEditor;
 
 namespace DREditor.Utility.Editor

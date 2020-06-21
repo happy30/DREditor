@@ -18,14 +18,14 @@ namespace DREditor.Debug
         [SerializeField] private Animator CameraAnimator = null;
         [SerializeField] private DRTrialCamera TrialCamera = null;
 
-        [SerializeField] private GameObject UI, OneShotButton = null;
+        [SerializeField] private GameObject UI = null;
+        [SerializeField] private GameObject OneShotButton = null;
 
         [SerializeField] private string AnimName = null;
         [SerializeField] private Text SeatNumText = null, CharHeightText = null, SeatRadiusText = null;
 
         [SerializeField] private InputField strlistener = null;
 
-        [SerializeField] private TrialCameraAnimDatabase animDatabase = null;
         [SerializeField] private Transform AnimButtonContentTransform = null;
         [SerializeField] private GameObject AnimButtonPF = null;
 
@@ -70,8 +70,8 @@ namespace DREditor.Debug
         }
         private void AddAnimButtons()
         {
-            System.Array.ForEach(animDatabase.controller.layers[0].stateMachine.anyStateTransitions,
-                animState => AddAnimButton(animState.destinationState.name));
+            System.Array.ForEach(CameraAnimator.runtimeAnimatorController.animationClips,
+                animState => AddAnimButton(animState.name));
         }
         private void AddAnimButton(string animName)
         {

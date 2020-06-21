@@ -18,13 +18,12 @@ namespace DREditor.Camera
         [SerializeField] private float SeatFocus = 0.0f;
         [SerializeField] private float SeatRadius = 8.0f;
 
-        [SerializeField] private RadiusLock RadiusLock;
+        [SerializeField] private RadiusLock RadiusLock = null;
         [SerializeField] private bool SmoothFocus = true;
         [SerializeField] private float SmoothTransitionTime = 10f;
         [SerializeField] private int HeadmasterPosition = 0;
         [SerializeField] private float HeamasterSeatHeightOffset = 12f;
         [SerializeField] private float HeadmasterSeatDistance = 12f;
-        [SerializeField] private DialogueEditor.TrialCameraAnimDatabase animDatabase = null;
         [SerializeField] private bool useCharacters = false;
         [SerializeField] private List<CharacterEditor.Student> students = null;
         public float[] CharHeightOffset = new float[16];
@@ -33,7 +32,6 @@ namespace DREditor.Camera
 
         private void Start()
         {
-            CameraAnimator.runtimeAnimatorController = animDatabase.controller;
             AnchorAngle = 360f / (useCharacters ? students.Count : CharHeightOffset.Length);
         }
 
