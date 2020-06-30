@@ -371,6 +371,7 @@ namespace DREditor.Toolbox
                     if(currentLine.Text.Length + lineLenghtOffset == 0)
                     {
                         currentLine.Text += word;
+                        lineBroke = true;
                         continue;
                     }
                     if(word.Contains("\n"))
