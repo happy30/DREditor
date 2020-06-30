@@ -59,7 +59,7 @@ namespace DREditor.Toolbox
 
         // Time to wait before showing the progress
         private double waitForProgress = 0.5;
-        
+        private bool lineBroke = false;
 
         [MenuItem("Tools/DREditor/Import Dialogues")]
         public static void CreateWizard()
@@ -224,8 +224,17 @@ namespace DREditor.Toolbox
                                 // Hook up each part of the dialogue line here
                                 if(lineInfo.expression != null)
                                 {
+                                    if (currentLine >= maxLinesPerDialogue)
+                                    {
+                                        currentLine = 0;
+                                    }
                                     currentDialogue.Lines[currentLine].Expression = lineInfo.expression;
                                     currentDialogue.Lines[currentLine].ExpressionNumber = lineInfo.expressionNumber;
+                                }
+                                if (lineBroke == true)
+                                {
+                                    currentLine++;
+                                    lineBroke = false;
                                 }
                                 if (lineInfo.soundFX != null)
                                 {
