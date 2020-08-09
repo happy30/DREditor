@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using DRStudent = DREditor.Characters.Student;
+using DRStudent = DREditor.CharacterEditor.Student;
 
 namespace DREditor.PresentEditor
 {

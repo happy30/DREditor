@@ -1,5 +1,5 @@
 {
-    "name": "DREditor.Camera.Modifiers",
+    "name": "dreditor.camera.modifiers",
     "references": [
         "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
     ],

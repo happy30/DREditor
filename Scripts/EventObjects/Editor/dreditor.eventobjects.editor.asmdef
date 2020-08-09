@@ -1,5 +1,5 @@
 {
-    "name": "DREditor.EventObjects.Editor",
+    "name": "dreditor.eventobjects.editor",
     "references": [
         "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
     ],
