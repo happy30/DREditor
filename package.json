@@ -1,8 +1,10 @@
 {
-    "name": "nl.happy30.dreditor",
-    "displayName": "DREditor",
-    "version": "1.1.0",
-    "unity": "2019.1",
-    "description": "Editor Tools to create games inspired by Danganronpa.",
-    "dependencies": { }
+  "name": "nl.happy30.dreditor",
+  "displayName": "DREditor",
+  "version": "1.1.0",
+  "unity": "2019.1",
+  "description": "Editor Tools to create games inspired by Danganronpa.",
+  "dependencies": {
+    "com.unity.textmeshpro": "2.0.1"
+  }
 }

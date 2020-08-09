@@ -1,0 +1,18 @@
+{
+    "name": "DREditor.Dialogues",
+    "references": [
+        "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1",
+        "GUID:59ea85d383066e54d9af5fa32490510c",
+        "GUID:f4013968dd504a34e8946b223dad8518",
+        "GUID:bc6fbbdf2ede4914487e367361f3e51e"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

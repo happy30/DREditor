@@ -4,9 +4,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
+using DREditor.Dialogues;
+using DREditor.Characters;
+using DREditor.Utility.Editor;
 
-using DREditor.DialogueEditor;
-using DREditor.CharacterEditor;
 
 namespace DREditor.Toolbox
 {
@@ -18,6 +19,24 @@ namespace DREditor.Toolbox
         {
             FullName, FirstNameOnly, LastNameOnly
         }
+
+        public enum DialogueKeywords
+        {
+            Name, Expression, SoundFX, Voice, DialogueText
+        }
+        
+        private class DialogueLineInfo
+        {
+            public Character character;
+            public Expression expression;
+            public AudioClip soundFX;
+            public AudioClip voice;
+            public int speakerIndex;
+            public string textContent;
+            public string speakerName;
+            public int expressionNumber;
+        }
+
 
         [Tooltip("The character database to use for searching the characters")]
         public CharacterDatabase database;
@@ -33,9 +52,14 @@ namespace DREditor.Toolbox
         public int maxLinesPerDialogue = 25;
         [Tooltip("The maximimum amount of text characters allowed in a line")]
         public int maxCharactersPerLine = 100;
+        [Tooltip("Custom Regex string")]
+        public string regexString = @"^(.+?)(?: *)/(?: *)(.+?)(?: *):(?: *)(.*)$";
+        [Tooltip("Capturing groups")]
+        public List<DialogueKeywords> keyList = new List<DialogueKeywords>() { DialogueKeywords.SoundFX, DialogueKeywords.Name, DialogueKeywords.DialogueText };
 
         // Time to wait before showing the progress
         private double waitForProgress = 0.5;
+        private bool lineBroke = false;
 
         [MenuItem("Tools/DREditor/Import Dialogues")]
         public static void CreateWizard()
@@ -45,7 +69,6 @@ namespace DREditor.Toolbox
 
         private void OnWizardCreate()
         {
-
             if (database)
             {
                 if (database.Characters == null)
@@ -89,12 +112,13 @@ namespace DREditor.Toolbox
                         currentDialogue.Speakers = database;
                         currentDialogue.Lines = new List<Line>();
                         dialoguesToSave.Add(currentDialogue);
-                        Regex regex = new Regex(@"^(.+?)(?: *):(?: *)(.*)$");
+                        Regex regex = new Regex(regexString);
                         Line lastLine = null;
                         int emptyLineCounter = 0;
+                        int currentLine = 0;
                         while (!reader.EndOfStream)
                         {
-                            
+                            DialogueLineInfo lineInfo = new DialogueLineInfo();
                             string line = reader.ReadLine();
                             bytesRead += Encoding.UTF8.GetByteCount(line);
                             if (line.StartsWith("//"))
@@ -120,21 +144,57 @@ namespace DREditor.Toolbox
 
                                 if (regex.IsMatch(line))
                                 {
-                                    Match m = regex.Match(line);
-                                    string characterName = m.Groups[1].Value;
-                                    string lineContent = m.Groups[2].Value;
-                                    int speakerIndex;
-                                    Character speaker = FindCharacterInDB(characterName, out speakerIndex);
+                                    Match m = regex.Match(line); // creates string array based on the expression
+                                    for (int i = 1; i < m.Groups.Count; i++)
+                                    {
+                                        var group = m.Groups[i];
+                                        var keyword = keyList[i - 1];
+                                        
+                                        switch (keyword)
+                                        {
+                                            case DialogueKeywords.Name:
+                                                lineInfo.character = FindCharacterInDB(group.Value, out lineInfo.speakerIndex);
+                                                break;
+                                        }
+                                        
+                                    }
+                                    for (int i = 1; i < m.Groups.Count; i++)
+                                    {
+                                        var group = m.Groups[i];
+                                        var keyword = keyList[i - 1];
+
+                                        switch (keyword)
+                                        {
+                                            case DialogueKeywords.Expression:
+                                                int exNum = 0;
+                                                lineInfo.expression = FindExpression(group.Value, lineInfo.character, out exNum);
+                                                lineInfo.expressionNumber = exNum;
+                                                break;
+                                            case DialogueKeywords.DialogueText:
+                                                lineInfo.textContent = group.Value;
+                                                break;
+                                            case DialogueKeywords.Voice:
+                                                lineInfo.voice = FindVoice(group.Value);
+                                                break;
+                                            case DialogueKeywords.SoundFX:
+                                                lineInfo.soundFX = FindSoundFX(group.Value);
+                                                break;
+                                        }
+                                    }
+
+
                                     string prependSpeaker = null;
-                                    if(speakerIndex == -1)
+                                    if(lineInfo.speakerIndex == -1)
                                     {
                                         // We couldn't find a matching character, the breakline method will preprend the character name
                                         // lineContent = line;
-                                        speakerIndex = 0;
-                                        prependSpeaker = characterName;
+                                        lineInfo.speakerIndex = 0;
+                                        prependSpeaker = lineInfo.character.FirstName;
                                         showWarnCharactersNotFound = true;
                                     }
-                                    List<Line> normalizedLines = BreakLine(speaker, speakerIndex, prependSpeaker, lineContent);
+                                    
+                                    lineInfo.speakerName = prependSpeaker;
+                                    List<Line> normalizedLines = BreakLine(lineInfo);
                                     if(normalizedLines.Count > 0)
                                     {
                                         lastLine = normalizedLines[normalizedLines.Count - 1];
@@ -152,12 +212,39 @@ namespace DREditor.Toolbox
                                     string textContent = lastLine.Text.Trim(); 
                                     textContent += "\n";
                                     textContent += line.Trim();
-                                    List<Line> normalizedLines = BreakLine(lastLine.Speaker, lastLine.SpeakerNumber, null, textContent);
+                                    lineInfo.textContent = textContent;
+                                    lineInfo.speakerIndex = lastLine.SpeakerNumber;
+                                    lineInfo.character = lastLine.Speaker;
+                                    lineInfo.speakerName = null;
+                                    List<Line> normalizedLines = BreakLine(lineInfo);
                                     lastLine.Text = normalizedLines[0].Text;
                                     normalizedLines.RemoveAt(0);
                                     currentDialogue.Lines.AddRange(normalizedLines);
                                 }
-
+                                // Hook up each part of the dialogue line here
+                                if(lineInfo.expression != null)
+                                {
+                                    if (currentLine >= maxLinesPerDialogue)
+                                    {
+                                        currentLine = 0;
+                                    }
+                                    currentDialogue.Lines[currentLine].Expression = lineInfo.expression;
+                                    currentDialogue.Lines[currentLine].ExpressionNumber = lineInfo.expressionNumber;
+                                }
+                                if (lineBroke == true)
+                                {
+                                    currentLine++;
+                                    lineBroke = false;
+                                }
+                                if (lineInfo.soundFX != null)
+                                {
+                                    currentDialogue.Lines[currentLine].SFX.Add(lineInfo.soundFX);
+                                }
+                                if(lineInfo.voice != null)
+                                {
+                                    currentDialogue.Lines[currentLine].VoiceSFX = lineInfo.voice;
+                                }
+                                currentLine++;
                                 emptyLineCounter = 0;
                             }
 
@@ -182,7 +269,6 @@ namespace DREditor.Toolbox
                     Debug.LogWarning("DialogueImporter: No input file selected. Process aborted");
                     return;
                 }
-
                 // Save the dialogue objects
                 string folder = CreateIntermediateFolders(targetDirectory);
                 int dialogueNumber = startingNumber;
@@ -211,11 +297,13 @@ namespace DREditor.Toolbox
                 {
                     EditorUtility.DisplayDialog("Some character were not found", "Some characters couldn't be found on the database.", "OK");
                 }
+                
             }
             else
             {
                 EditorUtility.DisplayDialog("CharacterDatabase was not specifid.", "Please create and assign a CharacterDatabase and try again", "OK");
             }
+            
         }
 
         private string CreateIntermediateFolders(string folder)
@@ -240,9 +328,14 @@ namespace DREditor.Toolbox
             return tempPath;
         }
 
-        private List<Line> BreakLine(Character speaker, int speakerNumber, string speakerName, string lineContent)
+
+        private List<Line> BreakLine(DialogueLineInfo lineInfo)
         {
-            List<Line> result = new List<Line>();
+            Character speaker = lineInfo.character;
+            int speakerNumber = lineInfo.speakerIndex;
+            string speakerName = lineInfo.speakerName;
+            string lineContent = lineInfo.textContent;
+            List<Line> result = new List<Line>(); 
             int lineLenghtOffset = 0;
             if(speakerName != null)
             {
@@ -278,6 +371,7 @@ namespace DREditor.Toolbox
                     if(currentLine.Text.Length + lineLenghtOffset == 0)
                     {
                         currentLine.Text += word;
+                        lineBroke = true;
                         continue;
                     }
                     if(word.Contains("\n"))
@@ -377,6 +471,36 @@ namespace DREditor.Toolbox
                 }
             }
             return found;
+        }
+
+        
+        private Expression FindExpression(string exName, Character character, out int exNum)
+        {
+            
+            for(int i = 0; i < database.Characters.Count; i++)
+            {
+                if(database.Characters[i].FirstName == character.FirstName)
+                {
+                    for(int en = 0; en < database.Characters[i].Expressions.Count; en++)
+                    {
+                        if (exName == database.Characters[i].Expressions[en].Name)
+                        {
+                            exNum = en+1;
+                            return database.Characters[i].Expressions[en];
+                        }
+                    }
+                }
+            }
+            exNum = 0;
+            return null;
+        }
+        private AudioClip FindVoice(string voiceName)
+        {
+            return ResourcesExtension.Load<AudioClip>(voiceName);
+        }
+        private AudioClip FindSoundFX(string soundFXName)
+        {
+            return ResourcesExtension.Load<AudioClip>(soundFXName);
         }
     }
 }
