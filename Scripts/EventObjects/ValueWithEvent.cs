@@ -199,9 +199,5 @@ namespace EventObjects
     [Serializable] public class SpriteEvent : UnityEvent<Sprite>{}
     [Serializable] public class StringArrayEvent : UnityEvent<string[]>{}
     [Serializable] public class GameObjectEvent : UnityEvent<GameObject>{}
-    
     [Serializable] public class TransformEvent : UnityEvent<PosRot>{}
-    
-
-    
 }

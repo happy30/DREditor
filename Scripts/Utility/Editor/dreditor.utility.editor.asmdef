@@ -1,6 +1,7 @@
 {
-    "name": "dreditor.utility.editor",
+    "name": "DREditor.Utility.Editor",
     "references": [],
+    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -10,6 +11,5 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "versionDefines": []
 }

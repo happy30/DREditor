@@ -142,7 +142,6 @@ namespace DREditor.Utility.Editor
         }
         public static Texture2D GetMaterialTexture(Material material)
         {
-            
             return material.GetTexture("_MainTex") as Texture2D;
         }
     }

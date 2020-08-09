@@ -1,0 +1,17 @@
+{
+    "name": "DREditor.Audio.Editor",
+    "references": [
+        "GUID:f4013968dd504a34e8946b223dad8518"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

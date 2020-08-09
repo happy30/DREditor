@@ -1,8 +1,9 @@
 {
-    "name": "dreditor.presenteditor",
+    "name": "DREditor.Presents",
     "references": [
-        "dreditor.charactereditor"
+        "DREditor.Characters"
     ],
+    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -10,6 +11,5 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "versionDefines": []
 }

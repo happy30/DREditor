@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using DREditor.CharacterEditor;
-using DREditor.DialogueEditor;
+using DREditor.Characters;
+using DREditor.Dialogues;
 
 namespace DREditor.Localization
 {
