@@ -1,5 +1,5 @@
 {
-    "name": "dreditor.localization.editor",
+    "name": "DREditor.Localization.Editor",
     "references": [
         "GUID:c41cc29cfeef76640ba80da0aa02a3f6",
         "GUID:59ea85d383066e54d9af5fa32490510c",

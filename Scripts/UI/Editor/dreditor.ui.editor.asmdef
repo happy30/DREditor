@@ -1,8 +1,8 @@
 {
-    "name": "dreditor.ui.editor",
+    "name": "DREditor.UI.Editor",
     "references": [
-        "dreditor.ui",
-        "dreditor.localization",
+        "DREditor.UI",
+        "DREditor.Localization",
         "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],

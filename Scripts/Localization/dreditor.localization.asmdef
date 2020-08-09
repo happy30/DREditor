@@ -1,9 +1,9 @@
 {
-    "name": "dreditor.localization",
+    "name": "DREditor.Localization",
     "references": [
         "GUID:6494ce58e6a980a46ad8c75cbecd5ee1",
-        "GUID:59ea85d383066e54d9af5fa32490510c",
-        "GUID:f80c78fdc64b54d4189b327539375e5e"
+        "GUID:028b99c3d4787754c9b0388a09d55829",
+        "GUID:8983fa990b5b6254ab1d270d32296c64"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
