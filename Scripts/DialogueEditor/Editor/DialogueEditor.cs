@@ -317,7 +317,7 @@ namespace DREditor.DialogueEditor.Editor
                                 {
                                     GUI.FocusControl(null);
                                     dia.Lines.Remove(dia.Lines[i]);
-
+                                    serializedObject.Update();
                                 }
                             }
 
@@ -352,6 +352,7 @@ namespace DREditor.DialogueEditor.Editor
                             if (GUILayout.Button("+", GUILayout.Width(20)))
                             {
                                 dia.Lines.Insert(i + 1, new Line());
+                                serializedObject.Update();
                             }
                         }
                     }
