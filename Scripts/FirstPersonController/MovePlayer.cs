@@ -2,7 +2,7 @@
 using EventObjects;
 using UnityEngine;
 
-namespace DREditor
+namespace DREditor.FPS
 {
     [RequireComponent(typeof(CharacterController))]
     public class MovePlayer : MonoBehaviour

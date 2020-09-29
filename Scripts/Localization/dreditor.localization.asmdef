@@ -1,11 +1,10 @@
 {
-    "name": "dreditor.localization",
+    "name": "DREditor.Localization",
     "references": [
         "GUID:6494ce58e6a980a46ad8c75cbecd5ee1",
         "GUID:59ea85d383066e54d9af5fa32490510c",
         "GUID:f80c78fdc64b54d4189b327539375e5e"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -13,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

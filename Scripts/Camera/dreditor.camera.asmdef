@@ -1,11 +1,10 @@
 {
-    "name": "dreditor.camera",
+    "name": "DREditor.Camera",
     "references": [
         "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1",
         "GUID:157bb9309df64264c950986d84108ee1",
         "GUID:3b13fc300962e354d88f7ee272724d92"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -13,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

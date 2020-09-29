@@ -4,8 +4,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
-using DREditor.DialogueEditor;
-using DREditor.CharacterEditor;
+using DREditor.Dialogues;
+using DREditor.Characters;
 using DREditor.Utility.Editor;
 
 

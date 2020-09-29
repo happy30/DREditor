@@ -1,9 +1,8 @@
 {
-    "name": "dreditor.camera.modifiers",
+    "name": "DREditor.Camera.Modifiers",
     "references": [
         "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -11,5 +10,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
