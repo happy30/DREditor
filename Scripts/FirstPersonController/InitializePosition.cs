@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EventObjects;
 using UnityEngine;
 
-namespace DREditor.FPS
+namespace DREditor.FPC
 {
     public class InitializePosition : MonoBehaviour
     {
