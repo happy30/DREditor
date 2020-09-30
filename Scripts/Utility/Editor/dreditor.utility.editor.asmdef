@@ -1,5 +1,5 @@
 {
-    "name": "dreditor.utility.editor",
+    "name": "DREditor.Utility.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"

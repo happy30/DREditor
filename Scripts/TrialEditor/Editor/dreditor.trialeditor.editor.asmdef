@@ -1,10 +1,9 @@
 {
-    "name": "dreditor.trialeditor.editor",
+    "name": "DREditor.TrialEditor.Editor",
     "references": [
         "GUID:c210ec0fc0842a84eb8a2f7e390764bd",
         "GUID:f0c6bb287a75e6c4eab2e93da7c65148"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -14,5 +13,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

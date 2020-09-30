@@ -1,9 +1,8 @@
 {
-    "name": "dreditor.eventobjects.editor",
+    "name": "DREditor.EventObjects.Editor",
     "references": [
         "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -13,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

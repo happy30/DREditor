@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EventObjects;
 using UnityEngine;
 
-namespace DREditor
+namespace DREditor.FPC
 {
     public class ObjectInteractor : MonoBehaviour
     {

@@ -1,5 +1,5 @@
 {
-    "name": "dreditor.toolbox",
+    "name": "DREditor.Toolbox",
     "references": [
         "GUID:f80c78fdc64b54d4189b327539375e5e",
         "GUID:59ea85d383066e54d9af5fa32490510c",

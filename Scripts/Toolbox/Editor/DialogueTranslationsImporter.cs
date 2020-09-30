@@ -6,7 +6,7 @@ using UnityEditor;
 
 using CSharpVitamins;
 
-using DREditor.DialogueEditor;
+using DREditor.Dialogues;
 using DREditor.Localization;
 
 namespace DREditor.Toolbox

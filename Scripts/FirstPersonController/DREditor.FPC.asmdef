@@ -1,0 +1,15 @@
+{
+    "name": "DREditor.FPC",
+    "references": [
+        "GUID:eb8ca9916c6dfd243abeccbce8ce7cd1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

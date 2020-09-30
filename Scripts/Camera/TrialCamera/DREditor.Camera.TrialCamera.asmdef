@@ -1,0 +1,16 @@
+{
+    "name": "DREditor.Camera.TrialCamera",
+    "references": [
+        "GUID:f80c78fdc64b54d4189b327539375e5e",
+        "GUID:59ea85d383066e54d9af5fa32490510c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
