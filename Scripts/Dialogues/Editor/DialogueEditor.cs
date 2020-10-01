@@ -346,8 +346,27 @@ namespace DREditor.Dialogues.Editor
                                     dia.Lines[i] = line;
                                 }
                             }
-
+                            
                             GUILayout.FlexibleSpace();
+
+                            if (GUILayout.Button("*", GUILayout.Width(20)))
+                                {
+                                    Line Copy = new Line();
+
+                                    Copy.translationKey = dia.Lines[i].translationKey;
+                                    Copy.SpeakerNumber = dia.Lines[i].SpeakerNumber;
+                                    Copy.Text = dia.Lines[i].Text;
+                                    Copy.VoiceSFX = dia.Lines[i].VoiceSFX;
+                                    Copy.SFX = dia.Lines[i].SFX;
+                                    Copy.Events = dia.Lines[i].Events;
+                                    Copy.TimeToNextLine = dia.Lines[i].TimeToNextLine;
+                                    Copy.AutomaticLine = dia.Lines[i].AutomaticLine;
+                                    Copy.Expression = dia.Lines[i].Expression;
+                                    Copy.ExpressionNumber = dia.Lines[i].ExpressionNumber;
+                                    Copy.AliasNumber = dia.Lines[i].AliasNumber;
+
+                                    dia.Lines.Insert(i + 1, Copy);
+                                }
 
                             if (GUILayout.Button("+", GUILayout.Width(20)))
                             {
