@@ -16,7 +16,10 @@ namespace DREditor.Camera
 
             //ETween.Step(transform.position, Player.position + Vector3.up * YOffset, FollowSpeedOmega);
         }
-
+        public Vector3 GetPlayerNoLerp()
+        {
+            return Player.position + Vector3.up * YOffset;
+        }
         public Quaternion GetPlayerRotation()
         {
             return Player.rotation;

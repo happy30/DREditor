@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a2ea643599b58a044ba6b5a97e3753b6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tmp: {instanceID: 0}
+  - cameraSource: {instanceID: 0}
+  - playlist: {fileID: 11400000, guid: c54cff951e0c5f34dafad45c4e36cc30, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

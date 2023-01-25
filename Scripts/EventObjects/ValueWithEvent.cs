@@ -26,7 +26,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
     public abstract class BaseValueWithEvent : ScriptableObject
     {
@@ -53,7 +53,11 @@ namespace EventObjects
                 if (!IsInitialized) Init();
                 return _value;
             }
-            set => SetValue(value);
+            set
+            {
+                SetValue(value);
+                //UnityEngine.Debug.Log(name + " " + value);
+            }
         }
 
         /// <summary>
@@ -169,7 +173,7 @@ namespace EventObjects
             if (_isSetup) return;
             if (SyncWith == null)
             {
-                Debug.LogWarning("SyncWith field is not filled. This is not supported.");
+                UnityEngine.Debug.LogWarning("SyncWith field is not filled. This is not supported.");
             }
             
             _currentValue = SyncWith.GetValueAndAddListener((x) => _currentValue = x);

@@ -13,11 +13,12 @@ namespace DREditor.Dialogues
     public class TrialCameraAnimDatabase : ScriptableObject
     {
         public List<AnimationClip> anims = new List<AnimationClip>();
-
+        public List<string> animNames = new List<string>();
+        public List<bool> animValues = new List<bool>();
         public List<string> GetNames()
         {
             var names = new List<string>();
-            anims.ForEach(anim => names.Add(anim.name));
+            animNames.ForEach(anim => names.Add(anim));
             return names;
         }
     }

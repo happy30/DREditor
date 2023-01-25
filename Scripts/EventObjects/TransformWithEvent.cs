@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
 
     [Serializable]

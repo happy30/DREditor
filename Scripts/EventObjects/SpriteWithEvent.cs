@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
     [CreateAssetMenu(menuName = "DREditor/EventObjects/Sprite", fileName = "New SpriteWithEvent")]
     public class SpriteWithEvent : ValueWithEvent<Sprite, SpriteEvent>

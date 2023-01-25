@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using EventObjects;
+using DREditor.EventObjects;
 using UnityEngine;
 using DREditor;
+using UnityEngine.InputSystem;
+
 
 namespace DREditor.Camera
 {
     public class CameraBehaviour : MonoBehaviour
     {
-        public bool DR_Style;
+        public bool DR_Style => PlayerInfo.PlayerInfo.instance != null?
+            PlayerInfo.PlayerInfo.instance.settings.DRCameraPan : DR_Cam;
+        [SerializeField] bool DR_Cam = false;
         public Crouch CrouchModifier;
         public Headbobbing HeadbobbingModifier;
+        public bool HeadbobbingEnabled => PlayerInfo.PlayerInfo.instance != null?
+            PlayerInfo.PlayerInfo.instance.settings.MovementBob : Bobbing;
+        [SerializeField] bool Bobbing = true;
         public FollowPlayer FollowPlayerModifier;
         public SmoothMouseLook MouseLookModifier;
         public CameraShake CameraShake;
@@ -24,11 +31,28 @@ namespace DREditor.Camera
         private Vector3 ShakeOffset;
 
         private Vector3 originalPos;
-
-
         public bool Fog;
 
+        DRControls _controls;
+        private void Awake()
+        {
+#if ENABLE_INPUT_SYSTEM
+            _controls = new DRControls();
+#endif
+        }
+        private void OnEnable()
+        {
+#if ENABLE_INPUT_SYSTEM
+            _controls.Enable();
+#endif
+        }
 
+        private void OnDisable()
+        {
+#if ENABLE_INPUT_SYSTEM
+            _controls.Disable();
+#endif
+        }
         // Start is called before the first frame update
         void Start()
         {
@@ -40,7 +64,7 @@ namespace DREditor.Camera
         void Update()
         {
 
-            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            if (_controls.Player.Move.ReadValue<Vector2>() != Vector2.zero)
             {
                 IsMoving = true;
             }
@@ -54,7 +78,7 @@ namespace DREditor.Camera
                 transform.position = FollowPlayerModifier.GetPlayerPosition();
             }
 
-            if (MouseLookModifier)
+            if (MouseLookModifier.enabled)
             {
                 if (DR_Style)
                 {
@@ -69,7 +93,7 @@ namespace DREditor.Camera
                 transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Player.localEulerAngles.y, transform.localEulerAngles.z);
             }
 
-            if (HeadbobbingModifier)
+            if (HeadbobbingEnabled && HeadbobbingModifier.enabled)
             {
                 transform.position = transform.position + new Vector3(0, HeadbobbingModifier.GetYBobAmount(), 0);
             }
@@ -98,6 +122,21 @@ namespace DREditor.Camera
 
 
 
+        }
+        public void CallLook()
+        {
+            transform.position = FollowPlayerModifier.GetPlayerNoLerp();
+            if (DR_Style)
+            {
+                if (!IsMoving) transform.localRotation = MouseLookModifier.GetRotation();
+                else transform.localRotation = MouseLookModifier.DRGetRotation(false);
+            }
+            else
+            {
+                transform.localRotation = MouseLookModifier.GetRotation(false);
+            }
+
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, Player.localEulerAngles.y, transform.localEulerAngles.z);
         }
     }
 }

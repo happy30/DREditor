@@ -8,4 +8,10 @@ namespace DREditor.Characters
         public Material Sprite;
         public string Name;
     }
+    [System.Serializable] //*
+    public class Unlit
+    {
+        public Sprite Sprite;
+        public string Name;
+    }
 }

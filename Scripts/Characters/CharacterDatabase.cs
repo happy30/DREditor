@@ -34,6 +34,46 @@ namespace DREditor.Characters
             }
             return names;
         }
+        public List<int> GetInts()
+        {
+            var ints = new List<int>();
+
+            for (int i = 0; i < Characters.Count; i++)
+            {
+                ints.Add(i);
+            }
+            return ints;
+        }
         
+        public Character GetCharacter(string firstName)
+        {
+            if (Characters.Count != 0)
+            {
+                foreach( Character c in Characters)
+                {
+                    if(c.FirstName == firstName)
+                    {
+                        return c;
+                    }
+                }
+            }
+
+            return null;
+        }
+        public Character GetCharacterByContaining(string name)
+        {
+            if (Characters.Count != 0)
+            {
+                foreach (Character c in Characters)
+                {
+                    if (name.Contains(c.FirstName))
+                    {
+                        return c;
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

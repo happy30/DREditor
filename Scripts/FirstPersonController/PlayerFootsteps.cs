@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using EventObjects;
+using DREditor.EventObjects;
 using UnityEngine;
 
 namespace DREditor.FPC
@@ -10,7 +10,7 @@ namespace DREditor.FPC
     {
         public AudioSource AudioSource;
         public AudioClip[] StepSounds;
-
+        
         public BoolWithEvent Running;
 
         public float Volume;
@@ -24,11 +24,15 @@ namespace DREditor.FPC
 
             var sound = StepSounds[Random.Range(0, StepSounds.Length - 1)];
             var pitch = Random.Range(0.9f, 1.1f);
+            //use this if unity audio
+            if (AudioSource)
+            {
+                AudioSource.pitch = pitch;
+                AudioSource.clip = sound;
+                AudioSource.volume = Running.Value ? Volume : Volume / 3f;
 
-            AudioSource.pitch = pitch;
-            AudioSource.clip = sound;
-            AudioSource.volume = Running.Value ? Volume : Volume / 3f;
-            AudioSource.Play();
+                AudioSource.Play();
+            }
 
             cd = true;
             StartCoroutine(Cooldown());

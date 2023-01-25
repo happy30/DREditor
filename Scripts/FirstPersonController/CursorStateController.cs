@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using EventObjects;
+using DREditor.EventObjects;
 using UnityEngine;
 
 namespace DREditor.FPC

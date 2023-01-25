@@ -54,10 +54,8 @@ MonoBehaviour:
   HeadmasterPosition: 0
   HeamasterSeatHeightOffset: 12
   HeadmasterSeatDistance: 12
-  animDatabase: {fileID: 11400000, guid: d3946a5f1bf7afa46bdfc31eeff859f2, type: 2}
   useCharacters: 0
   students: []
-  CharHeightOffsetOverride: 0
   CharHeightOffset:
   - 7.85
   - 7.25
@@ -85,8 +83,8 @@ GameObject:
   m_Component:
   - component: {fileID: 350576433880960668}
   - component: {fileID: 350576433880960671}
-  - component: {fileID: 350576433880960670}
   - component: {fileID: 4301314524803908280}
+  - component: {fileID: 4684808373360953539}
   m_Layer: 0
   m_Name: DRCamera
   m_TagString: Untagged
@@ -151,14 +149,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &350576433880960670
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 350576433880960667}
-  m_Enabled: 1
 --- !u!114 &4301314524803908280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,9 +177,24 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &4684808373360953539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350576433880960667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!1 &350576434704289255
 GameObject:
   m_ObjectHideFlags: 0

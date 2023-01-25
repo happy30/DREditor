@@ -25,7 +25,7 @@
 using System;
 using UnityEngine;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
     [CreateAssetMenu(menuName = "DREditor/EventObjects/Bool", fileName = "New BoolWithEvent")]
     public class BoolWithEvent : ValueWithEvent<bool, BoolEvent>

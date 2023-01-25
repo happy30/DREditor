@@ -11,5 +11,9 @@ namespace DREditor.TrialEditor
         public Sprite Picture;
         public string Title;
         public string Description;
+        // Below was added by Sweden
+        public string LieTitle;
+        public string LieDescription;
+        [HideInInspector] public int tbNum;
     }
 }
