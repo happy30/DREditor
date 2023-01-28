@@ -188,7 +188,7 @@ RectTransform:
   m_GameObject: {fileID: 5811536434089695986}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.093, y: 0.087, z: 1}
+  m_LocalScale: {x: 0.129, y: 0.129, z: 1}
   m_Children:
   - {fileID: 1909266618941694409}
   m_Father: {fileID: 8731656772359843788}
@@ -196,7 +196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4023273303749853994
@@ -387,6 +387,9 @@ MonoBehaviour:
   RoomConvo: []
   sprite: {fileID: 4023273303749853994}
   spriteb: {fileID: 5224845534998210787}
+  identified: 1
+  displayName: 
+  DebugNoDialogue: {fileID: 0}
 --- !u!65 &3118814817203378475
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -115,7 +115,7 @@ namespace DREditor.Dialogues.Editor
 			{
 				int _assetamount = GetProgressionDatabase();
 
-				if (_assetamount != 1) return;
+				//if (_assetamount != 1) return;
 			}
 
 			if (dia.Speakers.Characters == null)

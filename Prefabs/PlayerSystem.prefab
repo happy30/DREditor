@@ -66,7 +66,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 759
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: d177dd1022081be438fc442c186f531d, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -174,7 +174,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 33783
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: ea8be3fcf01ca6340957ba37fce92584, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -263,7 +263,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 0}
+  sharedProfile: {fileID: 11400000, guid: b48283bd9cd587f4b830ebf96db4ddbc, type: 2}
 --- !u!1 &1072989327
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ Camera:
   m_GameObject: {fileID: 6315153746243678951}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e22f0d1a03c5544f888dff1a59fa51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 0}
+  AudioSource: {fileID: 6315153747246210221}
   StepSounds:
   - {fileID: 8300000, guid: f2f72137968e39c4288127d80a159829, type: 3}
   - {fileID: 8300000, guid: aa2a6532c12d8ff46b3811fd71c77d47, type: 3}

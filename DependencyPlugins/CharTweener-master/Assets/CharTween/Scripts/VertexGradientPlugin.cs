@@ -9,7 +9,7 @@ using TMPro;
 namespace CharTween
 {
     /// <summary>
-    /// Handles tweening of <see cref="VertexGradient"/>. Is used by <see cref=""/>
+    /// Handles tweening of <see cref="VertexGradient"/>.
     /// </summary>
     public class VertexGradientPlugin : ABSTweenPlugin<VertexGradient, VertexGradient, NoOptions>
     {
@@ -18,7 +18,7 @@ namespace CharTween
 
         }
 
-        public override void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, bool isRelative)
+        public override void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t,  bool isRelative)
         {
             var prevEndVal = t.endValue;
             t.endValue = t.getter();
@@ -26,12 +26,6 @@ namespace CharTween
             t.startValue = prevEndVal;
             t.setter(t.startValue);
         }
-
-        // COMMENT this method if DOTween version is 1.2.320 or older
-        public override void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, VertexGradient fromValue, bool setImmediately, bool isRelative) { SetFrom(t, isRelative); }
-
-        // UNCOMMENT this method if DOTween version is 1.2.235 to 1.2.320 
-        //public override void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, VertexGradient fromValue, bool setImmediately) { SetFrom(t, false); }
 
         public override VertexGradient ConvertToStartValue(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, VertexGradient value)
         {
@@ -88,9 +82,19 @@ namespace CharTween
                 left.bottomRight * right);
         }
 
+        public void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, VertexGradient fromValue, bool isRelative)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void SetFrom(TweenerCore<VertexGradient, VertexGradient, NoOptions> t, VertexGradient fromValue, bool setImmediately, bool isRelative)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void EvaluateAndApply(NoOptions options, Tween t, bool isRelative, DOGetter<VertexGradient> getter, DOSetter<VertexGradient> setter, float elapsed, VertexGradient startValue, VertexGradient changeValue, float duration, bool usingInversePosition, int newCompletedSteps, UpdateNotice updateNotice)
         {
             throw new System.NotImplementedException();
         }
-    }
-}
+    } // Class
+} // Namespace

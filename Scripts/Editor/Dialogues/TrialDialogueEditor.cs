@@ -22,7 +22,7 @@ namespace DREditor.Editor
     public class TrialDialogueEditor : DialogueEditorBase
     {
         private TrialDialogue dia;
-        private TrialCameraVFXDatabase cameraVFXDatabase;
+        
         private TrialCameraAnimDatabase cameraAnimDatabase;
 		ProgressionDatabase progression;
 		private SerializedProperty propLines;
@@ -48,16 +48,25 @@ namespace DREditor.Editor
         }
         private void CreateForm()
         {
+			if(cameraAnimDatabase == null)
+			{
+				int _assetamount = GetCameraAnimDatabase();
 
-			if (progression == null)
+                if (_assetamount != 1) return;
+            }
+            if (dia.Speakers == null)
+            {
+                int _assetamount = GetCharacterDatabase();
+
+                if (_assetamount != 1) return;
+            }
+            if (progression == null)
 			{
 				int _assetamount = GetProgressionDatabase();
 
-				if (_assetamount != 1) return;
+				//if (_assetamount != 1) return;
 			}
-			if (!ValidateCharacterDatabase() || !ValidateCharacters() ||
-                !ValidateCameraAnimDatabase() || !ValidateCameraAnims() ||
-                !ValidateCameraVFXDatabase() || !ValidateCameraVFXs()) { return; }
+			
 
 			#region Debug Mode
 			using (new EditorGUILayout.HorizontalScope())
@@ -157,66 +166,88 @@ namespace DREditor.Editor
             }
             return true;
         }
-
-        private bool ValidateCharacters()
+        private int GetCharacterDatabase()
         {
-            if (dia.Speakers.Characters == null)
+            string[] _databaseguids = AssetDatabase.FindAssets("t:CharacterDatabase");
+            if (_databaseguids.Length == 1)
             {
-                EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
-                return false;
-            }
+                string _databasepath = AssetDatabase.GUIDToAssetPath(_databaseguids[0]);
 
-            if (dia.Speakers.Characters.Empty())
-            {
-                EditorGUILayout.LabelField("Add at least one character in the CharacterDatabase.");
-                return false;
+                EditorGUILayout.LabelField($"Loading CharacterDatabase at {_databasepath}.");
+                dia.Speakers = AssetDatabase.LoadAssetAtPath<CharacterDatabase>(_databasepath);
+                return 1;
             }
-
-            foreach (var stu in dia.Speakers.Characters)
-            {
-                if (stu == null)
-                {
-                    EditorGUILayout.LabelField("Nullref in CharacterDatabase. Is an element empty?");
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private bool ValidateCameraVFXDatabase()
-        {
-            var database = Resources.Load<TrialCameraVFXDatabase>("DREditor/CameraVFX/CameraVFXDatabase");
-            if (!database)
+            else if (_databaseguids.Length > 1)
             {
                 using (new EditorGUILayout.VerticalScope())
                 {
-                    EditorGUILayout.LabelField("CameraVFXDatabase is not set.");
-                    EditorGUILayout.LabelField("Create a CameraVFXDatabase in Resources/DREditor/CameraVFX/CameraVFXDatabase.asset");
+                    EditorGUILayout.LabelField("There are more than one CharacterDatabase Assets found in your project.");
+                    EditorGUILayout.Space(10);
+                    EditorGUILayout.LabelField("Here are the path of all the files:");
+                    for (int i = 0; i < _databaseguids.Length; i++)
+                    {
+                        string _path = AssetDatabase.GUIDToAssetPath(_databaseguids[i]);
+                        EditorGUILayout.LabelField($"	• {_path}");
+                    }
+                    EditorGUILayout.Space(10);
+                    EditorGUILayout.LabelField("Only one CharacterDatabase is allowed. Please delete all the duplicates until one remains.");
                 }
-                return false;
+                return 2;
             }
-            cameraVFXDatabase = database;
-            return true;
-        }
-        private bool ValidateCameraVFXs() => true;
-
-        private bool ValidateCameraAnimDatabase()
-        {
-            var database = Resources.Load<TrialCameraAnimDatabase>("DREditor/CameraAnim/CameraAnimDatabase");
-            if (!database)
+            else
             {
                 using (new EditorGUILayout.VerticalScope())
                 {
-                    EditorGUILayout.LabelField("CameraAnimDatabase is not set.");
-                    EditorGUILayout.LabelField("Create a CameraVFXDatabase in Resources/DREditor/CameraAnim/CameraAnimDatabase.asset");
+                    EditorGUILayout.LabelField("There are no CharacterDatabase Asset found in your project.");
+                    EditorGUILayout.LabelField("Please create one by right clicking in the Project Window and navigating to: \n[Create > DREditor > Characters > Character Database]", GUILayout.Height(50));
+                    EditorGUILayout.LabelField("Do not create more than one. Only one CharacterDatabase is allowed.");
                 }
-                return false;
+                return 0;
             }
-            cameraAnimDatabase = database;
-            return true;
         }
 
-        private bool ValidateCameraAnims() => true;
+        private int GetCameraAnimDatabase()
+        {
+            string[] _databaseguids = AssetDatabase.FindAssets("t:TrialCameraAnimDatabase");
+
+            if (_databaseguids.Length == 1)
+            {
+                string _databasepath = AssetDatabase.GUIDToAssetPath(_databaseguids[0]);
+
+                EditorGUILayout.LabelField($"Loading CharacterDatabase at {_databasepath}.");
+                cameraAnimDatabase = AssetDatabase.LoadAssetAtPath<TrialCameraAnimDatabase>(_databasepath);
+                return 1;
+            }
+            else if (_databaseguids.Length > 1)
+            {
+                using (new EditorGUILayout.VerticalScope())
+                {
+                    EditorGUILayout.LabelField("There are more than one Database Assets found in your project.");
+                    EditorGUILayout.Space(10);
+                    EditorGUILayout.LabelField("Here are the path of all the files:");
+                    for (int i = 0; i < _databaseguids.Length; i++)
+                    {
+                        string _path = AssetDatabase.GUIDToAssetPath(_databaseguids[i]);
+                        EditorGUILayout.LabelField($"	• {_path}");
+                    }
+                    EditorGUILayout.Space(10);
+                    EditorGUILayout.LabelField("Only one Database is allowed. Please delete all the duplicates until one remains.");
+                }
+                return 2;
+            }
+            else
+            {
+                using (new EditorGUILayout.VerticalScope())
+                {
+                    EditorGUILayout.LabelField("There are no CharacterDatabase Asset found in your project.");
+                    //EditorGUILayout.LabelField("Please create one by right clicking in the Project Window and navigating to: \n[Create > DREditor > Characters > Character Database]", GUILayout.Height(50));
+                    EditorGUILayout.LabelField("Do not create more than one. Only one Database is allowed.");
+                }
+                return 0;
+            }
+        }
+
+        
 
         private void EditHeader()
         {
@@ -430,14 +461,7 @@ namespace DREditor.Editor
                 currLine.Events.Add(CreateInstance<SceneEvent>());
             }
         }
-        private void EditCamVFX(TrialLine currLine)
-        {
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Label("VFX:", GUILayout.Width(40));
-                currLine.vfxIdx = EditorGUILayout.IntPopup(currLine.vfxIdx, cameraVFXDatabase.GetNames().ToArray(), ContainerUtil.Iota(cameraVFXDatabase.vfxs.Count));
-            }
-        }
+        
         private void EditCamAnim(TrialLine currLine)
         {
             using (new EditorGUILayout.HorizontalScope())
