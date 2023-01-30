@@ -182,11 +182,15 @@ public class RoomLoader : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         DialogueAnimConfig.instance.ShowMainUI(false);
         ItemDisplayer.instance.HideName();
-        Gate progressionGate = ProgressionManager.instance.CurrentObjective.ProgressionGate;
+        Gate progressionGate = null;
+        if (ProgressionManager.instance != null)
+        {
+            progressionGate = ProgressionManager.instance.CurrentObjective.ProgressionGate;
+        }
         //Debug.LogWarning("Checking Gate");
         //Debug.LogWarning(progressionGate);
         //Debug.LogWarning(progressionGate == gate || !(progressionGate != null));
-        if (ProgressionManager.instance.CheckObjective() && (progressionGate == gate || 
+        if (ProgressionManager.instance != null && ProgressionManager.instance.CheckObjective() && (progressionGate == gate || 
             !(progressionGate != null)))
         {
             Debug.Log("CLEARED INSTANCE DATA AND CHANGING OBJECTIVE");
