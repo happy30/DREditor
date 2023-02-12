@@ -1,33 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using EventObjects;
+using DREditor.EventObjects;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SceneEventListener : MonoBehaviour
+namespace DREditor.EventObjects
 {
-    public SceneEvent Event;
-    public UnityEvent Response;
-
-    public BoolWithEvent Condition;
-
-    private void OnEnable()
+    public class SceneEventListener : MonoBehaviour
     {
-        Event.RegisterListener(this);
-    }
+        public SceneEvent Event;
+        public UnityEvent Response;
 
-    private void OnDisable()
-    {
-        Event.UnregisterListener(this);
-    }
+        public BoolWithEvent Condition;
 
-    public void OnEventRaised()
-    {
-        if (Condition != null)
+        private void OnEnable()
         {
-            if (!Condition.Value) return;
+            Event.RegisterListener(this);
         }
-        Response.Invoke();
+
+        private void OnDisable()
+        {
+            Event.UnregisterListener(this);
+        }
+
+        public void OnEventRaised()
+        {
+            if (Condition != null)
+            {
+                if (!Condition.Value) return;
+            }
+            Response.Invoke();
+        }
+
     }
-    
 }

@@ -1,0 +1,19 @@
+{
+    "name": "DREditor.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a1ecf7d80f0038343ad33d8bf84a1a67",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

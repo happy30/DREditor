@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
 
     [Serializable]
-    [CreateAssetMenu(menuName = "EventObjects/Transform", fileName = "New Transform")]
+    [CreateAssetMenu(menuName = "DREditor/EventObjects/Transform", fileName = "New Transform")]
     public class TransformWithEvent : ValueWithEvent<PosRot, TransformEvent>
     {
         public bool Resolve()

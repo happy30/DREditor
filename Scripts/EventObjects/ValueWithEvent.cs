@@ -26,7 +26,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
     public abstract class BaseValueWithEvent : ScriptableObject
     {
@@ -201,7 +201,5 @@ namespace EventObjects
     [Serializable] public class GameObjectEvent : UnityEvent<GameObject>{}
     
     [Serializable] public class TransformEvent : UnityEvent<PosRot>{}
-    
 
-    
 }

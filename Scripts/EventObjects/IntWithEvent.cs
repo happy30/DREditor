@@ -26,11 +26,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventObjects
+namespace DREditor.EventObjects
 {
 
     [Serializable]
-    [CreateAssetMenu(menuName = "EventObjects/Int", fileName = "New Int")]
+    [CreateAssetMenu(menuName = "DREditor/EventObjects/Int", fileName = "New Int")]
     public class IntWithEvent : ValueWithEvent<int, IntEvent>
     {
         public bool Resolve()

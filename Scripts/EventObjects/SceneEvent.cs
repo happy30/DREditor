@@ -1,27 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Scene Event", fileName = "New Scene Event")]
-public class SceneEvent : ScriptableObject
+namespace DREditor.EventObjects
 {
-    private List<SceneEventListener> _listeners = new List<SceneEventListener>();
-
-    public void Raise()
+    [CreateAssetMenu(menuName = "DREditor/Events/Scene Event", fileName = "New Scene Event")]
+    public class SceneEvent : ScriptableObject
     {
-        for (var i = _listeners.Count - 1; i >= 0; i--)
+        private List<SceneEventListener> _listeners = new List<SceneEventListener>();
+
+        public void Raise()
         {
-            _listeners[i].OnEventRaised();
+            for (var i = _listeners.Count - 1; i >= 0; i--)
+            {
+                _listeners[i].OnEventRaised();
+            }
+
         }
-        
-    }
 
-    public void RegisterListener(SceneEventListener listener)
-    {
-        _listeners.Add(listener);
-    }
+        public void RegisterListener(SceneEventListener listener)
+        {
+            _listeners.Add(listener);
+        }
 
-    public void UnregisterListener(SceneEventListener listener)
-    {
-        _listeners.Remove(listener);
+        public void UnregisterListener(SceneEventListener listener)
+        {
+            _listeners.Remove(listener);
+        }
     }
 }
