@@ -119,11 +119,9 @@ public class DialogueAnimConfig : MonoBehaviour
         {
             try
             {
-                GameObject playerSystem = FindObjectOfType<ControlMonobehaviours>().gameObject;
-                Camera[] cams = playerSystem.GetComponentsInChildren<Camera>();
-                mainCamera = cams[0];
-                dialogueCamera = cams[1];
-                blurCamera = cams[2];
+                mainCamera = PlayerManager.instance.mainCamera;
+                dialogueCamera = PlayerManager.instance.dialogueCamera;
+                blurCamera = PlayerManager.instance.blurCamera;
             }
             catch
             {
