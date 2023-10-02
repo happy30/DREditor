@@ -46,7 +46,7 @@ public class DialogueAssetReader : MonoBehaviour
     //[SerializeField] RawImage cgMouseImage = null;
     public DialogueIcon cgAutoIcon = null;
     //[SerializeField] Image cgffIcon = null;
-    
+
     DialogueIcon mouseIcon = null;
     //RawImage mouseImage = null;
     [HideInInspector] public DialogueIcon autoIcon = null;
@@ -90,7 +90,7 @@ public class DialogueAssetReader : MonoBehaviour
     public static void CallEnd() => OnDialogueEnd?.Invoke();
     public static void CallEndEvent() => OnDialogueEndEvent?.Invoke(null, null);
     public static ArrayList delegates = new ArrayList();
-    
+
 
     public void RemoveAllEvents()
     {
@@ -147,7 +147,7 @@ public class DialogueAssetReader : MonoBehaviour
         UIHandler.ToTitle += ResetReader;
         //OnDialogueEnd += ResetReader;
         DialogueEventSystem.StartListening("ChangeItemSelect", ChangeItemSelect);
-        if(EnableDebugBodyToggle)
+        if (EnableDebugBodyToggle)
             _controls.Player.Crouch.started += DialogueAnimConfig.instance.ToggleDebugBody;
         //Application.targetFrameRate = 30;
     }
@@ -189,6 +189,8 @@ public class DialogueAssetReader : MonoBehaviour
     }
     public void SwapIcons(bool to) // For swapping Icons going to and from CG Mode
     {
+        if (diaMouseIcon == null || diaAutoIcon == null || cgAutoIcon == null || cgMouseIcon == null)
+            return;
         mouseIcon = to ? cgMouseIcon : diaMouseIcon;
         //mouseImage = mouseImage == diaMouseImage ? cgMouseImage : diaMouseImage;
         autoIcon = to ? cgAutoIcon : diaAutoIcon;
@@ -235,21 +237,24 @@ public class DialogueAssetReader : MonoBehaviour
         if (inLeaving || cantToggle)
             return;
         autoMode = !autoMode;
-        if (autoMode)
+        if (mouseIcon != null && autoIcon != null)
         {
-            mouseIcon.TurnOff();
-            autoIcon.TurnOn();
-        }
-        else
-        {
-            //Debug.LogWarning("Toggled AutoMode");
-            autoIcon.TurnOff();
-            //mouseIcon.TurnOn();
+            if (autoMode)
+            {
+                mouseIcon.TurnOff();
+                autoIcon.TurnOn();
+            }
+            else
+            {
+                //Debug.LogWarning("Toggled AutoMode");
+                autoIcon.TurnOff();
+                //mouseIcon.TurnOn();
+            }
         }
     }
     void FFModeOn(CallbackContext context)
     {
-        
+
         if (InMenu.Value || DialogueAnimConfig.instance.inInstant)
             return;
         //Debug.Log("FFModeOn Called");
@@ -270,7 +275,7 @@ public class DialogueAssetReader : MonoBehaviour
         Time.timeScale = 1;
         if (InMenu.Value || DialogueAnimConfig.instance.inInstant)
             return;
-        
+
         /*if (!autoMode)
         {
             mouseIcon.enabled = true;
@@ -299,7 +304,7 @@ public class DialogueAssetReader : MonoBehaviour
     public IEnumerator PlayDialogue(Dialogue[] dial, bool inleave = false)
     {
         inLeaving = inleave;
-        
+
         //Debug.Log("FFMode before is: " + ffMode);
         _controls.UI.FastForward.started += FFModeOn;
         _controls.UI.FastForward.canceled += FFModeOff;
@@ -325,7 +330,7 @@ public class DialogueAssetReader : MonoBehaviour
                     {
                         //yield return new WaitForSeconds(Time.unscaledDeltaTime);
                         i = LoadToLine(currentDialogue);
-                        
+
                     }
                     if (OnLoadCG)
                     {
@@ -336,7 +341,7 @@ public class DialogueAssetReader : MonoBehaviour
                         CGPlayer.cgDone = false;
                         //Debug.LogWarning("Ended CG Zone");
                     }
-                    
+
                     if (OnLoadVid && LastVid != null)
                     {
                         Debug.LogWarning("Passed Vid Zone");
@@ -347,7 +352,7 @@ public class DialogueAssetReader : MonoBehaviour
                         yield return new WaitUntil(() => CGPlayer.vidDone);
                         CGPlayer.vidDone = false;
                     }
-                    
+
                     if (DialogueAnimConfig.instance.protagUIIsShown)
                         DialogueAnimConfig.instance.ShowProtag();
                     else
@@ -397,7 +402,7 @@ public class DialogueAssetReader : MonoBehaviour
                             continue;
                         }
                     }
-                    
+
                 }
                 //Debug.Log("REACHED END OF VIDS AND CGS");
                 if (currentLine.BlurVision)
@@ -426,7 +431,7 @@ public class DialogueAssetReader : MonoBehaviour
                 if (currentLine.DiaEvents.Count != 0)
                     DialogueEvents(currentLine);
 
-                
+
 
                 if (currentLine.Events.Count != 0 && !GameSaver.LoadingFile) // Event Caller from Dialogue Line
                 {
@@ -444,7 +449,7 @@ public class DialogueAssetReader : MonoBehaviour
 
                 #endregion
 
-                
+
                 if (currentLine.StopSFX)
                     SoundManager.instance.StopSoundFX();
 
@@ -461,7 +466,7 @@ public class DialogueAssetReader : MonoBehaviour
                         e.TriggerDialogueEvent();
                         CharacterLeave c = (CharacterLeave)e;
                         //if c.data.exit
-                        
+
                     }
                 }
                 if (currentLine.PanToChar)
@@ -491,15 +496,15 @@ public class DialogueAssetReader : MonoBehaviour
                      */
                     DialogueAnimConfig.instance.ChangeFocus(currentActor, lastActor);
                     yield return new WaitForSeconds(Time.unscaledDeltaTime);
-                    
+
                     if (ffMode)
                         yield return new WaitForSeconds(Time.unscaledDeltaTime * 5);
-                    
+
                 }
                 var shakes = currentLine.DiaEvents.Where(n => n.GetType() == typeof(ShakeObject));
                 if (shakes.Count() > 0 && !ffMode)
                 {
-                    if(!currentLine.PanToChar && !protagSpeaking && currentActor != null && lastActor != currentActor && !currentLine.DontPan
+                    if (!currentLine.PanToChar && !protagSpeaking && currentActor != null && lastActor != currentActor && !currentLine.DontPan
                     && !currentLine.Leave && !CGPlayer.inVid && !CGPlayer.inCG)
                         yield return new WaitForSeconds(DialogueAnimConfig.instance.characterPanTime);
 
@@ -534,7 +539,7 @@ public class DialogueAssetReader : MonoBehaviour
                 }
                 if (currentLine.SFX.Count > 0 && !GameSaver.LoadingFile)
                 {
-                    for(int j = 0; j < currentLine.SFX.Count; j++)
+                    for (int j = 0; j < currentLine.SFX.Count; j++)
                     {
                         SoundManager.instance.PlaySFX(currentLine.SFX[j]);
                     }
@@ -546,7 +551,7 @@ public class DialogueAssetReader : MonoBehaviour
                 {
                     faint.ElementAt(0).TriggerDialogueEvent();
                 }
-                
+
                 #region Changing Sprites and Nameplate
                 SetNameplate(currentLine);
 
@@ -582,7 +587,7 @@ public class DialogueAssetReader : MonoBehaviour
                     DialogueAnimConfig.SpriteChanged = false;
                 }
                 #endregion
-                
+
                 #region Dialogue Animations
                 if (currentLine.Leave)
                 {
@@ -597,7 +602,7 @@ public class DialogueAssetReader : MonoBehaviour
 
                 #endregion
 
-                
+
                 #region Displaying Text
                 if (currentLine.Text == "")
                 {
@@ -645,7 +650,7 @@ public class DialogueAssetReader : MonoBehaviour
                     yield return null;
                 }
                 #endregion
-                
+
                 if (GameSaver.LoadingFile)
                 {
                     Debug.LogWarning("Reached Finished Loading Dialogue");
@@ -727,7 +732,10 @@ public class DialogueAssetReader : MonoBehaviour
                                 }
                                 if (!autoMode)
                                 {
-                                    mouseIcon.TurnOn();
+                                    if (mouseIcon != null)
+                                    {
+                                        mouseIcon.TurnOn();
+                                    }
                                     break;
                                 }
                                 yield return null;
@@ -763,7 +771,7 @@ public class DialogueAssetReader : MonoBehaviour
                 }
 
                 DialogueAssetReader.Backlog.AddLine(currentChar, DialogueTextConfig.instance.GetBox().text
-                    ,currentLine.AliasNumber-1, DialogueTextConfig.instance.GetBox().color); // So Audio only shows from the trial rn
+                    , currentLine.AliasNumber - 1, DialogueTextConfig.instance.GetBox().color); // So Audio only shows from the trial rn
                 DialogueTextConfig.instance.ClearText();
                 ClearChoiceText();
                 #endregion
@@ -773,7 +781,7 @@ public class DialogueAssetReader : MonoBehaviour
                 {
                     DialogueEventSystem.TriggerEvent("TruthBulletGetEnd"); // To fade out the Truth Bullet Image
                 }
-                
+
                 GameManager.instance.cantBeInMenu = true;
 
                 if (ffMode)
@@ -782,7 +790,7 @@ public class DialogueAssetReader : MonoBehaviour
                 count += 1;
                 if (!protagSpeaking && !currentLine.DontPan)
                     lastActor = currentActor;
-                
+
                 SaveLineNum += 1;
                 OnLineEndEvent?.Invoke();
             }
@@ -806,7 +814,7 @@ public class DialogueAssetReader : MonoBehaviour
             {
                 Dialogue[] d = new Dialogue[1];
                 Variable v = currentDialogue.Variable;
-                if ((v.BoolVariable != null && v.BoolVariable.Resolve()) || 
+                if ((v.BoolVariable != null && v.BoolVariable.Resolve()) ||
                     ProgressionManager.instance.EvaluateVariable(v.Chapter, v.Objective, v.Flags))
                 {
                     d[0] = currentDialogue.Variable.NextDialogueTrue;
@@ -826,7 +834,7 @@ public class DialogueAssetReader : MonoBehaviour
                     yield break;
                 }
             }
-            
+
             if (currentDialogue.SceneTransition.Enabled) // SCENE TRANSITION
             {
                 if (currentDialogue.SceneTransition.ToDark)
@@ -839,7 +847,7 @@ public class DialogueAssetReader : MonoBehaviour
                 if (!currentDialogue.SceneTransition.ToMenu)
                     RoomLoader.PreEndLoad += ToTPFDRoom; // Handles if the area is TPFD
 
-                if (!currentDialogue.SceneTransition.AtEnd && !currentDialogue.SceneTransition.ToMenu) 
+                if (!currentDialogue.SceneTransition.AtEnd && !currentDialogue.SceneTransition.ToMenu)
                 {
                     AsyncOperation a = SceneManager.LoadSceneAsync(currentDialogue.SceneTransition.Scene);
                     a.allowSceneActivation = false;
@@ -847,7 +855,7 @@ public class DialogueAssetReader : MonoBehaviour
                     a.allowSceneActivation = true;
                     yield return new WaitUntil(() => !RoomLoader.instance.inLoading.Value);
                 }
-                else if(currentDialogue.SceneTransition.AtEnd)
+                else if (currentDialogue.SceneTransition.AtEnd)
                     DialogueAnimConfig.MoveAtEnd = currentDialogue.SceneTransition.AtEnd;
 
                 if (currentDialogue.SceneTransition.ToMenu)
@@ -865,7 +873,7 @@ public class DialogueAssetReader : MonoBehaviour
                 Dialogue[] c = new Dialogue[1];
                 c[0] = currentDialogue.DirectTo.NewDialogue;
                 StartCoroutine(PlayDialogue(c));
-                
+
                 SaveDirectToNum += 1;
                 if (currentDialogue.SceneTransition.Enabled && !currentDialogue.SceneTransition.AtEnd)
                 {
@@ -898,7 +906,7 @@ public class DialogueAssetReader : MonoBehaviour
 
             //Debug.Log("Made it to here");
             OnLineEnd?.Invoke(null, null);
-            
+
         }
         //Debug.Log("Dialogue should stop");
 
@@ -1007,7 +1015,7 @@ public class DialogueAssetReader : MonoBehaviour
         //Debug.LogWarning("StartDialogue from RoomLoader");
         Actor find = DialogueAnimConfig.instance.FindActor(load[0].Lines[0].Speaker.FirstName);
         Actor actor = find != null ? find : GameSaver.LoadActor;
-        if(actor == GameSaver.LoadActor)
+        if (actor == GameSaver.LoadActor)
         {
             //Debug.LogWarning("LOAD ACTOR WAS USED: ");
         }
@@ -1077,7 +1085,7 @@ public class DialogueAssetReader : MonoBehaviour
             if (item.Count() > 0)
             {
                 ShowItem showItem = (ShowItem)item.ElementAt(0);
-                if(showItem.Image == null)
+                if (showItem.Image == null)
                 {
                     showItem.TriggerDialogueEvent();
                 }
@@ -1135,7 +1143,7 @@ public class DialogueAssetReader : MonoBehaviour
             if (!protagSpeaking && !currentLine.DontPan)
                 lastActor = currentActor;
 
-            
+
         }
         if (directNum != SaveDirectToNum)
         {
@@ -1179,8 +1187,8 @@ public class DialogueAssetReader : MonoBehaviour
                 Debug.Log("Loaded to line: " + i);
                 LoadThroughNLine = false;
                 ffMode = false;
-                
-                
+
+
                 var vids = currentLine.DiaEvents.Where(n => n.GetType() == typeof(VideoDisplay));
                 if (vids.Count() > 0)
                 {
@@ -1190,9 +1198,9 @@ public class DialogueAssetReader : MonoBehaviour
                     if (!OnLoadVid)
                     {
                         //Debug.LogWarning("To Null");
-                        
+
                     }
-                    
+
                 }
                 var cgs = currentLine.DiaEvents.Where(n => n.GetType() == typeof(CGDisplay));
                 if (cgs.Count() > 0)
@@ -1210,7 +1218,7 @@ public class DialogueAssetReader : MonoBehaviour
 
                 return i;
             }
-            
+
             GetLineInfo(currentLine);
 
             currentActor = DialogueAnimConfig.instance.FindActor(currentChar.FirstName);
@@ -1437,7 +1445,7 @@ public class DialogueAssetReader : MonoBehaviour
     }
     #endregion
 
-    
+
 
     void ChangeItemSelect(object o)
     {
@@ -1453,7 +1461,7 @@ public class DialogueAssetReader : MonoBehaviour
     public static void ExitChar(Actor actor)
     {
         Debug.LogWarning("ExitChar Called!");
-        
+
         //OnLineStart -= () => { ExitChar(actor); };
         actor.transform.parent.gameObject.transform.position = new Vector3(0, -20, 0);
     }

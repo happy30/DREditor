@@ -75,8 +75,11 @@ public class CGPlayer : MonoBehaviour
     {
         namePlate.texture = DialogueAssetReader.instance.transparentImage;
         cgText.text = "";
-        mouseIcon.TurnOff();
-        mouseIcon.ResetAnimator();
+        if (mouseIcon != null)
+        {
+            mouseIcon.TurnOff();
+            mouseIcon.ResetAnimator();
+        }
     }
     private void Update()
     {
@@ -338,6 +341,11 @@ public class CGPlayer : MonoBehaviour
             }
             else
                 DialogueAssetReader.instance.cantToggle = true;
+
+            if (autoIcon != null)
+            {
+                autoIcon.gameObject.SetActive(false);
+            }
         }
         if (!endVid && !inVid) // Fade to black at beginning 
         {
@@ -364,11 +372,11 @@ public class CGPlayer : MonoBehaviour
             if (!data.playOnly && !waitEnd)
                 CGBox.enabled = true;
 
-            if (waitEnd)
+            if (autoIcon != null && waitEnd)
             {
                 autoIcon.gameObject.SetActive(false);
             }
-            if (waitEnd && data.playOnly)
+            if (autoIcon != null && waitEnd && data.playOnly)
             {
                 autoIcon.gameObject.SetActive(false);
             }
@@ -468,7 +476,11 @@ public class CGPlayer : MonoBehaviour
                 else
                     DialogueAssetReader.instance.SetNameTransparent();
 
-                autoIcon.gameObject.SetActive(false);
+                if (autoIcon != null)
+                {
+                    autoIcon.gameObject.SetActive(false);
+                }
+
                 FadeBox(false);
             }
             if (data.ScreenFadeOut)
@@ -706,7 +718,8 @@ public class CGPlayer : MonoBehaviour
         SoundManager.instance.PlaySFX(flashbackStartSFX);
         yield return new WaitForSeconds(fadeTime);
         EnableUI(false);
-        autoIcon.gameObject.SetActive(false);
+        if (autoIcon != null)
+            autoIcon.gameObject.SetActive(false);
         DialogueAnimConfig.instance.EnableCanvases(false);
         DialogueAssetReader.instance.SetNameTransparent();
         DialogueAssetReader.instance.EnableCGNameplate(false);
