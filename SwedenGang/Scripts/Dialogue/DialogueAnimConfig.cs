@@ -906,7 +906,7 @@ public class DialogueAnimConfig : MonoBehaviour
         //Material currentExpression = currentLine.Expression.Sprite;
         Sprite mySprite = currentLine.Speaker.Sprites[currentLine.ExpressionNumber - 1].Sprite;
         
-        if (currentLine.Expression.Sprite != null && currentActor.sprite.sprite.name.Contains(mySprite.name))
+        if (currentLine.Expression.Sprite != null && currentActor.sprite.sprite.name == mySprite.name)
         {
             //Debug.Log(currentActor.sprite.sprite.name);
             //Debug.Log(mySprite.name);
