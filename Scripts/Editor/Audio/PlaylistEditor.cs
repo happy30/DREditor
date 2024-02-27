@@ -22,6 +22,7 @@ namespace DREditor.Audio.Editor
         {
             CreateForm();
             EditorUtility.SetDirty(playlist);
+	    musicLines.serializedObject.ApplyModifiedProperties();
         }
         private void CreateForm()
         {
