@@ -6,7 +6,7 @@
 
 # Everything in the project except package
 /Assets/*
-!/Assets/CharTween
+
 
 # Visual Studio 2015 cache directory
 /.vs/
