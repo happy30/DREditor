@@ -8,5 +8,12 @@
     "com.unity.textmeshpro": "2.0.1",
     "com.unity.cinemachine": "2.6.17",
     "com.unity.inputsystem": "1.3.0"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Sample Scenes",
+      "description": "Contains Example DREditor Scenes",
+      "path": "Samples~/SampleScenes"
+    }
+  ]
 }
