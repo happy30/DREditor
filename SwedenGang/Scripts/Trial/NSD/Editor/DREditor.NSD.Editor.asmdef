@@ -1,0 +1,19 @@
+{
+    "name": "DREditor.NSD.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:fc5395c2fab93a24d860742152a064ea",
+        "GUID:3f0588857022fc849bd430f914503eae",
+        "GUID:9368202fa9f7ae541a45403fec5c6292"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

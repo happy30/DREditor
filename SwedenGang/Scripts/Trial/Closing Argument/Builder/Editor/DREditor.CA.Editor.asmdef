@@ -1,0 +1,19 @@
+{
+    "name": "DREditor.CA.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fc5395c2fab93a24d860742152a064ea",
+        "GUID:9368202fa9f7ae541a45403fec5c6292",
+        "GUID:3f0588857022fc849bd430f914503eae",
+        "GUID:87f73904569c86640b59a7ffab628373"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

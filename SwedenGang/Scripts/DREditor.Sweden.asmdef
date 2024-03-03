@@ -1,0 +1,24 @@
+{
+    "name": "DREditor.Sweden",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fc5395c2fab93a24d860742152a064ea",
+        "GUID:3f0588857022fc849bd430f914503eae",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:a74f437c0983e2848bd3850d9f8a5a5f",
+        "GUID:bdff62b205acc2542a2e96e449accb7e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
